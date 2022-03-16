@@ -10,7 +10,6 @@ CS102 Project
 
 
 ## Group instructions
-- Fork the repo so that you have your own repository on your github
-- When you make changes you push to your remote repo
-- Your remote repo will now have updated code ahead of the final master branch
-- You can now open a pull request to my final branch and I'll merge the changes to our final master branch
+- If you are a collaborator you can commit to this directory directly
+- No need to fork unless you want a private repo to play around with
+- On that note, it's better to test new stuff in your private repo and then commit to main repo if everything's working.
