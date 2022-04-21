@@ -30,8 +30,6 @@ public class Application extends ApplicationAdapter{
 	private World world;
 	private Body player;
 	
-	public static long one = System.currentTimeMillis();
-	public static int h=0;
 	private Body box;
 	private Body tower1;
 	private ArrayList<Body> npcs = new ArrayList<Body>();
@@ -77,16 +75,6 @@ public class Application extends ApplicationAdapter{
 	@Override
 	public void render() {
 		//
-		
-		if(System.nanoTime()-one<=1000)
-		{
-			h+=1; 
-		}
-		else {
-			one = System.nanoTime();
-			System.out.println("FPS : " + h);
-			h=0;
-		}
 		
 		//
 		update(Gdx.graphics.getDeltaTime());
