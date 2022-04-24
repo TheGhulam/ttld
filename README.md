@@ -5,10 +5,6 @@
 
 # Details about the game 🎮
 
-### UML Diagram (currently)
-
-
-
 ## Group members
 - [Ghulam Ahmed](https://github.com/gahme)
 - [Ahmet Reşat Demir](https://github.com/ahmetde)
