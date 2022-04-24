@@ -9,6 +9,12 @@ CS102 Project
 - [Efe Kaan Fidancı](https://github.com/EfeKN)
 - [Mustafa Kağan Özsoy](https://github.com/mkaganozsoy)
 
+##The Reports We Have Done So Far
+
+[g3F_RequirementsReport_v2.pdf](https://github.com/gahme/ttld/files/8550038/g3F_RequirementsReport_v2.pdf)
+
+[gS3F_UIDesignReport_v2.pdf](https://github.com/gahme/ttld/files/8550039/gS3F_UIDesignReport_v2.pdf)
+
 ## Useful Links
 This file links to youtube tutorials that will be beneficial for our game development
 
