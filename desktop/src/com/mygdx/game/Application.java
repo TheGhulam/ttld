@@ -3,6 +3,8 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 
 
+
+
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
@@ -17,7 +19,11 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.*;
 import static utils.Constants.PPM;
-import LibGDX.*;
+
+import entity.Npc;
+import entity.Projectile;
+import entity.Tower;
+
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 
@@ -27,15 +33,16 @@ public class Application extends ApplicationAdapter{
 	private boolean DEBUG = false;
 	private Box2DDebugRenderer b2dr;
 	private OrthographicCamera camera;
-	private World world;
+	protected World world;
 	private Body player;
 	
 	public static long one = System.currentTimeMillis();
 	public static int h=0;
 	private Body box;
 	private Body tower1;
-	private ArrayList<Body> npcs = new ArrayList<Body>();
-	private ArrayList<Body> towers = new ArrayList<Body>();
+	private ArrayList<Npc> npcs = new ArrayList<Npc>();
+	private ArrayList<Tower> towers = new ArrayList<Tower>();
+	public static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	public Application() {
 		
 	}
@@ -240,43 +247,50 @@ public class Application extends ApplicationAdapter{
 		tower1.setTransform(tower1.getPosition(),angle2);
 	}
 	
-	public Body createBox(int x,int y,int width,int height, boolean isStatic, boolean isNpc) {
-		Body pbody;
-		BodyDef	def = new BodyDef();
-		if(isStatic) {
-			def.type = BodyDef.BodyType.StaticBody;
-		}else {
-			def.type=BodyDef.BodyType.DynamicBody;
-		}
-		
-		def.position.set(x/PPM,y/PPM);
-		def.fixedRotation = true;
-		pbody = world.createBody(def);
-		if(isNpc) {
-			CircleShape shape2 = new CircleShape();
-			shape2.setRadius(8f/PPM);
-			
-			pbody.createFixture(shape2, 1.0f);
-			shape2.dispose();		
-			}else {
-			PolygonShape shape = new PolygonShape();
-			
-			shape.setAsBox(width/2 / PPM, height/2 / PPM);
-			pbody.createFixture(shape, 1.0f);
-			shape.dispose();
-			}
-		
-		
-		
-		
-		return pbody;
-		
-	}
+//	public Body createBox(int x,int y,int width,int height, boolean isStatic, boolean isNpc) {
+//		Body pbody;
+//		BodyDef	def = new BodyDef();
+//		if(isStatic) {
+//			def.type = BodyDef.BodyType.StaticBody;
+//		}else {
+//			def.type=BodyDef.BodyType.DynamicBody;
+//		}
+//		
+//		def.position.set(x/PPM,y/PPM);
+//		def.fixedRotation = true;
+//		pbody = world.createBody(def);
+//		if(isNpc) {
+//			CircleShape shape2 = new CircleShape();
+//			shape2.setRadius(8f/PPM);
+//			
+//			pbody.createFixture(shape2, 1.0f);
+//			shape2.dispose();		
+//			}else {
+//			PolygonShape shape = new PolygonShape();
+//			
+//			shape.setAsBox(width/2 / PPM, height/2 / PPM);
+//			pbody.createFixture(shape, 1.0f);
+//			shape.dispose();
+//			}
+//		
+//		
+//		
+//		
+//		return pbody;
+//		
+//	}
 	public void markAsSensor (Body character) {
 		Array<Fixture> fixtures = character.getFixtureList();
 		for (int i = 0; i < fixtures.size; i++) {
 			fixtures.get(i).setSensor(true);
 		}
 	}
+	public void setTowers(ArrayList<Tower> towers) {
+		this.towers = towers;
+	}
+	public void setNpcs(ArrayList<Npc> npcs) {
+		this.npcs = npcs;
+	}
+
 }
 

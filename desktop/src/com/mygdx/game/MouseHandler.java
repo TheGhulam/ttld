@@ -4,13 +4,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class MouseHandler implements MouseListener{
-	int clickedX;
-	int clickedY;
+	float clickedX;
+	float clickedY;
 	boolean clicked = false;
-	public int getTargetX() {
+	public float getTargetX() {
 		return clickedX;
 	}
-	public int getTargetY() {
+	public float getTargetY() {
 		return clickedY;
 	}
 	public boolean isClicked() {
