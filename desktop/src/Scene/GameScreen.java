@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package Scene;
 
 import java.util.ArrayList;
 
@@ -6,12 +6,14 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.mygdx.game.Level;
 
-import entity.Npc;
-import entity.Projectile;
-import entity.Tower;
+import gameObjects.Npc;
+import gameObjects.Projectile;
+import gameObjects.Tower;
 
-public class GameScreen implements Screen {
+public class GameScreen extends Screens {
+	
 	private Box2DDebugRenderer b2dr;
 	private OrthographicCamera camera;
 	protected World world;
@@ -19,8 +21,6 @@ public class GameScreen implements Screen {
 	private ArrayList<Tower> towers = new ArrayList<Tower>();
 	public static ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	public Level level;
-	
-	
 	
 	public GameScreen(Box2DDebugRenderer b2dr, OrthographicCamera camera,World world, Level level) {
 		this.b2dr = b2dr;
@@ -61,6 +61,14 @@ public class GameScreen implements Screen {
 	@Override
 	public void hide() {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	public void TowerUpdate() {
+		
+	}
+	
+	public void NPCupdate() {
 		
 	}
 

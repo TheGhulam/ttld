@@ -1,10 +1,10 @@
 	package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
-
-
-
-
+import Scene.GameScreen;
+import gameObjects.Npc;
+import gameObjects.Projectile;
+import gameObjects.Tower;
 
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -21,16 +21,24 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.*;
 import static utils.Constants.PPM;
 
-import entity.Npc;
-import entity.Projectile;
-import entity.Tower;
-
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 
-
+import Scene.*;
 
 public class Application extends Game{
+	
+	private EndMenu endMenu;
+	private GameScreen gameScreen;
+	private LevelSelectionScreen lvlSelect;
+	private MainMenuScreen menu;
+	private PauseMenu pauseMenu;
+	private SettingsMenu settings;
+	
+	private Box2DDebugRenderer b2dr;
+	private OrthographicCamera camera;
+	private World world;
+	private Level level;
 	
 	public Application() {
 		
@@ -38,9 +46,6 @@ public class Application extends Game{
 
 	@Override
 	public void create() {
-		Box2DDebugRenderer b2dr;
-		OrthographicCamera camera;
-		World world;
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
 		camera = new OrthographicCamera();
@@ -48,9 +53,33 @@ public class Application extends Game{
 		
 		world = new World(new Vector2(0,0f),false);
 		b2dr = new Box2DDebugRenderer();
-		Level1 level = new Level1();
-		GameScreen gameScreen = new GameScreen(b2dr,camera,world,level);
+		level = new Level();
+		gameScreen = new GameScreen(b2dr,camera,world,level);
 		setScreen(gameScreen);
+	}
+	
+	private void loadEndMenu(EndMenu ed) {
+		this.endMenu = ed;
+	}
+	
+	private void loadGameScreen(GameScreen ed) {
+		this.gameScreen = ed;
+	}
+	
+	private void loadLevelSelectionScreen(LevelSelectionScreen ed) {
+		this.lvlSelect = ed;
+	}
+	
+	private void loadMainMenuScreen(MainMenuScreen ed) {
+		this.menu = ed;
+	}
+	
+	private void loadPauseMenu(PauseMenu ed) {
+		this.pauseMenu = ed;
+	}
+	
+	private void loadSettings(SettingsMenu st) {
+		this.settings = st;
 	}
 	
 	

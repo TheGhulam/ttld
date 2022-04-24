@@ -1,5 +1,7 @@
 package Scene;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -13,9 +15,10 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public abstract class Screens implements Screen {
 	
-	private Stage stage; // Displays user interface (responsible for holding buttons, labels, texts, etc.)
-	private Viewport viewport; // responsible for adjusting the elements within the game in different resolutions
-	private Skin skin;
+	protected Stage stage; // Displays user interface (responsible for holding buttons, labels, texts, etc.)
+	protected Viewport viewport; // responsible for adjusting the elements within the game in different resolutions
+	protected Skin skin;
+	protected ArrayList<TextButton> buttons;
 	
 	@Override
 	public void show() // it is called once (like create method)
@@ -40,8 +43,8 @@ public abstract class Screens implements Screen {
 		viewport.update(width, height); // when the resolutions change, viewport adjusts them in a way that is preferable
 	}
 	
-	private TextButton addButton(String name) {
-		TextButton button = new TextButton(name, )
+	protected TextButton addButton(String name) {
+		return null;
 	}
 
 }

@@ -1,6 +1,5 @@
-package entity;
+package gameObjects;
 
-import static com.mygdx.game.Application.projectiles;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -29,9 +28,7 @@ public class Base extends Tower {
 		if(!e.isDead()) {
 			float angle2 = e.get_Position().sub(this.get_Position()).angleRad();
 			body.setTransform(this.get_Position(),angle2);
-			Creator creator = new Creator();
-		
-			projectiles.add(creator.createBullet(this, e));
+			
 	
 		}
 

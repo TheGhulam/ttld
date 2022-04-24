@@ -1,8 +1,8 @@
-package com.mygdx.game;
+package Scene;
 
 import com.badlogic.gdx.Screen;
 
-public class LevelSelectionScreen implements Screen{
+public class LevelSelectionScreen extends Screens{
 
 	@Override
 	public void show() {

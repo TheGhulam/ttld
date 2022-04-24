@@ -1,4 +1,4 @@
-package entity;
+package gameObjects;
 
 import static utils.Constants.PPM;
 
@@ -8,7 +8,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.Application;
-import com.mygdx.game.GameScreen;
+import Scene.GameScreen;
 
 public class Creator{
 	public GameScreen gameScreen;

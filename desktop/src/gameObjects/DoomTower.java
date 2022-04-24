@@ -1,7 +1,6 @@
-package entity;
+package gameObjects;
 
 import com.badlogic.gdx.physics.box2d.Body;
-import static com.mygdx.game.Application.projectiles;
 public class DoomTower extends Tower{
 	
 	

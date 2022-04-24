@@ -1,8 +1,6 @@
 package Scene;
 
-import com.badlogic.gdx.*;
-
-public class MainMenuScreen extends Screens{
+public class PauseMenu extends Screens {
 
 	@Override
 	public void pause() {
@@ -27,6 +25,5 @@ public class MainMenuScreen extends Screens{
 		// TODO Auto-generated method stub
 		
 	}
-	
-	
+
 }

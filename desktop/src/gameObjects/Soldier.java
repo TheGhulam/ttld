@@ -1,6 +1,6 @@
-package entity;
+package gameObjects;
 
-import static com.mygdx.game.Application.projectiles;
+
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -19,9 +19,6 @@ public class Soldier extends Ranged {
 			return;
 		}
 		if(!t.isDead()) {
-			Creator creator = new Creator();
-		
-			projectiles.add(creator.createNpcBullet(this, t));
 	
 		}
 	}

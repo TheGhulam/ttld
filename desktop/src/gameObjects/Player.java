@@ -1,6 +1,6 @@
-package entity;
+package gameObjects;
 
-
+import Scene.GameScreen;
 import com.mygdx.game.*;
 
 public class Player {
