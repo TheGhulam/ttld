@@ -12,11 +12,11 @@ CS102 Project
 ## Useful Links
 This file links to youtube tutorials that will be beneficial for our game development
 
-1 - https://www.youtube.com/watch?v=6tLUekJSDB4&list=PLD_bW3UTVsElsuvyKcYXHLnWb8bD0EQNI
-2 - https://www.youtube.com/watch?v=A_-rxTO5138
-3 - https://www.youtube.com/watch?v=WnMQ8HlmeXc
-4 - https://www.youtube.com/playlist?list=PLXY8okVWvwZ2Ph9LKWiNBZ1GRAc_TyDru
-5 - https://www.youtube.com/watch?v=UtSRX9swc1w
+1 - https://www.youtube.com/watch?v=6tLUekJSDB4&list=PLD_bW3UTVsElsuvyKcYXHLnWb8bD0EQNI <br />
+2 - https://www.youtube.com/watch?v=A_-rxTO5138 <br />
+3 - https://www.youtube.com/watch?v=WnMQ8HlmeXc <br />
+4 - https://www.youtube.com/playlist?list=PLXY8okVWvwZ2Ph9LKWiNBZ1GRAc_TyDru <br />
+5 - https://www.youtube.com/watch?v=UtSRX9swc1w <br />
 
 ##Coding songs
 
