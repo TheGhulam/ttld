@@ -4,10 +4,10 @@ package entity;
 import com.mygdx.game.*;
 
 public class Player {
-	Application app;
+	GameScreen app;
 	MouseHandler mouseHandler;
-	Creator creator = new Creator();
-	public Player(Application app, MouseHandler mH ) {
+	Creator creator = new Creator(app);
+	public Player(GameScreen app, MouseHandler mH ) {
 		this.app = app;
 		mouseHandler = mH;
 		

@@ -1,5 +1,7 @@
 package com.mygdx.game;
 
-public class Level1 extends Level {
+import entity.Player;
 
+public class Level1 extends Level {
+	
 }

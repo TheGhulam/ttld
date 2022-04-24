@@ -6,9 +6,17 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.Application;
+import com.mygdx.game.GameScreen;
 
-public class Creator extends Application{
+public class Creator{
+	public GameScreen gameScreen;
+	public Creator(GameScreen gameScreen) {
+		this.gameScreen = gameScreen;
+	}
+	
+	public World world =gameScreen.getWorld();
 	
 	public boolean isAvailable(int x, int y) {
 		return true;
@@ -29,7 +37,7 @@ public class Creator extends Application{
 		shape2.dispose();		
 		
 		DoomTower dt = new DoomTower(tbody, 2000, 10, 0.3f, 25);
-		
+		gameScreen.getTowers().add(dt);
 		return dt;
 		
 	}
@@ -47,7 +55,7 @@ public class Creator extends Application{
 		shape2.dispose();		
 		
 		Base base = new Base(tbody, 7000, 20, 0.1f, 50);
-		
+		gameScreen.getTowers().add(base);
 		return base;
 		
 		
@@ -69,6 +77,7 @@ public class Creator extends Application{
 		bbody.createFixture(shape2, 1.0f);
 		shape2.dispose();		
 		Bullet bullet = new Bullet(startingPoint, bbody,Target);
+		gameScreen.getProjectile().add(bullet);
 		return bullet;
 	}
 	public NpcBullet createNpcBullet(Entity startingPoint ,Entity Target) {
@@ -86,6 +95,7 @@ public class Creator extends Application{
 		bbody.createFixture(shape2, 1.0f);
 		shape2.dispose();		
 		NpcBullet Npcbullet = new NpcBullet(startingPoint, bbody,Target);
+		gameScreen.getProjectile().add(Npcbullet);
 		return Npcbullet;
 	}
 	public Soldier createSoldier(int x, int y) {
@@ -102,6 +112,7 @@ public class Creator extends Application{
 		bbody.createFixture(shape2, 1.0f);
 		shape2.dispose();		
 		Soldier soldier = new Soldier(bbody,100, 10, 0.8f, 3, 20);
+		gameScreen.getNpcs().add(soldier);
 		return soldier;
 	}
 
