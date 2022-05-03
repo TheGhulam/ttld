@@ -98,6 +98,7 @@ public class SettingScreen extends Screens{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ttldGame.setScreen(new MenuScreen(ttldGame));
+                menu.dispose();
             }
         });
 
@@ -154,6 +155,5 @@ public class SettingScreen extends Screens{
 
     @Override
     public void dispose() {
-
     }
 }
