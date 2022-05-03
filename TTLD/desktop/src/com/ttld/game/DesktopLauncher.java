@@ -9,6 +9,9 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
+		config.setTitle("Till the Last Drop");
+		config.setMaximized(true);
+		config.setWindowIcon("icon.png");
 		new Lwjgl3Application(new ttld(), config);
 	}
 }
