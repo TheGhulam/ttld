@@ -131,7 +131,14 @@ public class MenuScreen extends Screens{
             }
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                Gdx.net.openURI("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+                Thread rick = new Thread();
+                try {
+                    rick.sleep(10000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                Gdx.net.openURI("https://github.com/gahme/ttld");
             }
         });
         quit.addListener(new ClickListener() {
@@ -140,7 +147,7 @@ public class MenuScreen extends Screens{
             }
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                Gdx.app.exit();
             }
         });
 
