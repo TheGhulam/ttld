@@ -15,7 +15,7 @@ public class SettingScreen extends Screens{
 
     private MenuScreen menu;
     private Texture backgroundImage;
-    private TextButton increaseBGM,decreaseBGM,increaseSFX,decreaseSFX;
+    private TextButton increaseBGM,decreaseBGM,increaseSFX,decreaseSFX,back;
     private Table uiElements;
 
     public SettingScreen(ttld ttldGame) {
@@ -43,6 +43,7 @@ public class SettingScreen extends Screens{
         decreaseBGM = addTextButton("-");
         increaseSFX = addTextButton("+");
         decreaseSFX = addTextButton("-");
+        back = addTextButton("BACK");
 
         //Adding listeners
 
@@ -89,6 +90,16 @@ public class SettingScreen extends Screens{
                 }
             }
         });
+        back.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                menu.effect.play(menu.effectVolume);
+            }
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ttldGame.setScreen(new MenuScreen(ttldGame));
+            }
+        });
 
         //Adding them to the table
 
@@ -99,6 +110,8 @@ public class SettingScreen extends Screens{
         uiElements.add(increaseSFX).width(length).padBottom(gapping);
         uiElements.row();
         uiElements.add(decreaseSFX).width(length).padBottom(gapping);
+        uiElements.row();
+        uiElements.add(back).width(length).padBottom(gapping);
 
     }
 
