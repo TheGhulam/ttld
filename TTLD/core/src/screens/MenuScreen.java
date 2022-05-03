@@ -51,8 +51,8 @@ public class MenuScreen extends Screens{
         effect = Gdx.audio.newSound(Gdx.files.internal("rollOverSoundEff.wav"));
         bgm = Gdx.audio.newMusic(Gdx.files.internal("fugue-rott_alternateMenuMusic.wav"));
 
-        effectVolume = 0.03f;
-        bgmVolume = 0.03f;
+        effectVolume = 0.07f;
+        bgmVolume = 0.07f;
         bgm.setVolume(bgmVolume);
         bgm.setLooping(true);
         bgm.play();
