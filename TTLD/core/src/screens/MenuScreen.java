@@ -6,8 +6,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -34,6 +33,7 @@ public class MenuScreen extends Screens{
         super(ttldGame);
         thisRefersTo = this;
         //hud = new Hud(ttld.batch);
+        font.getData().setScale(3,3);
     }
 
     @Override
@@ -46,10 +46,10 @@ public class MenuScreen extends Screens{
         loadUI(300,15);
         stage.addActor(uiElements); // stage is the class that handles UI elements
 
-        backgroundImage = new Texture("menu_background3.png");
+        backgroundImage = new Texture("res/menu_background4.png");
 
-        effect = Gdx.audio.newSound(Gdx.files.internal("rollOverSoundEff.wav"));
-        bgm = Gdx.audio.newMusic(Gdx.files.internal("fugue-rott_alternateMenuMusic.wav"));
+        effect = Gdx.audio.newSound(Gdx.files.internal("sfx/rollOverSoundEff.wav"));
+        bgm = Gdx.audio.newMusic(Gdx.files.internal("sfx/fugue-rott_alternateMenuMusic.wav"));
 
         effectVolume = 0.07f;
         bgmVolume = 0.07f;
@@ -72,7 +72,10 @@ public class MenuScreen extends Screens{
         // Background Image
         ttld.batch.begin();
         ttld.batch.draw(backgroundImage,0,0);
+        //TITLE
+        font.draw(ttld.batch,"TTLD",100,thisRefersTo.stage.getHeight()-100*font.getScaleY());
         ttld.batch.end();
+
 
         //Functional Buttons
         stage.act(Gdx.graphics.getDeltaTime());
@@ -132,12 +135,6 @@ public class MenuScreen extends Screens{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.net.openURI("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
-                Thread rick = new Thread();
-                try {
-                    rick.sleep(10000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
                 Gdx.net.openURI("https://github.com/gahme/ttld");
             }
         });
@@ -150,6 +147,8 @@ public class MenuScreen extends Screens{
                 Gdx.app.exit();
             }
         });
+
+        continueB.setTouchable(Touchable.disabled);
 
             //Adding them to the table
 

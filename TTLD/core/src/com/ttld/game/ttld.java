@@ -6,6 +6,7 @@ package com.ttld.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import screens.MenuScreen;
+import screens.SplashScreen;
 
 public class ttld extends Game {
 
@@ -17,7 +18,8 @@ public class ttld extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		this.setScreen(new MenuScreen(this));
+		this.setScreen(new SplashScreen(this));
+		//this.setScreen(new MenuScreen(this));
 	}
 
 	@Override

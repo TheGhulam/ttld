@@ -33,7 +33,7 @@ public class SettingScreen extends Screens{
         uiElements.setFillParent(true); // Explanation is pretty clear just hover over it in IntelliJ
         loadUI(300,15);
         stage.addActor(uiElements); // stage is the class that handles UI elements
-        backgroundImage = new Texture("menu_background3.png");
+        backgroundImage = new Texture("res/menu_background3.png");
     }
 
     private void loadUI(int length, int gapping) {
@@ -97,8 +97,7 @@ public class SettingScreen extends Screens{
             }
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ttldGame.setScreen(new MenuScreen(ttldGame));
-                menu.dispose();
+                ttldGame.setScreen(menu);
             }
         });
 
