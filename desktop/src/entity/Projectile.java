@@ -1,6 +1,7 @@
 package entity;
 
 import com.badlogic.gdx.math.Vector2;
+import static utils.Constants.PPM;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Array;
@@ -29,18 +30,38 @@ public class Projectile {
 		Vector2 vector = new Vector2(projectileSpeed* vectorX/(float)unitDivisor,projectileSpeed*vectorY/(float)unitDivisor);
 		bullet.setLinearVelocity(vector);
 	}
-	public boolean is_Shot() {
+	public void is_Shot() {
+		if(isShot) {
 		Vector2 targetposition = target.get_Position();
-		float distance = targetposition.dst2(bullet.getPosition());
-		if(distance < 1 ) {
-			isShot = true;
+		
+		isShot = true;
+		Array<Fixture> fixtures = bullet.getFixtureList();
+		for (int i = 0; i < fixtures.size; i++) {
+			bullet.destroyFixture(fixtures.get(i));
+		}
+		target.setHealth(target.getHealth()-startingPoint.getDamage());
+		}
+		
+	
+	}
+	public void setShot() {
+		isShot = true;
+	}
+	public Entity getTarget() {
+		return target;
+	}
+	public boolean missed() {
+		boolean missed = false;
+		Vector2 currentPosition = bullet.getPosition();
+		Vector2 startingPosition = startingPoint.get_Position();
+		float distance = startingPosition.dst2(currentPosition);
+		if(distance/PPM > 50/PPM) {
 			Array<Fixture> fixtures = bullet.getFixtureList();
 			for (int i = 0; i < fixtures.size; i++) {
 				bullet.destroyFixture(fixtures.get(i));
 			}
-			target.setHealth(target.getHealth()-startingPoint.getDamage());
+			missed = true;
 		}
-		
-		return isShot;
+		return missed;
 	}
 }

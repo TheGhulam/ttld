@@ -1,4 +1,4 @@
-	package com.mygdx.game;
+package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 
@@ -8,6 +8,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -31,13 +32,16 @@ import java.util.ConcurrentModificationException;
 
 
 public class Application extends Game{
-	
+	public static final int V_WIDTH = 400;
+	public static final int V_HEIGHT = 208;
+	public SpriteBatch batch;
 	public Application() {
 		
 	}
 
 	@Override
 	public void create() {
+		batch = new SpriteBatch();
 		Box2DDebugRenderer b2dr;
 		OrthographicCamera camera;
 		World world;
@@ -49,10 +53,14 @@ public class Application extends Game{
 		world = new World(new Vector2(0,0f),false);
 		b2dr = new Box2DDebugRenderer();
 		Level1 level = new Level1();
-		GameScreen gameScreen = new GameScreen(b2dr,camera,world,level);
+		GameScreen gameScreen = new GameScreen(b2dr,camera,world,level,this);
 		setScreen(gameScreen);
 	}
 	
+	@Override
+	public void render() {
+		super.render();
+	}
 	
 //	@Override
 //	public void create() {

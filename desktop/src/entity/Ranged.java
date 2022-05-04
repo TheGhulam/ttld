@@ -8,7 +8,7 @@ public class Ranged extends Npc implements Shooter {
 	public float range;
 	public Projectile projectile;
 	public Ranged(Body body, int health, float speed, float shootingSpeed, float range,int damage) {
-		super(body, health, speed, damage);
+		super(body, health, speed, damage,range);
 		this.shootingSpeed = shootingSpeed;
 		this.range = range;
 	}

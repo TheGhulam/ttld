@@ -1,29 +1,40 @@
 package entity;
 
-import static com.mygdx.game.Application.projectiles;
+
+
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.mygdx.game.GameScreen;
 
 public class Soldier extends Ranged {
-
-	public Soldier(Body body, int health, float speed, float shootingSpeed, float range, int damage) {
+	private GameScreen game;
+	public Soldier(Body body, int health, float speed, float shootingSpeed, float range, int damage, GameScreen game) {
 		super(body, health, speed, shootingSpeed, range, damage);
-		// TODO Auto-generated constructor stub
+		this.game = game;
 	}
 	public void shoot(Entity t) {
-		try {
-			Thread.sleep((long) (3000*shootingSpeed));
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			return;
-		}
-		if(!t.isDead()) {
-			Creator creator = new Creator();
 		
-			projectiles.add(creator.createNpcBullet(this, t));
 	
-		}
-	}
+	
+	Entity k = this;
+	
+	
+	com.badlogic.gdx.utils.Timer.schedule(new com.badlogic.gdx.utils.Timer.Task() {
 
+		@Override
+		public void run() {
+			if(!t.isDead()) {
+				float angle2 = t.get_Position().sub(k.get_Position()).angleRad();
+				body.setTransform(k.get_Position(),angle2);
+				
+				game.projectiles.add(game.getCreator().createBullet(k,t));
+			}
+		}
+			
+		
+		
+	}, 2);
+
+	}
 }

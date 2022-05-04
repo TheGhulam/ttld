@@ -1,55 +1,78 @@
 package com.mygdx.game;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
-public class MouseHandler implements MouseListener{
-	float clickedX;
-	float clickedY;
-	boolean clicked = false;
-	public float getTargetX() {
-		return clickedX;
+
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector3;
+
+public class MouseHandler implements InputProcessor{
+	
+	
+	public GameScreen game;
+	public float pressedX;
+	public float pressedY;
+	public boolean isClicked = false;
+	
+	public MouseHandler(GameScreen game) {
+		this.game = game;
 	}
-	public float getTargetY() {
-		return clickedY;
-	}
-	public boolean isClicked() {
-		return clicked;
-	}
-	public void resetClicked() {
-		clicked = false;
-	}
+	
+	
 	@Override
-	public void mouseClicked(MouseEvent e) {
+	public boolean keyDown(int keycode) {
 		// TODO Auto-generated method stub
-		
-		clickedX = e.getX();
-		clickedY = e.getY();
-		clicked = true;
+		return false;
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
+	public boolean keyUp(int keycode) {
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
+	public boolean keyTyped(char character) {
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		if(button == Input.Buttons.LEFT) {
+			Vector3 vector = new Vector3(screenX,screenY,0);
+			game.getCamera().unproject(vector);
+			pressedX = vector.x;
+			pressedY = vector.y;
+			isClicked = true;
+			return true;
+		}
+		return false;
 	}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		Vector3 vector = new Vector3(screenX,screenY,0);
+		game.getCamera().unproject(vector);
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(float amountX, float amountY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 }

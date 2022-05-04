@@ -6,22 +6,22 @@ import com.mygdx.game.*;
 public class Player {
 	GameScreen app;
 	MouseHandler mouseHandler;
-	Creator creator = new Creator(app);
+	Creator creator;
 	public Player(GameScreen app, MouseHandler mH ) {
 		this.app = app;
 		mouseHandler = mH;
-		
+		creator = new Creator(app);
 	}
 	public void plantTower() {
-		if(mouseHandler.isClicked()) {
-			int x = (int)mouseHandler.getTargetX();
-			int y = (int)mouseHandler.getTargetY();
+		if(mouseHandler.isClicked) {
+			int x = (int)mouseHandler.pressedX;
+			int y = (int)mouseHandler.pressedY;
 			if(creator.isAvailable(x, y)) {
 				creator.createDoomTower(x, y);
 				
 			}
 		}
-		mouseHandler.resetClicked();
+		mouseHandler.isClicked = false;
 	}
 	
 	
