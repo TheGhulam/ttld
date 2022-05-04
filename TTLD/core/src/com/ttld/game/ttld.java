@@ -14,12 +14,20 @@ public class ttld extends Game {
 	public static final int height = 720;
 
 	public static SpriteBatch batch;
-	
+
+	//Screens
+	private SplashScreen splashScreen;
+	private MenuScreen menuScreen;
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		this.setScreen(new SplashScreen(this));
-		//this.setScreen(new MenuScreen(this));
+
+		// Init screens
+		splashScreen = new SplashScreen(this);
+		menuScreen = new MenuScreen(this);
+		this.setScreen(splashScreen);
+		//this.setScreen(menuScreen);
 	}
 
 	@Override
@@ -29,6 +37,8 @@ public class ttld extends Game {
 	
 	@Override
 	public void dispose () {
+		splashScreen.dispose();
+		menuScreen.dispose();
 		batch.dispose();
 	}
 }
