@@ -1,5 +1,6 @@
 package screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -21,15 +22,23 @@ public class SplashScreen extends Screens{
 
         //Animation thanks to https://www.youtube.com/watch?v=D0b2mcq4PJA&list=PLD_bW3UTVsEkPsT2JfVcZmAjmWByIpRvT&index=5
         //splashImage.setPosition(stage.getWidth()/2-splashImage.getImageX()/2, stage.getHeight()/2-splashImage.getImageY()/2);
+
+        Runnable transition = new Runnable() {
+            @Override
+            public void run() {
+                ttldGame.setScreen(ttldGame.menuScreen);
+            }
+        };
+
         splashImage.setFillParent(true);
-        splashImage.addAction(sequence(alpha(0),fadeIn(3f),delay(1.5f),fadeOut(3f)));
+        splashImage.addAction(sequence(alpha(0),fadeIn(3f),delay(1.5f),fadeOut(3f),run(transition)));
         //splashImage.addAction(fadeOut(3f));
     }
 
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1); //Clears the screen
-        stage.act();
+        stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
     }
 

@@ -16,8 +16,8 @@ public class ttld extends Game {
 	public static SpriteBatch batch;
 
 	//Screens
-	private SplashScreen splashScreen;
-	private MenuScreen menuScreen;
+	public SplashScreen splashScreen;
+	public MenuScreen menuScreen;
 
 	@Override
 	public void create () {
@@ -27,7 +27,6 @@ public class ttld extends Game {
 		splashScreen = new SplashScreen(this);
 		menuScreen = new MenuScreen(this);
 		this.setScreen(splashScreen);
-		//this.setScreen(menuScreen);
 	}
 
 	@Override
