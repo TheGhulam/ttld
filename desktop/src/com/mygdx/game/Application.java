@@ -6,6 +6,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 
 
 
+
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -19,12 +20,13 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+
+import gameObjects.Npc;
+import gameObjects.Projectile;
+import gameObjects.Tower;
+
 import com.badlogic.gdx.*;
 import static utils.Constants.PPM;
-
-import entity.Npc;
-import entity.Projectile;
-import entity.Tower;
 
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;

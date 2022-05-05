@@ -22,16 +22,16 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import Scenes.Hud;
+import gameObjects.Base;
+import gameObjects.Creator;
+import gameObjects.Npc;
+import gameObjects.Player;
+import gameObjects.Projectile;
+import gameObjects.Ranged;
+import gameObjects.Soldier;
+import gameObjects.Tower;
 
 import static utils.Constants.PPM;
-import entity.Base;
-import entity.Creator;
-import entity.Npc;
-import entity.Projectile;
-import entity.Ranged;
-import entity.Soldier;
-import entity.Tower;
-import entity.Player;
 
 public class GameScreen implements Screen {
 	private Application app;

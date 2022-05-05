@@ -6,10 +6,10 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
-import entity.Entity;
-import entity.Projectile;
-import entity.Tower;
-import entity.Npc;
+import gameObjects.Entity;
+import gameObjects.Npc;
+import gameObjects.Projectile;
+import gameObjects.Tower;
 public class WorldContactListener implements ContactListener {
 
 	@Override

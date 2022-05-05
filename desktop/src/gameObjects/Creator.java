@@ -1,4 +1,4 @@
-package entity;
+package gameObjects;
 
 import static utils.Constants.PPM;
 

@@ -1,4 +1,4 @@
-package entity;
+package gameObjects;
 
 public abstract class Powerup {
 	

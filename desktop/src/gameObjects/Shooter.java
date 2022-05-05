@@ -1,4 +1,4 @@
-package entity;
+package gameObjects;
 
 public interface Shooter {
 	public void shoot(Entity e);

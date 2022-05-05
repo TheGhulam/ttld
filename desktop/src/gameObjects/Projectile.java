@@ -1,4 +1,4 @@
-package entity;
+package gameObjects;
 
 import com.badlogic.gdx.math.Vector2;
 import static utils.Constants.PPM;
