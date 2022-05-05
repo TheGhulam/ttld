@@ -28,9 +28,17 @@ public abstract class Screens implements Screen {
         gameCam = new OrthographicCamera();
         port = new FitViewport(ttld.width,ttld.height,gameCam);
         stage = new Stage(port);
-        Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("flat-earth-ui.json"));
 
+    }
+
+    @Override
+    public void show() {
+        setInputProcessor();
+    }
+
+    protected void setInputProcessor() {
+        Gdx.input.setInputProcessor(stage);
     }
 
     protected TextButton addTextButton(String name) {

@@ -15,6 +15,7 @@ public class GameScreen extends Screens {
 
     @Override
     public void show() { // Called when the program is opened for the first time
+        super.show();
         img = new Texture("badlogic.jpg");
     }
 

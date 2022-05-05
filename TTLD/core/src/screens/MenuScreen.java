@@ -27,36 +27,44 @@ public class MenuScreen extends Screens{
     public float effectVolume;
     public Music bgm;
     public float bgmVolume;
-    private MenuScreen thisRefersTo;
+    //private MenuScreen thisRefersTo;
 
     public MenuScreen(ttld ttldGame) {
         super(ttldGame);
-        thisRefersTo = this;
+        //thisRefersTo = this;
         //hud = new Hud(ttld.batch);
+        backgroundImage = new Texture("res/menu_background4.png");
+        effect = Gdx.audio.newSound(Gdx.files.internal("sfx/rollOverSoundEff.wav"));
+        bgm = Gdx.audio.newMusic(Gdx.files.internal("sfx/fugue-rott_alternateMenuMusic.wav"));
         font.getData().setScale(3,3);
+        effectVolume = 0.07f;
+        bgmVolume = 0.07f;
+        bgm.setVolume(bgmVolume);
+        bgm.setLooping(true);
+    }
+
+    private MenuScreen callClass() {
+        return this;
+    }
+
+    private void playBGM() {
+        if(!bgm.isPlaying())
+            bgm.play();
     }
 
     @Override
     public void show() {
+        super.show();
+        stage.clear();
 
             // This is similar to the create method of the game class
+
 
         uiElements = new Table(); // As far as I am concerned this is something similar to JPanel
         uiElements.setFillParent(true); // Explanation is pretty clear just hover over it in IntelliJ
         loadUI(300,15);
         stage.addActor(uiElements); // stage is the class that handles UI elements
-
-        backgroundImage = new Texture("res/menu_background4.png");
-
-        effect = Gdx.audio.newSound(Gdx.files.internal("sfx/rollOverSoundEff.wav"));
-        bgm = Gdx.audio.newMusic(Gdx.files.internal("sfx/fugue-rott_alternateMenuMusic.wav"));
-
-        effectVolume = 0.07f;
-        bgmVolume = 0.07f;
-        bgm.setVolume(bgmVolume);
-        bgm.setLooping(true);
-        bgm.play();
-
+        playBGM();
     }
 
     @Override
@@ -73,7 +81,7 @@ public class MenuScreen extends Screens{
         ttld.batch.begin();
         ttld.batch.draw(backgroundImage,0,0);
         //TITLE
-        font.draw(ttld.batch,"TTLD",100,thisRefersTo.stage.getHeight()-100*font.getScaleY());
+        font.draw(ttld.batch,"TTLD",100,callClass().stage.getHeight()-100*font.getScaleY());
         ttld.batch.end();
 
 
@@ -125,7 +133,7 @@ public class MenuScreen extends Screens{
             }
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ttldGame.setScreen(new SettingScreen(ttldGame,thisRefersTo));
+                ttldGame.setScreen(new SettingScreen(ttldGame,callClass()));
             }
         });
         credits.addListener(new ClickListener() {
