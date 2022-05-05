@@ -9,7 +9,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 public class SplashScreen extends Screens{
 
-    private final  Image splashImage;
+    private final Image splashImage;
     public SplashScreen(ttld ttldGame) {
         super(ttldGame);
         splashImage = new Image(new Texture("res/intro.jpg"));

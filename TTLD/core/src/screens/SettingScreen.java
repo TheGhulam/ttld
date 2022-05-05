@@ -157,5 +157,6 @@ public class SettingScreen extends Screens{
     @Override
     public void dispose() {
         //Dispose ları yaz sonra
+        backgroundImage.dispose();
     }
 }
