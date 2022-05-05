@@ -1,0 +1,31 @@
+package gameObjects;
+
+import com.badlogic.gdx.math.Vector2;
+import screens.*;
+import com.badlogic.gdx.physics.box2d.Body;
+
+public class Npc extends Entity{
+	public float speed;
+	public int damage;
+	public float ShootingRadius;
+	protected boolean lockedToTarget = false;
+	public long time;
+	public Npc(Body body,int health, float speed, int damage, float ShootingRadius) {
+		super(body,health,damage);
+		this.speed = speed;
+		this.damage = damage;
+		this.ShootingRadius = ShootingRadius;
+	}
+	public void attack(Entity e) {
+		if (this instanceof Ranged) {
+			Ranged a = (Ranged) this;
+			a.shoot(e);
+		}else {
+			Melee a = (Melee) this;
+			a.attack(e);
+		}
+	}
+	public void setLocked(boolean flag) {
+		lockedToTarget = flag;
+	}
+}
