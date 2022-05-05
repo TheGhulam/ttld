@@ -3,9 +3,7 @@ package entity;
 
 
 
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -30,7 +28,7 @@ public class Base extends Tower {
 	}
 	public void shoot(Entity e) {
 		
-		Vector2 thisPosition = this.get_Position();
+		Vector2 thisPosition = this.body.getPosition();
 		Entity t = this;
 		
 		
@@ -38,17 +36,18 @@ public class Base extends Tower {
 
 			@Override
 			public void run() {
-				if(!e.isDead()) {
-					float angle2 = e.get_Position().sub(t.get_Position()).angleRad();
-					body.setTransform(t.get_Position(),angle2);
+				if(!e.isDead() && !lockedToTarget) {
+					float angle2 = e.body.getPosition().sub(t.body.getPosition()).angleRad();
+					body.setTransform(t.body.getPosition(),angle2);
 					
-					game.projectiles.add(game.getCreator().createBullet(t,e));
+					game.getCreator().createBullet(t,e);
+					setLocked(true);
 				}
 			}
 				
 			
 			
-		}, 0.2f);
+		}, 0.5f);
 		
 		
 			

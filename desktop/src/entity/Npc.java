@@ -7,6 +7,8 @@ public class Npc extends Entity{
 	public float speed;
 	public int damage;
 	public float ShootingRadius;
+	protected boolean lockedToTarget = false;
+	public long time;
 	public Npc(Body body,int health, float speed, int damage, float ShootingRadius) {
 		super(body,health,damage);
 		this.speed = speed;
@@ -21,5 +23,8 @@ public class Npc extends Entity{
 			Melee a = (Melee) this;
 			a.attack(e);
 		}
+	}
+	public void setLocked(boolean flag) {
+		lockedToTarget = flag;
 	}
 }

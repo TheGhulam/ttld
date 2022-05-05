@@ -8,14 +8,14 @@ import com.mygdx.game.GameScreen;
 
 public abstract class Entity  {
 	public Body body;
-	public Vector2 position;
+	
 	public int damage;
 	public int health;
 	public Entity(Body body, int health, int damage) {
 		this.body = body;
 		this.health = health;
 		this.damage = damage;
-		position = body.getPosition();
+		
 	}
 	
 	public boolean isDead() {
@@ -29,9 +29,7 @@ public abstract class Entity  {
 		}
 		return isdead;
 	}
-	public Vector2 get_Position() {
-		return position;
-	}
+	
 	public void setHealth(int health) {
 		this.health = health;
 	}

@@ -21,7 +21,7 @@ public class Projectile {
 	}
 	
 	public void shootToTarget() {
-		Vector2 targetposition = target.get_Position();
+		Vector2 targetposition = target.body.getPosition();
 		Vector2 bulletPosition = bullet.getPosition();
 		
 		float vectorX =(targetposition.x -bulletPosition.x);
@@ -32,16 +32,16 @@ public class Projectile {
 	}
 	public void is_Shot() {
 		if(isShot) {
-		Vector2 targetposition = target.get_Position();
+		Vector2 targetposition = target.body.getPosition();
 		
-		isShot = true;
+		
 		Array<Fixture> fixtures = bullet.getFixtureList();
 		for (int i = 0; i < fixtures.size; i++) {
 			bullet.destroyFixture(fixtures.get(i));
 		}
 		target.setHealth(target.getHealth()-startingPoint.getDamage());
 		}
-		
+		isShot = false;
 	
 	}
 	public void setShot() {
@@ -50,17 +50,28 @@ public class Projectile {
 	public Entity getTarget() {
 		return target;
 	}
+	public Entity getStart() {
+		return startingPoint;
+	}
 	public boolean missed() {
 		boolean missed = false;
-		Vector2 currentPosition = bullet.getPosition();
-		Vector2 startingPosition = startingPoint.get_Position();
-		float distance = startingPosition.dst2(currentPosition);
-		if(distance/PPM > 50/PPM) {
-			Array<Fixture> fixtures = bullet.getFixtureList();
-			for (int i = 0; i < fixtures.size; i++) {
-				bullet.destroyFixture(fixtures.get(i));
-			}
+		if(target.isDead()) {
 			missed = true;
+			if(startingPoint instanceof Tower) {
+				Tower a = (Tower) startingPoint;
+				a.setLocked(false);
+				Array<Fixture> fixtures = bullet.getFixtureList();
+				for (int i = 0; i < fixtures.size; i++) {
+					bullet.destroyFixture(fixtures.get(i));
+				}
+			}else {
+				Npc b = (Npc) startingPoint;
+				b.setLocked(false);
+				Array<Fixture> fixtures = bullet.getFixtureList();
+				for (int i = 0; i < fixtures.size; i++) {
+					bullet.destroyFixture(fixtures.get(i));
+				}
+			}
 		}
 		return missed;
 	}

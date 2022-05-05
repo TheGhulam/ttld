@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 public class Tower extends Entity implements Shooter{
 	public float shootingRadius;
 	public float shootingSpeed;
-	
+	protected boolean lockedToTarget = false;
 	
 	
 	public Tower(Body body, int health, float shootingRadius, float shootingSpeed, int damage) {
@@ -42,5 +42,8 @@ public class Tower extends Entity implements Shooter{
 	public void setDamage(int damage) {
 		// TODO Auto-generated method stub
 		
+	}
+	public void setLocked(boolean flag) {
+		lockedToTarget = flag;
 	}
 }

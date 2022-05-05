@@ -62,7 +62,7 @@ public class Creator {
 		fix.setUserData("Tower");
 		shape2.dispose();		
 		
-		Base base = new Base(tbody, 7000, 20, 0.1f, 50, gameScreen);
+		Base base = new Base(tbody, 7000, 20, 0.1f, 100, gameScreen);
 		tbody.setUserData(base);
 		return base;
 		
@@ -71,8 +71,8 @@ public class Creator {
 		
 	}
 	public Bullet createBullet(Entity startingPoint ,Entity Target) {
-		float x = startingPoint.get_Position().x;
-		float y = startingPoint.get_Position().y;
+		float x = startingPoint.body.getPosition().x;
+		float y = startingPoint.body.getPosition().y;
 		Body bbody;
 		BodyDef	def = new BodyDef();
 		def.type = BodyDef.BodyType.DynamicBody;
@@ -92,8 +92,8 @@ public class Creator {
 		return bullet;
 	}
 	public NpcBullet createNpcBullet(Entity startingPoint ,Entity Target) {
-		float x = startingPoint.get_Position().x;
-		float y = startingPoint.get_Position().y;
+		float x = startingPoint.body.getPosition().x;
+		float y = startingPoint.body.getPosition().y;
 		Body bbody;
 		BodyDef	def = new BodyDef();
 		def.type = BodyDef.BodyType.DynamicBody;
@@ -101,16 +101,16 @@ public class Creator {
 		def.fixedRotation = true;
 		bbody = world.createBody(def);
 		CircleShape shape2 = new CircleShape();
-		shape2.setRadius(0.6f/PPM);
+		shape2.setRadius(1f/PPM);
 		
 		Fixture fix =bbody.createFixture(shape2, 1.0f);
-		fix.setUserData("Bullet");
+		fix.setUserData("NpcBullet");
 		fix.setSensor(true);
 		shape2.dispose();		
 		NpcBullet Npcbullet = new NpcBullet(startingPoint, bbody,Target);
 		bbody.setUserData(Npcbullet);
 		gameScreen.getProjectile().add(Npcbullet);
-		Npcbullet.shootToTarget();
+		
 		return Npcbullet;
 	}
 	public Soldier createSoldier(int x, int y) {

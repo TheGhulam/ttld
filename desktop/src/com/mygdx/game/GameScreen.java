@@ -28,6 +28,7 @@ import entity.Base;
 import entity.Creator;
 import entity.Npc;
 import entity.Projectile;
+import entity.Ranged;
 import entity.Soldier;
 import entity.Tower;
 import entity.Player;
@@ -49,8 +50,8 @@ public class GameScreen implements Screen {
 	private Base base;
 	public ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	public Level level;
-	
-	
+	private Npc current;
+	long elapsedTimeNpc;
 	
 	
 	
@@ -77,7 +78,7 @@ public class GameScreen implements Screen {
 		
 		
 	}
-	public void update(float delta) {
+	public void update() {
 		world.step(1/60f, 6, 2);
 		
 		cameraUpdate();
@@ -111,7 +112,7 @@ public class GameScreen implements Screen {
 	public void render(float delta) {
 		// TODO Auto-generated method stub
 		
-		update(Gdx.graphics.getDeltaTime());
+		update();
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		b2dr.render(world, camera.combined.cpy().scl(PPM));
@@ -182,8 +183,8 @@ public class GameScreen implements Screen {
 				}
 					for(Npc npc: npcs) {
 						if(locked == null) {
-							Vector2 npcPosition = npc.get_Position();
-							Vector2 towerPosition =base.get_Position();
+							Vector2 npcPosition = npc.body.getPosition();
+							Vector2 towerPosition =base.body.getPosition();
 							float distance = towerPosition.dst2(npcPosition);
 							if(distance/PPM <= 41.9/PPM) {
 								locked = npc;
@@ -216,8 +217,8 @@ public class GameScreen implements Screen {
 			
 				for(Npc npc: npcs) {
 					if(locked == null) {
-						Vector2 npcPosition = npc.get_Position();
-						Vector2 towerPosition = tower.get_Position();
+						Vector2 npcPosition = npc.body.getPosition();
+						Vector2 towerPosition = tower.body.getPosition();
 						float distance = towerPosition.dst2(npcPosition);
 						if(distance/PPM <= tower.shootingRadius/PPM) {
 							locked = npc;
@@ -237,10 +238,11 @@ public class GameScreen implements Screen {
 	
 	public void npcUpdate() {
 		boolean targetToTower = false;
-		Vector2 basePosition = base.get_Position();
+		Vector2 basePosition = base.body.getPosition();
 		
 		try {
 			for(Npc npc: npcs) {
+				current = npc;
 				if(npc.isDead()) {
 					npcs.remove(npc);
 					Array<Fixture> fixtures = npc.body.getFixtureList();
@@ -250,49 +252,35 @@ public class GameScreen implements Screen {
 					return;
 				}
 				for(Tower tower: towers) {
-					Vector2 towerposition = tower.get_Position();
-					float vectorX =(tower.get_Position().x-npc.get_Position().x);
-					float vectorY = (tower.get_Position().y-npc.get_Position().y);
-					double unitDivisor = Math.sqrt((double)(vectorX*vectorX) + (double)(vectorY*vectorY));
-					float towerdistance = towerposition.dst2(npc.get_Position());
-					if(towerdistance/PPM <= 10/PPM) {
-						
-						Vector2 vectorT = new Vector2(npc.speed*(tower.get_Position().x-npc.get_Position().x)/(float)(unitDivisor),npc.speed*(tower.get_Position().y-npc.get_Position().y)/(float)(unitDivisor));
-						if(towerdistance/PPM >npc.ShootingRadius/PPM) {
-							
-							npc.body.setLinearVelocity(vectorT);
-							targetToTower = true;
-						}else {
-							
-							npc.body.setLinearVelocity(0,0);
-							npc.attack(tower);
-							targetToTower = true;
-						}
-				
-					}
-					 
+					float towerdistance = tower.body.getPosition().dst2(npc.body.getPosition());
+					
 
 				}
 				if(true){
 					float targetX = basePosition.x;
 					float targetY = basePosition.y;
-					float followerX = npc.get_Position().x;
-					float followerY = npc.get_Position().y;
+					float followerX = npc.body.getPosition().x;
+					float followerY = npc.body.getPosition().y;
 					float vectorX_ =(targetX -followerX);
 					float vectorY_ = (targetY - followerY);
 					double unitDivisor_ = Math.sqrt((double)(vectorX_*vectorX_) + (double)(vectorY_*vectorY_));
-					float distance = basePosition.dst2(npc.get_Position());
-					Vector2 vector = new Vector2((targetX-followerX)/(float)unitDivisor_,(targetY-followerY)/(float)unitDivisor_);
+					float distance = basePosition.dst2(npc.body.getPosition());
+					Vector2 vector = new Vector2((vectorX_)/(float)unitDivisor_,(vectorY_)/(float)unitDivisor_);
 					
-					if(distance/PPM> 1) {
+					if(distance/PPM> 4/PPM) {
 						npc.body.setLinearVelocity(vector);
 					}else {
 						npc.body.setLinearVelocity(0,0);
-						npc.attack(base);
+						elapsedTimeNpc = System.currentTimeMillis()-npc.time;
+						if(elapsedTimeNpc > 2000) {
+							npc.time = System.currentTimeMillis();
+							npc.attack(base);
+						}
 					}
 				}		
 			}
 		}catch(ConcurrentModificationException e) {
+			
 			return;
 		}
 		
@@ -305,6 +293,7 @@ public class GameScreen implements Screen {
 				proj.is_Shot();
 				projectiles.remove(proj);
 			}else if(proj.missed()){
+				
 				projectiles.remove(proj);
 			}else {
 				proj.shootToTarget();
@@ -324,9 +313,30 @@ public class GameScreen implements Screen {
 			player.plantTower();
 		}
 	}
-
 	
-
+	public Vector2 targetToBase(Npc e) {
+		Vector2 basePosition = base.body.getPosition();
+		float targetX = basePosition.x;
+		float targetY = basePosition.y;
+		float followerX = e.body.getPosition().x;
+		float followerY = e.body.getPosition().y;
+		float vectorX_ =(targetX -followerX);
+		float vectorY_ = (targetY - followerY);
+		double unitDivisor_ = Math.sqrt((double)(vectorX_*vectorX_) + (double)(vectorY_*vectorY_));
+		float distance = basePosition.dst2(e.body.getPosition());
+		Vector2 vector = new Vector2((vectorX_)/(float)unitDivisor_,(vectorY_)/(float)unitDivisor_);
+		return vector;
+	}
+	
+	public Vector2 targetToTower(Npc npc, Tower tower) {
+		Vector2 towerposition = tower.body.getPosition();
+		float vectorX =(tower.body.getPosition().x-npc.body.getPosition().x);
+		float vectorY = (tower.body.getPosition().y-npc.body.getPosition().y);
+		double unitDivisor = Math.sqrt((double)(vectorX*vectorX) + (double)(vectorY*vectorY));	
+		Vector2 vectorT = new Vector2(npc.speed*(tower.body.getPosition().x-npc.body.getPosition().x)/(float)(unitDivisor),npc.speed*(tower.body.getPosition().y-npc.body.getPosition().y)/(float)(unitDivisor));
+		return vectorT;
+	}
+	
 
 
 

@@ -21,8 +21,8 @@ public class DoomTower extends Tower{
 			return;
 		}
 		if(!e.isDead()) {
-			float angle2 = e.get_Position().sub(this.get_Position()).angleRad();
-			body.setTransform(this.get_Position(),angle2);
+			float angle2 = e.body.getPosition().sub(this.body.getPosition()).angleRad();
+			body.setTransform(this.body.getPosition(),angle2);
 			game.projectiles.add(game.getCreator().createBullet(this,e));
 	
 		}
