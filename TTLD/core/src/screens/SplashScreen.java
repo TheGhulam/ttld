@@ -32,7 +32,6 @@ public class SplashScreen extends Screens{
 
         splashImage.setFillParent(true);
         splashImage.addAction(sequence(alpha(0),fadeIn(3f),delay(1.5f),fadeOut(3f),run(transition)));
-        //splashImage.addAction(fadeOut(3f));
     }
 
     @Override
