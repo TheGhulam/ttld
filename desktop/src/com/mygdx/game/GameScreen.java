@@ -55,15 +55,20 @@ public class GameScreen implements Screen {
 	
 	
 	
-	public GameScreen(Box2DDebugRenderer b2dr, OrthographicCamera camera,World world, Level level, Application app) {
-		this.b2dr = b2dr;
-		this.camera = camera;
-		this.world = world;
-		this.level = level;
-		this.app = app;
+	public GameScreen() {
+		
+		float w = Gdx.graphics.getWidth();
+		float h = Gdx.graphics.getHeight();
+		camera = new OrthographicCamera();
+		camera.setToOrtho(false,w/2,h/2);
+		
+		world = new World(new Vector2(0,0f),false);
+		b2dr = new Box2DDebugRenderer();
+		
+		
 		this.world.setContactListener(new WorldContactListener());
 		gameport= new FitViewport(Application.V_WIDTH,Application.V_HEIGHT,camera);
-		hud = new Hud(app.batch);
+		//hud = new Hud(app.batch);
 		Gdx.input.setInputProcessor(mH);
 		mH = new MouseHandler(this);
 		player = new Player(this,mH);
@@ -116,8 +121,8 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		b2dr.render(world, camera.combined.cpy().scl(PPM));
-		app.batch.setProjectionMatrix(hud.stage.getCamera().combined);
-		hud.stage.draw();
+		//app.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+		//hud.stage.draw();
 		
 	}
 

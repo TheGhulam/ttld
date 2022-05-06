@@ -44,18 +44,9 @@ public class Application extends Game{
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
-		Box2DDebugRenderer b2dr;
-		OrthographicCamera camera;
-		World world;
-		float w = Gdx.graphics.getWidth();
-		float h = Gdx.graphics.getHeight();
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false,w/2,h/2);
 		
-		world = new World(new Vector2(0,0f),false);
-		b2dr = new Box2DDebugRenderer();
 		Level1 level = new Level1();
-		GameScreen gameScreen = new GameScreen(b2dr,camera,world,level,this);
+		GameScreen gameScreen = new GameScreen();
 		setScreen(gameScreen);
 	}
 	
