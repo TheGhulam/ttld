@@ -242,6 +242,7 @@ public class GameScreen implements Screen {
 		
 		try {
 			for(Npc npc: npcs) {
+				elapsedTimeNpc = System.currentTimeMillis()-npc.time;
 				current = npc;
 				if(npc.isDead()) {
 					npcs.remove(npc);
@@ -269,9 +270,11 @@ public class GameScreen implements Screen {
 					
 					if(distance/PPM> 4/PPM) {
 						npc.body.setLinearVelocity(vector);
+						float angle = base.body.getPosition().sub(npc.body.getPosition()).angleRad();
+						npc.body.setTransform(npc.body.getPosition(), angle);
 					}else {
 						npc.body.setLinearVelocity(0,0);
-						elapsedTimeNpc = System.currentTimeMillis()-npc.time;
+						
 						if(elapsedTimeNpc > 2000) {
 							npc.time = System.currentTimeMillis();
 							npc.attack(base);

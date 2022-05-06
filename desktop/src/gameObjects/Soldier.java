@@ -17,23 +17,10 @@ public class Soldier extends Ranged {
 		time = System.currentTimeMillis();
 	}
 	public void shoot(Entity t) {
-		
-	
-	
-	Entity k = this;
-	
-	
-	
-			
-			if(!t.isDead() && !lockedToTarget) {
-				float angle2 = t.body.getPosition().sub(k.body.getPosition()).angleRad();
-				body.setTransform(k.body.getPosition(),angle2);
-				
-				game.getCreator().createNpcBullet(k,t);
-				setLocked(true);
-			}
-		
-	
+		if(!t.isDead()) {
+
+			game.getCreator().createNpcBullet(this, t);
+		}
 
 
 	}
