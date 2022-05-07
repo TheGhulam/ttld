@@ -81,7 +81,7 @@ public class MenuScreen extends Screens{
         ttld.batch.begin();
         ttld.batch.draw(backgroundImage,0,0);
         //TITLE
-        font.draw(ttld.batch,"TTLD",100,callClass().stage.getHeight()-100*font.getScaleY());
+        //font.draw(ttld.batch,"TTLD",100,callClass().stage.getHeight()-100*font.getScaleY());
         ttld.batch.end();
 
 

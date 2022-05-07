@@ -8,6 +8,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -26,6 +27,7 @@ import gameObjects.Player;
 import gameObjects.Projectile;
 import gameObjects.Tower;
 import levels.Level;
+import org.w3c.dom.Text;
 
 import static utils.Constants.PPM;
 
@@ -39,7 +41,7 @@ import static utils.Constants.PPM;
 		protected World world;
 		private ArrayList<Npc> npcs = new ArrayList<Npc>();
 		private ArrayList<Tower> towers = new ArrayList<Tower>();
-
+		private Texture backgroundImage;
 		private MouseHandler mH;
 		private Player player;
 		private Creator creator;
@@ -53,6 +55,7 @@ import static utils.Constants.PPM;
 
 		public GameScreen(ttld GameTTLD) {
 			super(GameTTLD);
+			backgroundImage = new Texture("res/menu_background4.png");
 			float w = Gdx.graphics.getWidth();
 			float h = Gdx.graphics.getHeight();
 			camera = new OrthographicCamera();
@@ -111,9 +114,12 @@ import static utils.Constants.PPM;
 		}
 		@Override
 		public void render(float delta) {
-			update();
 			Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+			update();
+			ttld.batch.begin();
+			ttld.batch.draw(backgroundImage,0,0);
+			ttld.batch.end();
 			b2dr.render(world, camera.combined.cpy().scl(PPM));
 			//app.batch.setProjectionMatrix(hud.stage.getCamera().combined);
 			//hud.stage.draw();
