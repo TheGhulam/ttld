@@ -31,10 +31,7 @@ public class Projectile {
 		bullet.setLinearVelocity(vector);
 	}
 	public void is_Shot() {
-		if(isShot) {
-		Vector2 targetposition = target.body.getPosition();
-		
-		
+		if(isShot) {	
 		Array<Fixture> fixtures = bullet.getFixtureList();
 		for (int i = 0; i < fixtures.size; i++) {
 			bullet.destroyFixture(fixtures.get(i));

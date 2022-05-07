@@ -115,7 +115,7 @@ public class MenuScreen extends Screens{
             }
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ttldGame.setScreen(new GameScreenDemo(ttldGame));
+                ttldGame.setScreen(ttldGame.gameScreen);
             }
         });
         continueB.addListener(new ClickListener() {
