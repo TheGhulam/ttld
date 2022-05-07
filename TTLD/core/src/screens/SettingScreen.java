@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -44,6 +45,7 @@ public class SettingScreen extends Screens{
         musicLevel = addTextButton("Music Volume:");
         increaseBGM = addTextButton("+");
         decreaseBGM = addTextButton("-");
+
         SFXLevel = addTextButton("SFX Volume:");
         increaseSFX = addTextButton("+");
         decreaseSFX = addTextButton("-");
@@ -107,6 +109,9 @@ public class SettingScreen extends Screens{
                 ttldGame.setScreen(menu);
             }
         });
+
+        SFXLevel.setTouchable(Touchable.disabled);
+        musicLevel.setTouchable(Touchable.disabled);
 
         //Adding them to the table
         uiElements.add(musicLevel).width(length).padBottom(gapping);
