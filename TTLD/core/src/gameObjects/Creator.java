@@ -101,19 +101,20 @@ public class Creator {
 		bbody = world.createBody(def);
 		CircleShape shape2 = new CircleShape();
 		shape2.setRadius(1f/PPM);
-		
+
 		Fixture fix =bbody.createFixture(shape2, 1.0f);
 		fix.setUserData("NpcBullet");
 		fix.setSensor(true);
-		shape2.dispose();		
+		shape2.dispose();
 		NpcBullet Npcbullet = new NpcBullet(startingPoint, bbody,Target);
 		bbody.setUserData(Npcbullet);
 		gameScreen.getProjectile().add(Npcbullet);
-		
+
 		return Npcbullet;
 	}
+
 	public Soldier createSoldier(float x, float y) {
-		
+
 		Body bbody;
 		BodyDef	def = new BodyDef();
 		def.type = BodyDef.BodyType.DynamicBody;
@@ -122,15 +123,36 @@ public class Creator {
 		bbody = world.createBody(def);
 		CircleShape shape2 = new CircleShape();
 		shape2.setRadius(3f/PPM);
-		
+
 		Fixture fix =bbody.createFixture(shape2, 1.0f);
 		fix.setUserData("Npc");
-		
-		shape2.dispose();		
+
+		shape2.dispose();
 		Soldier soldier = new Soldier(bbody,100, 10, 0.8f, 3, 20,gameScreen);
 		bbody.setUserData(soldier);
 		gameScreen.getNpcs().add(soldier);
 		return soldier;
+	}
+
+	public Melee createMelee(float x, float y) {
+
+		Body bbody;
+		BodyDef	def = new BodyDef();
+		def.type = BodyDef.BodyType.DynamicBody;
+		def.position.set(x/PPM,y/PPM);
+		def.fixedRotation = true;
+		bbody = world.createBody(def);
+		CircleShape shape2 = new CircleShape();
+		shape2.setRadius(3f/PPM);
+
+		Fixture fix =bbody.createFixture(shape2, 1.0f);
+		fix.setUserData("Npc");
+
+		shape2.dispose();
+		Melee melee = new Melee(bbody,100, 10, 0.8f, 100, 20);
+		bbody.setUserData(melee);
+		gameScreen.getNpcs().add(melee);
+		return melee;
 	}
 
 }

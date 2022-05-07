@@ -63,7 +63,7 @@ import static utils.Constants.PPM;
 
 
 			this.world.setContactListener(new WorldContactListener());
-			gameport= new FitViewport(400,208,camera);
+			gameport= new FitViewport(ttld.width,ttld.width,camera);
 			//hud = new Hud(app.batch);
 			Gdx.input.setInputProcessor(mH);
 			mH = new MouseHandler(this);
@@ -94,7 +94,7 @@ import static utils.Constants.PPM;
 			float horizontalforce = 0;
 			float verticalforce = 0;
 			if(Gdx.input.isKeyPressed(Input.Keys.A)) {
-				creator.createSoldier(200, 10);
+				creator.createMelee(200, 10);
 
 			}
 			if(Gdx.input.isKeyPressed(Input.Keys.D)) {
