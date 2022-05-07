@@ -32,7 +32,7 @@ public class ttld extends Game {
 		// Init screens
 		splashScreen = new SplashScreen(this);
 		menuScreen = new MenuScreen(this);
-		gameScreen = new GameScreen(this);
+		//gameScreen = new GameScreen(this);
 		//this.setScreen(new TestScreen(this));
 		this.setScreen(splashScreen);
 	}
