@@ -56,7 +56,6 @@ public class MenuScreen extends Screens{
 
             // This is similar to the create method of the game class
 
-
         uiElements = new Table(); // As far as I am concerned this is something similar to JPanel
         uiElements.setFillParent(true); // Explanation is pretty clear just hover over it in IntelliJ
         loadUI(300,15);

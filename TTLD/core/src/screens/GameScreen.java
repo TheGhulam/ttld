@@ -67,7 +67,7 @@ import static utils.Constants.PPM;
 
 
 			this.world.setContactListener(new WorldContactListener());
-			gameport= new FitViewport(ttld.width,ttld.width,camera);
+			gameport= new FitViewport(ttld.width,ttld.height,camera);
 			//hud = new Hud(app.batch);
 			Gdx.input.setInputProcessor(mH);
 			mH = new MouseHandler(this);
