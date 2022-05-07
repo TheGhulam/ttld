@@ -23,12 +23,12 @@ public class Creator {
 	
 	
 	
-	public boolean isAvailable(int x, int y) {
+	public boolean isAvailable(float x, float y) {
 		return true;
 	}
 	
 	
-	public DoomTower createDoomTower(int x, int y) {
+	public DoomTower createDoomTower(float x, float y) {
 		Body tbody;
 		BodyDef	def = new BodyDef();
 		def.type = BodyDef.BodyType.StaticBody;
@@ -36,7 +36,7 @@ public class Creator {
 		def.fixedRotation = true;
 		tbody = world.createBody(def);
 		CircleShape shape2 = new CircleShape();
-		shape2.setRadius(32f/PPM);
+		shape2.setRadius(10f/PPM);
 		
 		Fixture fix = tbody.createFixture(shape2, 1.0f);
 		fix.setUserData("Tower");
@@ -76,7 +76,7 @@ public class Creator {
 		Body bbody;
 		BodyDef	def = new BodyDef();
 		def.type = BodyDef.BodyType.DynamicBody;
-		def.position.set(x/PPM,y/PPM);
+		def.position.set(x,y);
 		def.fixedRotation = true;
 		bbody = world.createBody(def);
 		CircleShape shape2 = new CircleShape();
@@ -97,7 +97,7 @@ public class Creator {
 		Body bbody;
 		BodyDef	def = new BodyDef();
 		def.type = BodyDef.BodyType.DynamicBody;
-		def.position.set(x/PPM,y/PPM);
+		def.position.set(x,y);
 		def.fixedRotation = true;
 		bbody = world.createBody(def);
 		CircleShape shape2 = new CircleShape();
@@ -113,7 +113,7 @@ public class Creator {
 		
 		return Npcbullet;
 	}
-	public Soldier createSoldier(int x, int y) {
+	public Soldier createSoldier(float x, float y) {
 		
 		Body bbody;
 		BodyDef	def = new BodyDef();

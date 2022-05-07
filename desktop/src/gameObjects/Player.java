@@ -1,6 +1,7 @@
 package gameObjects;
 
 
+import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.*;
 
 public class Player {
@@ -12,16 +13,8 @@ public class Player {
 		mouseHandler = mH;
 		creator = new Creator(app);
 	}
-	public void plantTower() {
-		if(mouseHandler.isClicked) {
-			int x = (int)mouseHandler.pressedX;
-			int y = (int)mouseHandler.pressedY;
-			if(creator.isAvailable(x, y)) {
-				creator.createDoomTower(x, y);
-				
-			}
-		}
-		mouseHandler.isClicked = false;
+	public void plantTower(Vector3 vector) {
+		creator.createDoomTower(vector.x, vector.y);
 	}
 	
 	

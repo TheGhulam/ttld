@@ -5,6 +5,7 @@ import java.util.ConcurrentModificationException;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -98,25 +99,23 @@ public class GameScreen implements Screen {
 		float horizontalforce = 0;
 		float verticalforce = 0;
 		if(Gdx.input.isKeyPressed(Input.Keys.A)) {
-			npcs.add(creator.createSoldier(200, 10));
+			creator.createSoldier(200, 10);
 			
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.D)) {
-			npcs.add(creator.createSoldier(-200, -10));
+			creator.createSoldier(-200, -10);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.W)) {
-			npcs.add(creator.createSoldier(0, 200));
+			creator.createSoldier(0, 200);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.S)) {
-			npcs.add(creator.createSoldier(0,-200));
+			creator.createSoldier(0,-200);
 		}
 		
 
 	}
 	@Override
 	public void render(float delta) {
-		// TODO Auto-generated method stub
-		
 		update();
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -242,7 +241,7 @@ public class GameScreen implements Screen {
 	}
 	
 	public void npcUpdate() {
-		boolean targetToTower = false;
+		
 		Vector2 basePosition = base.body.getPosition();
 		
 		try {
@@ -259,19 +258,39 @@ public class GameScreen implements Screen {
 				}
 				for(Tower tower: towers) {
 					float towerdistance = tower.body.getPosition().dst2(npc.body.getPosition());
+					if(towerdistance < 5 && npc.getNpcTarget() == null || towerdistance < 5 && tower.equals(npc.getNpcTarget())) {
+						npc.setNpcTarget(tower);
+						if(towerdistance >3) {
+							npc.body.setLinearVelocity(targetToTower_(npc,tower));
+							float angle = tower.body.getPosition().sub(npc.body.getPosition()).angleRad();
+							npc.body.setTransform(npc.body.getPosition(), angle);
+							
+						}else {
+							float angle = tower.body.getPosition().sub(npc.body.getPosition()).angleRad();
+							npc.body.setTransform(npc.body.getPosition(), angle);
+							npc.body.setLinearVelocity(0,0);
+							
+							if(elapsedTimeNpc > 2000) {
+								npc.time = System.currentTimeMillis();
+								npc.attack(tower);
+								
+							}
+						}
+							
+					}
+					try {	
+						if(npc.getNpcTarget().isDead()) {npc.resetNpcTarget();}
+					}catch(NullPointerException e) {
+						continue;
+					}
 					
-
-				}
-				if(true){
-					float targetX = basePosition.x;
-					float targetY = basePosition.y;
-					float followerX = npc.body.getPosition().x;
-					float followerY = npc.body.getPosition().y;
-					float vectorX_ =(targetX -followerX);
-					float vectorY_ = (targetY - followerY);
-					double unitDivisor_ = Math.sqrt((double)(vectorX_*vectorX_) + (double)(vectorY_*vectorY_));
+				
+				}	
+				if(npc.getNpcTarget() == null || npc.getNpcTarget().isDead()){
+					npc.resetNpcTarget();
+					Vector2 vector =targetToBase(npc);
 					float distance = basePosition.dst2(npc.body.getPosition());
-					Vector2 vector = new Vector2((vectorX_)/(float)unitDivisor_,(vectorY_)/(float)unitDivisor_);
+					
 					
 					if(distance/PPM> 4/PPM) {
 						npc.body.setLinearVelocity(vector);
@@ -279,7 +298,8 @@ public class GameScreen implements Screen {
 						npc.body.setTransform(npc.body.getPosition(), angle);
 					}else {
 						npc.body.setLinearVelocity(0,0);
-						
+						float angle = base.body.getPosition().sub(npc.body.getPosition()).angleRad();
+						npc.body.setTransform(npc.body.getPosition(), angle);
 						if(elapsedTimeNpc > 2000) {
 							npc.time = System.currentTimeMillis();
 							npc.attack(base);
@@ -293,6 +313,8 @@ public class GameScreen implements Screen {
 		}
 		
 	}
+	
+	
 	
 	public void projectileUpdate() {
 		try {
@@ -317,8 +339,10 @@ public class GameScreen implements Screen {
 	}
 	
 	public void playerUpdate() {
-		if(mH.isClicked) {
-			player.plantTower();
+		if(Gdx.input.isButtonJustPressed(Buttons.LEFT)) {
+			Vector3 mousePosition = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
+			camera.unproject(mousePosition);
+			player.plantTower(mousePosition);
 		}
 	}
 	
@@ -331,21 +355,20 @@ public class GameScreen implements Screen {
 		float vectorX_ =(targetX -followerX);
 		float vectorY_ = (targetY - followerY);
 		double unitDivisor_ = Math.sqrt((double)(vectorX_*vectorX_) + (double)(vectorY_*vectorY_));
-		float distance = basePosition.dst2(e.body.getPosition());
+		
 		Vector2 vector = new Vector2((vectorX_)/(float)unitDivisor_,(vectorY_)/(float)unitDivisor_);
 		return vector;
 	}
 	
-	public Vector2 targetToTower(Npc npc, Tower tower) {
-		Vector2 towerposition = tower.body.getPosition();
+	public Vector2 targetToTower_(Npc npc, Tower tower) {
+		
 		float vectorX =(tower.body.getPosition().x-npc.body.getPosition().x);
 		float vectorY = (tower.body.getPosition().y-npc.body.getPosition().y);
 		double unitDivisor = Math.sqrt((double)(vectorX*vectorX) + (double)(vectorY*vectorY));	
-		Vector2 vectorT = new Vector2(npc.speed*(tower.body.getPosition().x-npc.body.getPosition().x)/(float)(unitDivisor),npc.speed*(tower.body.getPosition().y-npc.body.getPosition().y)/(float)(unitDivisor));
+		Vector2 vectorT = new Vector2((tower.body.getPosition().x-npc.body.getPosition().x)/(float)(unitDivisor),(tower.body.getPosition().y-npc.body.getPosition().y)/(float)(unitDivisor));
 		return vectorT;
 	}
 	
-
 
 
 
