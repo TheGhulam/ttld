@@ -6,6 +6,7 @@ import java.util.ConcurrentModificationException;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -51,10 +52,11 @@ import static utils.Constants.PPM;
 		private Npc current;
 		long elapsedTimeNpc;
 
-
+		public Music bgm;
 
 		public GameScreen(ttld GameTTLD) {
 			super(GameTTLD);
+			bgm = Gdx.audio.newMusic(Gdx.files.internal("sfx/the-hunting-bm_menuMusic.wav"));
 			backgroundImage = new Texture("res/menu_background4.png");
 			float w = Gdx.graphics.getWidth();
 			float h = Gdx.graphics.getHeight();
@@ -76,10 +78,18 @@ import static utils.Constants.PPM;
 			camera.position.set(gameport.getScreenWidth()/2, gameport.getScreenHeight()/2,0);
 			npcs.add(creator.createSoldier(200, 50));
 
+			bgm.setVolume(ttldGame.menuScreen.bgmVolume);
+			bgm.setLooping(true);
+
+		}
+
+		private void playBGM() {
+			if(!bgm.isPlaying())
+				bgm.play();
 		}
 
 		public void show() {
-
+			playBGM();
 
 		}
 		public void update() {
@@ -116,10 +126,10 @@ import static utils.Constants.PPM;
 		public void render(float delta) {
 			Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-			update();
 			ttld.batch.begin();
 			ttld.batch.draw(backgroundImage,0,0);
 			ttld.batch.end();
+			update();
 			b2dr.render(world, camera.combined.cpy().scl(PPM));
 			//app.batch.setProjectionMatrix(hud.stage.getCamera().combined);
 			//hud.stage.draw();

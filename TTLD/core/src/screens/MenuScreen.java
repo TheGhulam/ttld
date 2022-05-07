@@ -27,12 +27,9 @@ public class MenuScreen extends Screens{
     public float effectVolume;
     public Music bgm;
     public float bgmVolume;
-    //private MenuScreen thisRefersTo;
 
     public MenuScreen(ttld ttldGame) {
         super(ttldGame);
-        //thisRefersTo = this;
-        //hud = new Hud(ttld.batch);
         backgroundImage = new Texture("res/menu_background4.png");
         effect = Gdx.audio.newSound(Gdx.files.internal("sfx/rollOverSoundEff.wav"));
         bgm = Gdx.audio.newMusic(Gdx.files.internal("sfx/fugue-rott_alternateMenuMusic.wav"));
@@ -116,6 +113,7 @@ public class MenuScreen extends Screens{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ttldGame.setScreen(ttldGame.gameScreen);
+                bgm.stop();
                 stage.clear();
             }
         });
