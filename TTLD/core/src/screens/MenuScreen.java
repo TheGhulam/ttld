@@ -171,6 +171,10 @@ public class MenuScreen extends Screens{
 
     }
 
+    public float getBGMVolume() {
+        return bgmVolume;
+    }
+
     @Override
     public void pause() {
 

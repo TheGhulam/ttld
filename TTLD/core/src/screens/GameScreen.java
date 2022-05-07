@@ -5,7 +5,6 @@ import java.util.ConcurrentModificationException;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -28,7 +27,6 @@ import gameObjects.Player;
 import gameObjects.Projectile;
 import gameObjects.Tower;
 import levels.Level;
-import org.w3c.dom.Text;
 
 import static utils.Constants.PPM;
 
@@ -52,11 +50,12 @@ import static utils.Constants.PPM;
 		private Npc current;
 		long elapsedTimeNpc;
 
-		public Music bgm;
+		public Music gameplayMusic;
 
 		public GameScreen(ttld GameTTLD) {
 			super(GameTTLD);
-			bgm = Gdx.audio.newMusic(Gdx.files.internal("sfx/the-hunting-bm_menuMusic.wav"));
+			gameplayMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/the-hunting-bm_menuMusic.wav"));
+			gameplayMusic.setLooping(true);
 			backgroundImage = new Texture("res/menu_background4.png");
 			float w = Gdx.graphics.getWidth();
 			float h = Gdx.graphics.getHeight();
@@ -78,14 +77,14 @@ import static utils.Constants.PPM;
 			camera.position.set(gameport.getScreenWidth()/2, gameport.getScreenHeight()/2,0);
 			npcs.add(creator.createSoldier(200, 50));
 
-			bgm.setVolume(ttldGame.menuScreen.bgmVolume);
-			bgm.setLooping(true);
-
 		}
 
 		private void playBGM() {
-			if(!bgm.isPlaying())
-				bgm.play();
+			if(!gameplayMusic.isPlaying())
+			{
+				gameplayMusic.setVolume(ttldGame.menuScreen.bgm.getVolume());
+				gameplayMusic.play();
+			}
 		}
 
 		public void show() {
