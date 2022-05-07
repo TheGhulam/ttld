@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.ConcurrentModificationException;
 
 import com.badlogic.gdx.Gdx;
@@ -218,8 +219,9 @@ public class GameScreen implements Screen {
 				}
 				return;
 			}
-			
-				for(Npc npc: npcs) {
+				ArrayList<Npc> randomnpcs = npcs;
+				Collections.shuffle(randomnpcs);
+				for(Npc npc: randomnpcs) {
 					if(locked == null) {
 						Vector2 npcPosition = npc.body.getPosition();
 						Vector2 towerPosition = tower.body.getPosition();
