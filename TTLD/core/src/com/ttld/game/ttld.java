@@ -46,7 +46,7 @@ public class ttld extends Game {
 	public void dispose () {
 		splashScreen.dispose();
 		menuScreen.dispose();
-		gameScreen.dispose();
+		//gameScreen.dispose();
 		batch.dispose();
 	}
 }
