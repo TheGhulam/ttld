@@ -15,7 +15,7 @@ public class SettingScreen extends Screens{
 
     private MenuScreen menu;
     private Texture backgroundImage;
-    private TextButton increaseBGM,decreaseBGM,increaseSFX,decreaseSFX,back;
+    private TextButton musicLevel, increaseBGM,decreaseBGM,SFXLevel, increaseSFX,decreaseSFX,back;
     private Table uiElements;
 
     public SettingScreen(ttld ttldGame) {
@@ -41,8 +41,10 @@ public class SettingScreen extends Screens{
     private void loadUI(int length, int gapping) {
         //Initializing text buttons
 
+        musicLevel = addTextButton("Music Volume:");
         increaseBGM = addTextButton("+");
         decreaseBGM = addTextButton("-");
+        SFXLevel = addTextButton("SFX Volume:");
         increaseSFX = addTextButton("+");
         decreaseSFX = addTextButton("-");
         back = addTextButton("BACK");
@@ -66,8 +68,10 @@ public class SettingScreen extends Screens{
             }
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(menu.bgmVolume>0.00f)
+                //Music
+                if(menu.bgmVolume>0.00f) {
                     menu.bgmVolume -= 0.01f;
+                }
                 menu.bgm.setVolume(menu.bgmVolume);
             }
         });
@@ -79,6 +83,7 @@ public class SettingScreen extends Screens{
             public void clicked(InputEvent event, float x, float y) {
                 menu.effectVolume += 0.01f;
             }
+
         });
         decreaseSFX.addListener(new ClickListener() {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -86,7 +91,7 @@ public class SettingScreen extends Screens{
             }
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(menu.effectVolume>0.00f)
+                if(menu.effectVolume >= 0.01f)
                 {
                     menu.effectVolume -= 0.01f;
                 }
@@ -104,10 +109,13 @@ public class SettingScreen extends Screens{
         });
 
         //Adding them to the table
-
+        uiElements.add(musicLevel).width(length).padBottom(gapping);
+        uiElements.row();
         uiElements.add(increaseBGM).width(length).padBottom(gapping);
         uiElements.row();
         uiElements.add(decreaseBGM).width(length).padBottom(gapping);
+        uiElements.row();
+        uiElements.add(SFXLevel).width(length).padBottom(gapping);
         uiElements.row();
         uiElements.add(increaseSFX).width(length).padBottom(gapping);
         uiElements.row();
