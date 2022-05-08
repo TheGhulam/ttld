@@ -48,6 +48,10 @@ public class Melee extends NPC {
 
 	public void updateCAnimation() {
 
+		float upperLimit = 4*delay;
+		if(true)
+			upperLimit = 5*delay;
+
 		//Determine which one will be used : default or mirror?
 
 		if(body.getPosition().x>=0)
@@ -85,7 +89,7 @@ public class Melee extends NPC {
 
 
 		frameCounter++;
-		if(frameCounter>=delay*4)
+		if(frameCounter>=upperLimit)
 			frameCounter = 0;
 
 				////Default walking and its mirror

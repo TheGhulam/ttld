@@ -16,20 +16,15 @@ public abstract class Entity  {
 	public int damage;
 	public int health;
 
-	protected ArrayList<Texture> spriteSheetAttack;
-	protected ArrayList<Texture> spriteSheetAttackMirror;
-	protected ArrayList<Texture> spriteSheetWalk;
-	protected ArrayList<Texture> spriteSheetWalkMirror;
-
 	public Entity(Body body, int health, int damage) {
 		this.body = body;
 		this.health = health;
 		this.damage = damage;
-		createSpriteArrayLs();
+		//createSpriteArrayLs();
 	}
 	
 	public boolean isDead() {
-		
+
 		boolean isdead = false;
 		if(health <=0) {
 			isdead = true;
@@ -42,14 +37,14 @@ public abstract class Entity  {
 	}
 
 	public abstract Texture getCAnimation();
-
+/**
 	protected void createSpriteArrayLs() {
 		spriteSheetAttack = new ArrayList<Texture>();
 		spriteSheetAttackMirror = new ArrayList<Texture>();
 		spriteSheetWalk = new ArrayList<Texture>();
 		spriteSheetWalkMirror = new ArrayList<Texture>();
 	}
-	
+ */
 	public void setHealth(int health) {
 		this.health = health;
 	}
