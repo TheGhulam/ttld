@@ -353,6 +353,7 @@ import static utils.Constants.PPM;
 				Vector3 mousePosition = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
 				camera.unproject(mousePosition);
 				player.plantTower(mousePosition);
+
 			}
 		}
 

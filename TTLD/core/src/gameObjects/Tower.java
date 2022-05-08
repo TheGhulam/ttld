@@ -16,9 +16,6 @@ public class Tower extends Entity implements Shooter{
 		this.shootingRadius = shootingRadius;
 		this.shootingSpeed = shootingSpeed;
 		this.damage = damage;
-		
-		
-		
 	}
 
 	@Override
@@ -47,4 +44,5 @@ public class Tower extends Entity implements Shooter{
 	public void setLocked(boolean flag) {
 		lockedToTarget = flag;
 	}
+
 }
