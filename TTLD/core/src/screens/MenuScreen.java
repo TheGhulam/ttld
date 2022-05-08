@@ -3,6 +3,7 @@ package screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -18,7 +19,7 @@ public class MenuScreen extends Screens{
         //CREATE A METHOD THAT CREATES BUTTONS IN SCREENS CLASS - DONE!
 
     //UI ELEMENTS
-    private TextButton newGame,continueB,settings,credits,quit, end;
+    private TextButton title,newGame,continueB,settings,credits,quit,end;
     private Table uiElements;
     //BACKGROUND IMAGE
     private Texture backgroundImage;
@@ -96,6 +97,7 @@ public class MenuScreen extends Screens{
 
             //Initializing text buttons
 
+        title = addTextButton("TILL THE LAST DROP");
         newGame = addTextButton("NEW GAME");
         continueB = addTextButton("CONTINUE");
         settings = addTextButton("SETTINGS");
@@ -162,13 +164,18 @@ public class MenuScreen extends Screens{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ttldGame.setScreen(new EndScreen(ttldGame));
+                bgm.stop();
             }
         });
 
+        title.setTouchable(Touchable.disabled);
+        title.setColor(Color.BLUE);
         continueB.setTouchable(Touchable.disabled);
 
             //Adding them to the table
 
+        uiElements.add(title).padBottom(40);
+        uiElements.row();
         uiElements.add(newGame).width(length).padBottom(gapping);
         uiElements.row();
         uiElements.add(continueB).width(length).padBottom(gapping);

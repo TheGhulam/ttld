@@ -2,6 +2,7 @@ package screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -111,22 +112,23 @@ public class SettingScreen extends Screens{
         });
 
         SFXLevel.setTouchable(Touchable.disabled);
+        SFXLevel.setColor(Color.BLUE);
         musicLevel.setTouchable(Touchable.disabled);
-
+        musicLevel.setColor(Color.BLUE);
         //Adding them to the table
         uiElements.add(musicLevel).width(length).padBottom(gapping);
         uiElements.row();
-        uiElements.add(increaseBGM).width(length).padBottom(gapping);
+        uiElements.add(increaseBGM).width(length).padBottom(gapping/2);
         uiElements.row();
-        uiElements.add(decreaseBGM).width(length).padBottom(gapping);
+        uiElements.add(decreaseBGM).width(length).padBottom(40);
         uiElements.row();
         uiElements.add(SFXLevel).width(length).padBottom(gapping);
         uiElements.row();
-        uiElements.add(increaseSFX).width(length).padBottom(gapping);
+        uiElements.add(increaseSFX).width(length).padBottom(gapping/2);
         uiElements.row();
-        uiElements.add(decreaseSFX).width(length).padBottom(gapping);
+        uiElements.add(decreaseSFX).width(length).padBottom(2*gapping);
         uiElements.row();
-        uiElements.add(back).width(length).padBottom(gapping);
+        uiElements.add(back).width(length);
 
     }
 
