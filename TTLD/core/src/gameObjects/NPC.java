@@ -1,6 +1,7 @@
 package gameObjects;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
 import java.util.ArrayList;
@@ -55,7 +56,12 @@ public class NPC extends Entity{
 	public Entity getNpcTarget() {
 		return npcTarget;
 	}
-
+	public boolean isAttacking(){
+		Vector2 zero = new Vector2(0,0);
+		if(body.getLinearVelocity().equals(zero)){
+			return true;
+		}else {return false;}
+	}
 	@Override
 	public Texture getCAnimation() {
 		return null;
