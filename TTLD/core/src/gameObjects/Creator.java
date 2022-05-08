@@ -141,7 +141,8 @@ public class Creator {
 		def.fixedRotation = true;
 		bbody = world.createBody(def);
 		CircleShape shape2 = new CircleShape();
-		shape2.setRadius(3f/PPM);
+		//shape2.setRadius(3f/PPM); //Default radius value
+		shape2.setRadius(8f/PPM);
 
 		Fixture fix =bbody.createFixture(shape2, 1.0f);
 		fix.setUserData("Npc");

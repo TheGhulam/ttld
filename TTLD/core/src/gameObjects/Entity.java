@@ -29,6 +29,7 @@ public abstract class Entity  {
 	}
 	
 	public boolean isDead() {
+		
 		boolean isdead = false;
 		if(health <=0) {
 			isdead = true;
