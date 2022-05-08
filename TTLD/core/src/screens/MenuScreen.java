@@ -161,7 +161,8 @@ public class MenuScreen extends Screens{
             }
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ttldGame.setScreen(new EndScreen(ttldGame));
+                // Commented out as EndScreen isn't defined right now
+                // ttldGame.setScreen(new EndScreen(ttldGame));
             }
         });
 

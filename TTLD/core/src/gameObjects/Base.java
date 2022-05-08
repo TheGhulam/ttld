@@ -38,7 +38,6 @@ public class Base extends Tower {
 				if(!e.isDead() && !lockedToTarget) {
 					float angle2 = e.body.getPosition().sub(t.body.getPosition()).angleRad();
 					body.setTransform(t.body.getPosition(),angle2);
-					
 					game.getCreator().createBullet(t,e);
 					setLocked(true);
 				}
@@ -47,8 +46,5 @@ public class Base extends Tower {
 			
 			
 		}, 0.5f);
-		
-		
-			
 	}
 }

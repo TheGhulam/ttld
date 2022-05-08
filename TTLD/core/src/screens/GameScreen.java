@@ -89,8 +89,8 @@ import static utils.Constants.PPM;
 
 		public void show() {
 			playBGM();
-
 		}
+
 		public void update() {
 			world.step(1/60f, 6, 2);
 
@@ -107,7 +107,6 @@ import static utils.Constants.PPM;
 			float verticalforce = 0;
 			if(Gdx.input.isKeyPressed(Input.Keys.A)) {
 				creator.createMelee(200, 10);
-
 			}
 			if(Gdx.input.isKeyPressed(Input.Keys.D)) {
 				creator.createSoldier(-200, -10);
@@ -118,9 +117,11 @@ import static utils.Constants.PPM;
 			if(Gdx.input.isKeyPressed(Input.Keys.S)) {
 				creator.createSoldier(0,-200);
 			}
-
-
+			if(Gdx.input.isKeyPressed(Input.Keys.Z)) {
+				reduce
+			}
 		}
+
 		@Override
 		public void render(float delta) {
 			Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
@@ -182,6 +183,7 @@ import static utils.Constants.PPM;
 		public OrthographicCamera getCamera() {
 			return camera;
 		}
+
 		public void baseUpdate() {
 			Npc locked = null;
 			try {
@@ -333,19 +335,14 @@ import static utils.Constants.PPM;
 						proj.is_Shot();
 						projectiles.remove(proj);
 					}else if(proj.missed()){
-
 						projectiles.remove(proj);
 					}else {
 						proj.shootToTarget();
 					}
-
 				}
-
 			}catch(ConcurrentModificationException e) {
 				return;
 			}
-
-
 		}
 
 		public void playerUpdate() {
@@ -371,7 +368,6 @@ import static utils.Constants.PPM;
 		}
 
 		public Vector2 targetToTower_(Npc npc, Tower tower) {
-
 			float vectorX =(tower.body.getPosition().x-npc.body.getPosition().x);
 			float vectorY = (tower.body.getPosition().y-npc.body.getPosition().y);
 			double unitDivisor = Math.sqrt((double)(vectorX*vectorX) + (double)(vectorY*vectorY));

@@ -72,4 +72,10 @@ public class Projectile {
 		}
 		return missed;
 	}
+
+
+	// Powerups
+	public void reduceNPCattackSpeed(){
+		projectileSpeed *= 0.9;
+	}
 }
