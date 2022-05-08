@@ -1,5 +1,6 @@
 package gameObjects;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
 import com.badlogic.gdx.physics.box2d.Body;
@@ -46,5 +47,10 @@ public class Tower extends Entity implements Shooter{
 	}
 	public void setLocked(boolean flag) {
 		lockedToTarget = flag;
+	}
+
+	@Override
+	public Texture getCAnimation() {
+		return null;
 	}
 }

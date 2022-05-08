@@ -21,12 +21,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 //import Scenes.Hud;
 import com.ttld.game.ttld;
-import gameObjects.Base;
-import gameObjects.Creator;
-import gameObjects.NPC;
-import gameObjects.Player;
-import gameObjects.Projectile;
-import gameObjects.Tower;
+import gameObjects.*;
 import levels.Level;
 
 import static utils.Constants.PPM;
@@ -35,13 +30,6 @@ import static utils.Constants.PPM;
 
 		private Viewport gameport;
 		//private Hud hud;
-
-		//für die Animation
-
-		private final float SCALE = 2.0f; //May be unnecessary
-		private SpriteBatch sb;
-
-		//für die Animation
 
 		private Box2DDebugRenderer b2dr;
 		private OrthographicCamera camera;
@@ -62,9 +50,6 @@ import static utils.Constants.PPM;
 
 		public GameScreen(ttld GameTTLD) {
 			super(GameTTLD);
-			//für die Animation
-			sb = new SpriteBatch();
-			//für die Animation
 			gameplayMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/the-hunting-bm_menuMusic.wav"));
 			gameplayMusic.setLooping(true);
 			backgroundImage = new Texture("res/menu_background4.png");
@@ -86,7 +71,7 @@ import static utils.Constants.PPM;
 			creator = new Creator(this);
 			base = creator.createBase();
 			camera.position.set(gameport.getScreenWidth()/2, gameport.getScreenHeight()/2,0);
-			npcs.add(creator.createSoldier(200, 50));
+			//npcs.add(creator.createMelee(200, 50));
 
 		}
 
@@ -136,14 +121,14 @@ import static utils.Constants.PPM;
 		public void render(float delta) {
 			Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+			update();
 			ttld.batch.begin();
 			ttld.batch.draw(backgroundImage,0,0);
-			for(NPC melee : npcs) {
-				ttld.batch.draw(melee.getCAnimation(),400,400);
-				System.out.println("F");
+			for(NPC npc : npcs) {
+				//Melee NPC_M = (Melee) npc;
+				ttld.batch.draw(npc.getCAnimation(),npc.body.getPosition().x,npc.body.getPosition().y);
 			}
 			ttld.batch.end();
-			update();
 			b2dr.render(world, camera.combined.cpy().scl(PPM));
 		}
 

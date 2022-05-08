@@ -5,6 +5,9 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 public class Melee extends NPC {
 	public final float range = 2.f;
+	private final float delay = 10f;
+	private int frameCounter;
+	int animationIndex;
 	public float attackSpeed;
 	public float ShootingRadius;
 	private Texture CAnimation;
@@ -13,9 +16,12 @@ public class Melee extends NPC {
 		this.attackSpeed = attackSpeed;
 		this.ShootingRadius = ShootingRadius;
 		fillSpriteArrayL();
+		animationIndex = 0;
+		frameCounter = 0;
 	}
 
 	public void fillSpriteArrayL() {
+		//Create CAnimation?
 		//Attack
 		spriteSheetAttack.add(new Texture("res/animations/spider/attack/attack1.png"));
 		spriteSheetAttack.add(new Texture("res/animations/spider/attack/attack2.png"));
@@ -23,27 +29,52 @@ public class Melee extends NPC {
 		spriteSheetAttack.add(new Texture("res/animations/spider/attack/attack4.png"));
 		spriteSheetAttack.add(new Texture("res/animations/spider/attack/attack5.png"));
 		//AttackMirror
-		spriteSheetAttack.add(new Texture("res/animations/spider/attack/attackMirror/attackMirror1.png"));
-		spriteSheetAttack.add(new Texture("res/animations/spider/attack/attackMirror/attackMirror2.png"));
-		spriteSheetAttack.add(new Texture("res/animations/spider/attack/attackMirror/attackMirror3.png"));
-		spriteSheetAttack.add(new Texture("res/animations/spider/attack/attackMirror/attackMirror4.png"));
-		spriteSheetAttack.add(new Texture("res/animations/spider/attack/attackMirror/attackMirror5.png"));
+		spriteSheetAttackMirror.add(new Texture("res/animations/spider/attack/attackMirror/attackMirror1.png"));
+		spriteSheetAttackMirror.add(new Texture("res/animations/spider/attack/attackMirror/attackMirror2.png"));
+		spriteSheetAttackMirror.add(new Texture("res/animations/spider/attack/attackMirror/attackMirror3.png"));
+		spriteSheetAttackMirror.add(new Texture("res/animations/spider/attack/attackMirror/attackMirror4.png"));
+		spriteSheetAttackMirror.add(new Texture("res/animations/spider/attack/attackMirror/attackMirror5.png"));
 		//Walk
-		spriteSheetAttack.add(new Texture("res/animations/spider/walk/walk1.png"));
-		spriteSheetAttack.add(new Texture("res/animations/spider/walk/walk2.png"));
-		spriteSheetAttack.add(new Texture("res/animations/spider/walk/walk3.png"));
-		spriteSheetAttack.add(new Texture("res/animations/spider/walk/walk4.png"));
+		spriteSheetWalk.add(new Texture("res/animations/spider/walk/walk1.png"));
+		spriteSheetWalk.add(new Texture("res/animations/spider/walk/walk2.png"));
+		spriteSheetWalk.add(new Texture("res/animations/spider/walk/walk3.png"));
+		spriteSheetWalk.add(new Texture("res/animations/spider/walk/walk4.png"));
 		//WalkMirror
-		spriteSheetAttack.add(new Texture("res/animations/spider/walk/walkMirror/walkMirror1.png"));
-		spriteSheetAttack.add(new Texture("res/animations/spider/walk/walkMirror/walkMirror2.png"));
-		spriteSheetAttack.add(new Texture("res/animations/spider/walk/walkMirror/walkMirror3.png"));
-		spriteSheetAttack.add(new Texture("res/animations/spider/walk/walkMirror/walkMirror4.png"));
+		spriteSheetWalkMirror.add(new Texture("res/animations/spider/walk/walkMirror/walkMirror1.png"));
+		spriteSheetWalkMirror.add(new Texture("res/animations/spider/walk/walkMirror/walkMirror2.png"));
+		spriteSheetWalkMirror.add(new Texture("res/animations/spider/walk/walkMirror/walkMirror3.png"));
+		spriteSheetWalkMirror.add(new Texture("res/animations/spider/walk/walkMirror/walkMirror4.png"));
 	}
 
-	
+	public void updateCAnimation() {
+		//We need two different paths (and each will require again two different paths)
+
+			//One for attacking
+
+				//Default attacking and its mirror
+
+			//Other one is for walking
+
+		//I am only writing for the walking part now
+		if(frameCounter<=delay*1)
+			CAnimation = spriteSheetWalk.get(0);
+		else if(frameCounter<=delay*2)
+			CAnimation = spriteSheetWalk.get(1);
+		else if(frameCounter<=delay*3)
+			CAnimation = spriteSheetWalk.get(2);
+		else if(frameCounter<=delay*4)
+			CAnimation = spriteSheetWalk.get(3);
+
+		frameCounter++;
+		if(frameCounter>=delay*4)
+			frameCounter = 0;
+
+				////Default walking and its mirror
+	}
 
 	@Override
 	public Texture getCAnimation() {
+		updateCAnimation();
 		return CAnimation;
 	}
 

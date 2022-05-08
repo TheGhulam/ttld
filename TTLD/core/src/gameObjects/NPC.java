@@ -1,5 +1,6 @@
 package gameObjects;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.Body;
 
 public class NPC extends Entity{
@@ -36,5 +37,10 @@ public class NPC extends Entity{
 	}
 	public Entity getNpcTarget() {
 		return npcTarget;
+	}
+
+	@Override
+	public Texture getCAnimation() {
+		return null;
 	}
 }
