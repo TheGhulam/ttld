@@ -124,6 +124,8 @@ import static utils.Constants.PPM;
 			update();
 			ttld.batch.begin();
 			ttld.batch.draw(backgroundImage,0,0);
+			if(base.health>0)
+				ttld.batch.draw(base.getTexture(),635-base.getTexture().getWidth()/2,350-base.getTexture().getHeight()/2); //-base.getTexture().getHeight()/2
 			for(NPC npc : npcs) {
 				System.out.println(npc.body.getPosition().x);
 				//Melee NPC_M = (Melee) npc;

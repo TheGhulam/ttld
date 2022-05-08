@@ -49,21 +49,37 @@ public class Melee extends NPC {
 	public void updateCAnimation() {
 
 		float upperLimit = 4*delay;
-		if(true)
+		if(speed==0)
 			upperLimit = 5*delay;
 
 		//Determine which one will be used : default or mirror?
 
 		if(body.getPosition().x>=0)
 		{
-			if(frameCounter<=delay*1)
-				CAnimation = spriteSheetWalkMirror.get(0);
-			else if(frameCounter<=delay*2)
-				CAnimation = spriteSheetWalkMirror.get(1);
-			else if(frameCounter<=delay*3)
-				CAnimation = spriteSheetWalkMirror.get(2);
-			else if(frameCounter<=delay*4)
-				CAnimation = spriteSheetWalkMirror.get(3);
+			if(true) {
+				//System.out.println("HERE");
+				if(frameCounter<=delay*1)
+					CAnimation = spriteSheetAttackMirror.get(0);
+				else if(frameCounter<=delay*2)
+					CAnimation = spriteSheetAttackMirror.get(1);
+				else if(frameCounter<=delay*3)
+					CAnimation = spriteSheetAttackMirror.get(2);
+				else if(frameCounter<=delay*4)
+					CAnimation = spriteSheetAttackMirror.get(3);
+				else if(frameCounter<=delay*4)
+					CAnimation = spriteSheetAttackMirror.get(4);
+			}
+			else
+			{
+				if(frameCounter<=delay*1)
+					CAnimation = spriteSheetWalkMirror.get(0);
+				else if(frameCounter<=delay*2)
+					CAnimation = spriteSheetWalkMirror.get(1);
+				else if(frameCounter<=delay*3)
+					CAnimation = spriteSheetWalkMirror.get(2);
+				else if(frameCounter<=delay*4)
+					CAnimation = spriteSheetWalkMirror.get(3);
+			}
 		}
 		else
 		{
