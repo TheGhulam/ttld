@@ -101,11 +101,11 @@ import static utils.Constants.PPM;
 		public void cameraUpdate() {
 			float horizontalforce = 0;
 			float verticalforce = 0;
-			if(Gdx.input.isKeyPressed(Input.Keys.A)) {
-				creator.createMelee(200, 10);
+			if(Gdx.input.isKeyPressed(Input.Keys.D)) {
+				creator.createMelee(400, 200);
 
 			}
-			if(Gdx.input.isKeyPressed(Input.Keys.D)) {
+			if(Gdx.input.isKeyPressed(Input.Keys.A)) {
 				creator.createMelee(-200, -10);
 			}
 			if(Gdx.input.isKeyPressed(Input.Keys.W)) {
@@ -130,6 +130,9 @@ import static utils.Constants.PPM;
 				//System.out.println(npc.body.getPosition().x);
 				//Melee NPC_M = (Melee) npc;
 				ttld.batch.draw(npc.getCAnimation(),npc.body.getPosition().x*PPM+635,npc.body.getPosition().y*PPM+350);
+			}
+			for(Projectile pr : projectiles) {
+				ttld.batch.draw(pr.getTex(),pr.bullet.getPosition().x*PPM+635,pr.bullet.getPosition().y*PPM+350);
 			}
 			ttld.batch.end();
 			b2dr.render(world, camera.combined.cpy().scl(PPM));
