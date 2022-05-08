@@ -9,7 +9,8 @@ public class Tower extends Entity implements Shooter{
 	public float shootingRadius;
 	public float shootingSpeed;
 	protected boolean lockedToTarget = false;
-	
+
+	private Texture tex;
 	
 	public Tower(Body body, int health, float shootingRadius, float shootingSpeed, int damage) {
 		super(body,health,damage);
@@ -21,6 +22,8 @@ public class Tower extends Entity implements Shooter{
 		
 		
 	}
+
+
 
 	@Override
 	public void shoot(Entity e) {

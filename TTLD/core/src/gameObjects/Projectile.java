@@ -1,5 +1,6 @@
 package gameObjects;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -12,6 +13,8 @@ public class Projectile {
 	
 	public Body bullet;
 	public boolean isShot =false;
+
+	protected final Texture tex = new Texture("res/bullet.png");
 	
 	public Projectile(Entity startingPoint, Body bullet, Entity target) {
 		this.startingPoint = startingPoint;
@@ -29,6 +32,11 @@ public class Projectile {
 		Vector2 vector = new Vector2(projectileSpeed* vectorX/(float)unitDivisor,projectileSpeed*vectorY/(float)unitDivisor);
 		bullet.setLinearVelocity(vector);
 	}
+
+	public Texture getTex() {
+		return tex;
+	}
+
 	public void is_Shot() {
 		if(isShot) {	
 		Array<Fixture> fixtures = bullet.getFixtureList();

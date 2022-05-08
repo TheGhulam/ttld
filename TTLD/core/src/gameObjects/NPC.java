@@ -1,6 +1,7 @@
 package gameObjects;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class NPC extends Entity{
 	protected ArrayList<Texture> spriteSheetWalk;
 	protected ArrayList<Texture> spriteSheetWalkMirror;
 
+	private final Vector2 stopVector = new Vector2(0,0);
 
 	private Entity npcTarget;
 	public NPC(Body body, int health, float speed, int damage, float ShootingRadius) {
@@ -25,6 +27,10 @@ public class NPC extends Entity{
 		this.damage = damage;
 		this.ShootingRadius = ShootingRadius;
 		createSpriteArrayLs();
+	}
+
+	public boolean isAttacking() {
+		return body.getLinearVelocity().equals(stopVector);
 	}
 
 	protected void createSpriteArrayLs() {
