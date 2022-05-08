@@ -1,9 +1,9 @@
 package gameObjects;
 
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.Body;
 
-public class Npc extends Entity{
+public class NPC extends Entity{
 	public float speed;
 	public int damage;
 	public float ShootingRadius;
@@ -11,7 +11,7 @@ public class Npc extends Entity{
 	public long time;
 	
 	private Entity npcTarget;
-	public Npc(Body body,int health, float speed, int damage, float ShootingRadius) {
+	public NPC(Body body, int health, float speed, int damage, float ShootingRadius) {
 		super(body,health,damage);
 		this.speed = speed;
 		this.damage = damage;
@@ -37,5 +37,10 @@ public class Npc extends Entity{
 	}
 	public Entity getNpcTarget() {
 		return npcTarget;
+	}
+
+	@Override
+	public Texture getCAnimation() {
+		return null;
 	}
 }

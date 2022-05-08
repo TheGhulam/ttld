@@ -9,6 +9,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -20,12 +21,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 //import Scenes.Hud;
 import com.ttld.game.ttld;
-import gameObjects.Base;
-import gameObjects.Creator;
-import gameObjects.Npc;
-import gameObjects.Player;
-import gameObjects.Projectile;
-import gameObjects.Tower;
+import gameObjects.*;
 import levels.Level;
 
 import static utils.Constants.PPM;
@@ -38,7 +34,7 @@ import static utils.Constants.PPM;
 		private Box2DDebugRenderer b2dr;
 		private OrthographicCamera camera;
 		protected World world;
-		private ArrayList<Npc> npcs = new ArrayList<Npc>();
+		private ArrayList<NPC> npcs = new ArrayList<NPC>();
 		private ArrayList<Tower> towers = new ArrayList<Tower>();
 		private Texture backgroundImage;
 		private MouseHandler mH;
@@ -47,7 +43,7 @@ import static utils.Constants.PPM;
 		private Base base;
 		public ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 		public Level level;
-		private Npc current;
+		private NPC current;
 		long elapsedTimeNpc;
 
 		public Music gameplayMusic;
@@ -75,7 +71,7 @@ import static utils.Constants.PPM;
 			creator = new Creator(this);
 			base = creator.createBase();
 			camera.position.set(gameport.getScreenWidth()/2, gameport.getScreenHeight()/2,0);
-			npcs.add(creator.createSoldier(200, 50));
+			//npcs.add(creator.createMelee(200, 50));
 
 		}
 
@@ -110,13 +106,13 @@ import static utils.Constants.PPM;
 
 			}
 			if(Gdx.input.isKeyPressed(Input.Keys.D)) {
-				creator.createSoldier(-200, -10);
+				creator.createMelee(-200, -10);
 			}
 			if(Gdx.input.isKeyPressed(Input.Keys.W)) {
-				creator.createSoldier(0, 200);
+				creator.createMelee(0, 200);
 			}
 			if(Gdx.input.isKeyPressed(Input.Keys.S)) {
-				creator.createSoldier(0,-200);
+				creator.createMelee(0,-200);
 			}
 
 
@@ -125,14 +121,16 @@ import static utils.Constants.PPM;
 		public void render(float delta) {
 			Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+			update();
 			ttld.batch.begin();
 			ttld.batch.draw(backgroundImage,0,0);
+			for(NPC npc : npcs) {
+				System.out.println(npc.body.getPosition().x);
+				//Melee NPC_M = (Melee) npc;
+				ttld.batch.draw(npc.getCAnimation(),npc.body.getPosition().x,npc.body.getPosition().y);
+			}
 			ttld.batch.end();
-			update();
 			b2dr.render(world, camera.combined.cpy().scl(PPM));
-			//app.batch.setProjectionMatrix(hud.stage.getCamera().combined);
-			//hud.stage.draw();
-
 		}
 
 		@Override
@@ -170,7 +168,7 @@ import static utils.Constants.PPM;
 		public ArrayList<Tower> getTowers() {
 			return towers;
 		}
-		public ArrayList<Npc> getNpcs() {
+		public ArrayList<NPC> getNpcs() {
 			return npcs;
 		}
 		public ArrayList<Projectile> getProjectile() {
@@ -183,7 +181,7 @@ import static utils.Constants.PPM;
 			return camera;
 		}
 		public void baseUpdate() {
-			Npc locked = null;
+			NPC locked = null;
 			try {
 
 				if(base.isDead()) {
@@ -195,7 +193,7 @@ import static utils.Constants.PPM;
 					return;
 
 				}
-				for(Npc npc: npcs) {
+				for(NPC npc: npcs) {
 					if(locked == null) {
 						Vector2 npcPosition = npc.body.getPosition();
 						Vector2 towerPosition =base.body.getPosition();
@@ -219,7 +217,7 @@ import static utils.Constants.PPM;
 		public void towerUpdate() {
 			try {
 				for(Tower tower: towers) {
-					Npc locked = null;
+					NPC locked = null;
 					if(tower.isDead()) {
 						towers.remove(tower);
 						Array<Fixture> fixtures = tower.body.getFixtureList();
@@ -229,7 +227,7 @@ import static utils.Constants.PPM;
 						return;
 					}
 
-					for(Npc npc: npcs) {
+					for(NPC npc: npcs) {
 						if(locked == null) {
 							Vector2 npcPosition = npc.body.getPosition();
 							Vector2 towerPosition = tower.body.getPosition();
@@ -255,7 +253,7 @@ import static utils.Constants.PPM;
 			Vector2 basePosition = base.body.getPosition();
 
 			try {
-				for(Npc npc: npcs) {
+				for(NPC npc: npcs) {
 					elapsedTimeNpc = System.currentTimeMillis()-npc.time;
 					current = npc;
 					if(npc.isDead()) {
@@ -357,7 +355,7 @@ import static utils.Constants.PPM;
 			}
 		}
 
-		public Vector2 targetToBase(Npc e) {
+		public Vector2 targetToBase(NPC e) {
 			Vector2 basePosition = base.body.getPosition();
 			float targetX = basePosition.x;
 			float targetY = basePosition.y;
@@ -371,7 +369,7 @@ import static utils.Constants.PPM;
 			return vector;
 		}
 
-		public Vector2 targetToTower_(Npc npc, Tower tower) {
+		public Vector2 targetToTower_(NPC npc, Tower tower) {
 
 			float vectorX =(tower.body.getPosition().x-npc.body.getPosition().x);
 			float vectorY = (tower.body.getPosition().y-npc.body.getPosition().y);

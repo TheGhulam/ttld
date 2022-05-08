@@ -3,12 +3,10 @@ package gameObjects;
 import static utils.Constants.PPM;
 
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import screens.GameScreen;
 
@@ -91,7 +89,7 @@ public class Creator {
 		gameScreen.getProjectile().add(bullet);
 		return bullet;
 	}
-	public NpcBullet createNpcBullet(Entity startingPoint ,Entity Target) {
+	public NPCBullet createNpcBullet(Entity startingPoint , Entity Target) {
 		float x = startingPoint.body.getPosition().x;
 		float y = startingPoint.body.getPosition().y;
 		Body bbody;
@@ -107,7 +105,7 @@ public class Creator {
 		fix.setUserData("NpcBullet");
 		fix.setSensor(true);
 		shape2.dispose();
-		NpcBullet Npcbullet = new NpcBullet(startingPoint, bbody,Target);
+		NPCBullet Npcbullet = new NPCBullet(startingPoint, bbody,Target);
 		bbody.setUserData(Npcbullet);
 		gameScreen.getProjectile().add(Npcbullet);
 
