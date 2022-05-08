@@ -125,6 +125,7 @@ import static utils.Constants.PPM;
 			ttld.batch.begin();
 			ttld.batch.draw(backgroundImage,0,0);
 			for(NPC npc : npcs) {
+				System.out.println(npc.body.getPosition().x);
 				//Melee NPC_M = (Melee) npc;
 				ttld.batch.draw(npc.getCAnimation(),npc.body.getPosition().x,npc.body.getPosition().y);
 			}
