@@ -49,15 +49,15 @@ public class Melee extends NPC {
 	public void updateCAnimation() {
 
 		float upperLimit = 4*delay;
-		if(speed==0)
+		if(isAttacking())
 			upperLimit = 5*delay;
 
 		//Determine which one will be used : default or mirror?
 
 		if(body.getPosition().x>=0)
 		{
-			if(true) {
-				//System.out.println("HERE");
+			if(isAttacking()) {
+				System.out.println("HERE");
 				if(frameCounter<=delay*1)
 					CAnimation = spriteSheetAttackMirror.get(0);
 				else if(frameCounter<=delay*2)
@@ -83,14 +83,30 @@ public class Melee extends NPC {
 		}
 		else
 		{
-			if(frameCounter<=delay*1)
-				CAnimation = spriteSheetWalk.get(0);
-			else if(frameCounter<=delay*2)
-				CAnimation = spriteSheetWalk.get(1);
-			else if(frameCounter<=delay*3)
-				CAnimation = spriteSheetWalk.get(2);
-			else if(frameCounter<=delay*4)
-				CAnimation = spriteSheetWalk.get(3);
+			if(isAttacking()) {
+				System.out.println("HERE");
+				if(frameCounter<=delay*1)
+					CAnimation = spriteSheetAttack.get(0);
+				else if(frameCounter<=delay*2)
+					CAnimation = spriteSheetAttack.get(1);
+				else if(frameCounter<=delay*3)
+					CAnimation = spriteSheetAttack.get(2);
+				else if(frameCounter<=delay*4)
+					CAnimation = spriteSheetAttack.get(3);
+				else if(frameCounter<=delay*4)
+					CAnimation = spriteSheetAttack.get(4);
+			}
+			else
+			{
+				if(frameCounter<=delay*1)
+					CAnimation = spriteSheetWalk.get(0);
+				else if(frameCounter<=delay*2)
+					CAnimation = spriteSheetWalk.get(1);
+				else if(frameCounter<=delay*3)
+					CAnimation = spriteSheetWalk.get(2);
+				else if(frameCounter<=delay*4)
+					CAnimation = spriteSheetWalk.get(3);
+			}
 		}
 
 		//We need two different paths (and each will require again two different paths)
