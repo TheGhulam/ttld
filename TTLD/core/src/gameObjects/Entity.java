@@ -8,21 +8,24 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Array;
 import screens.GameScreen;
 
+import java.util.ArrayList;
+
 public abstract class Entity  {
 	public Body body;
 	
 	public int damage;
 	public int health;
 
-	protected Texture spriteSheetAttack;
-	protected Texture spriteSheetWalk;
-	protected Texture spriteSheetWalkMirror;
+	protected ArrayList<Texture> spriteSheetAttack;
+	protected ArrayList<Texture> spriteSheetAttackMirror;
+	protected ArrayList<Texture> spriteSheetWalk;
+	protected ArrayList<Texture> spriteSheetWalkMirror;
 
 	public Entity(Body body, int health, int damage) {
 		this.body = body;
 		this.health = health;
 		this.damage = damage;
-		
+		createSpriteArrayLs();
 	}
 	
 	public boolean isDead() {
@@ -37,14 +40,13 @@ public abstract class Entity  {
 		return isdead;
 	}
 
-	public Texture getCAnimation() {
-		return spriteSheetWalk;
-	}
+	public abstract Texture getCAnimation();
 
-	protected void loadSpriteSheet(String attack, String walk, String walkMirror) {
-		this.spriteSheetAttack = new Texture(attack);
-		this.spriteSheetWalk = new Texture(walk);
-		this.spriteSheetWalkMirror = new Texture(walkMirror);
+	protected void createSpriteArrayLs() {
+		spriteSheetAttack = new ArrayList<Texture>();
+		spriteSheetAttackMirror = new ArrayList<Texture>();
+		spriteSheetWalk = new ArrayList<Texture>();
+		spriteSheetWalkMirror = new ArrayList<Texture>();
 	}
 	
 	public void setHealth(int health) {
