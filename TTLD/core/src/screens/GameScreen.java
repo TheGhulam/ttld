@@ -60,7 +60,7 @@ import static utils.Constants.PPM;
 
 			world = new World(new Vector2(0,0f),false);
 			b2dr = new Box2DDebugRenderer();
-
+			b2dr.setDrawBodies(false);
 
 			this.world.setContactListener(new WorldContactListener());
 			gameport= new FitViewport(ttld.width,ttld.height,camera);
@@ -127,7 +127,7 @@ import static utils.Constants.PPM;
 			for(NPC npc : npcs) {
 				System.out.println(npc.body.getPosition().x);
 				//Melee NPC_M = (Melee) npc;
-				ttld.batch.draw(npc.getCAnimation(),npc.body.getPosition().x,npc.body.getPosition().y);
+				ttld.batch.draw(npc.getCAnimation(),npc.body.getPosition().x*PPM+635,npc.body.getPosition().y*PPM+350);
 			}
 			ttld.batch.end();
 			b2dr.render(world, camera.combined.cpy().scl(PPM));

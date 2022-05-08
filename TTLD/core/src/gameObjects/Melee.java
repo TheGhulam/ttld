@@ -47,6 +47,32 @@ public class Melee extends NPC {
 	}
 
 	public void updateCAnimation() {
+
+		//Determine which one will be used : default or mirror?
+
+		if(body.getPosition().x>=0)
+		{
+			if(frameCounter<=delay*1)
+				CAnimation = spriteSheetWalkMirror.get(0);
+			else if(frameCounter<=delay*2)
+				CAnimation = spriteSheetWalkMirror.get(1);
+			else if(frameCounter<=delay*3)
+				CAnimation = spriteSheetWalkMirror.get(2);
+			else if(frameCounter<=delay*4)
+				CAnimation = spriteSheetWalkMirror.get(3);
+		}
+		else
+		{
+			if(frameCounter<=delay*1)
+				CAnimation = spriteSheetWalk.get(0);
+			else if(frameCounter<=delay*2)
+				CAnimation = spriteSheetWalk.get(1);
+			else if(frameCounter<=delay*3)
+				CAnimation = spriteSheetWalk.get(2);
+			else if(frameCounter<=delay*4)
+				CAnimation = spriteSheetWalk.get(3);
+		}
+
 		//We need two different paths (and each will require again two different paths)
 
 			//One for attacking
@@ -56,14 +82,7 @@ public class Melee extends NPC {
 			//Other one is for walking
 
 		//I am only writing for the walking part now
-		if(frameCounter<=delay*1)
-			CAnimation = spriteSheetWalk.get(0);
-		else if(frameCounter<=delay*2)
-			CAnimation = spriteSheetWalk.get(1);
-		else if(frameCounter<=delay*3)
-			CAnimation = spriteSheetWalk.get(2);
-		else if(frameCounter<=delay*4)
-			CAnimation = spriteSheetWalk.get(3);
+
 
 		frameCounter++;
 		if(frameCounter>=delay*4)
@@ -77,7 +96,6 @@ public class Melee extends NPC {
 		updateCAnimation();
 		return CAnimation;
 	}
-
 	
 	public void attack(Entity e) {
 		e.setHealth(e.getHealth()-damage);
