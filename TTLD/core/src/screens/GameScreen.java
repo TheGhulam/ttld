@@ -20,12 +20,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 //import Scenes.Hud;
 import com.ttld.game.ttld;
-import gameObjects.Base;
-import gameObjects.Creator;
-import gameObjects.Npc;
-import gameObjects.Player;
-import gameObjects.Projectile;
-import gameObjects.Tower;
+import gameObjects.*;
 import levels.Level;
 
 import static utils.Constants.PPM;
@@ -118,7 +113,19 @@ import static utils.Constants.PPM;
 				creator.createSoldier(0,-200);
 			}
 			if(Gdx.input.isKeyPressed(Input.Keys.Z)) {
-				reduce
+				powerupIceRescue();
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.X)) {
+				powerupHealthPotion();
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.C)) {
+				powerupAirStrike();
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.V)) {
+				powerupBoomingEconomy();
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.B)) {
+				powerupTowerUpgrade();
 			}
 		}
 
@@ -375,4 +382,58 @@ import static utils.Constants.PPM;
 			return vectorT;
 		}
 
-}
+		/**
+		 * Powerups
+		 */
+
+		// Time freeze
+		public void powerupIceRescueBegin(){
+			try {
+				for (Npc npc: npcs) {
+					if (npc instanceof Ranged) {
+						Ranged rangedNpc = (Ranged) npc;
+						rangedNpc.shootingSpeed -= 4;
+					}
+				}
+				for (Npc npc: npcs) {
+					if (npc instanceof Ranged) {
+						Ranged rangedNpc = (Ranged) npc;
+						rangedNpc.shootingSpeed = 10;
+					}
+				}
+			}catch(ConcurrentModificationException e) {
+				return;
+			}
+		}
+
+		public void powerupHealthPotion(){
+			// TODO
+		}
+
+		public void powerupAirStrike(){
+			Vector2 basePosition = base.body.getPosition();
+			try {
+				for(Npc npc: npcs) {
+					float distance = basePosition.dst2(npc.body.getPosition());
+
+					if (distance / PPM < 16 / PPM) {
+						npcs.remove(npc);
+						Array<Fixture> fixtures = npc.body.getFixtureList();
+						for (int i = 0; i < fixtures.size; i++) {
+							npc.body.destroyFixture(fixtures.get(i));
+						}
+					}
+				}
+			}catch(ConcurrentModificationException e) {
+				return;
+			}
+		}
+
+		public void powerupBoomingEconomy(){
+			// TODO
+		}
+
+		public void powerupTowerUpgrade(){
+			// TODO
+		}
+	}
