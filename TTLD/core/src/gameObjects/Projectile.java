@@ -1,7 +1,6 @@
 package gameObjects;
 
 import com.badlogic.gdx.math.Vector2;
-import static utils.Constants.PPM;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Array;
@@ -62,7 +61,7 @@ public class Projectile {
 					bullet.destroyFixture(fixtures.get(i));
 				}
 			}else {
-				Npc b = (Npc) startingPoint;
+				NPC b = (NPC) startingPoint;
 				b.setLocked(false);
 				Array<Fixture> fixtures = bullet.getFixtureList();
 				for (int i = 0; i < fixtures.size; i++) {

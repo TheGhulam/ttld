@@ -14,7 +14,8 @@ public class Soldier extends Ranged {
 	public Soldier(Body body, int health, float speed, float shootingSpeed, float range, int damage, GameScreen game) {
 		super(body, health, speed, shootingSpeed, range, damage);
 		this.game = game;
-		time = System.currentTimeMillis();
+		//time = System.currentTimeMillis();
+		loadSpriteSheet("res/melee animations/Spider.png","res/melee animations/Spider.png","res/melee animations/SpiderMirror.png");
 	}
 	public void shoot(Entity t) {
 		if(!t.isDead()) {

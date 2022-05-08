@@ -1,5 +1,7 @@
 package gameObjects;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -11,6 +13,11 @@ public abstract class Entity  {
 	
 	public int damage;
 	public int health;
+
+	protected Texture spriteSheetAttack;
+	protected Texture spriteSheetWalk;
+	protected Texture spriteSheetWalkMirror;
+
 	public Entity(Body body, int health, int damage) {
 		this.body = body;
 		this.health = health;
@@ -28,6 +35,16 @@ public abstract class Entity  {
 			}
 		}
 		return isdead;
+	}
+
+	public Texture getCAnimation() {
+		return spriteSheetWalk;
+	}
+
+	protected void loadSpriteSheet(String attack, String walk, String walkMirror) {
+		this.spriteSheetAttack = new Texture(attack);
+		this.spriteSheetWalk = new Texture(walk);
+		this.spriteSheetWalkMirror = new Texture(walkMirror);
 	}
 	
 	public void setHealth(int health) {
