@@ -57,7 +57,6 @@ public class Melee extends NPC {
 		if(body.getPosition().x>=0)
 		{
 			if(isAttacking()) {
-				System.out.println("HERE");
 				if(frameCounter<=delay*1)
 					CAnimation = spriteSheetAttackMirror.get(0);
 				else if(frameCounter<=delay*2)
@@ -84,7 +83,6 @@ public class Melee extends NPC {
 		else
 		{
 			if(isAttacking()) {
-				System.out.println("HERE");
 				if(frameCounter<=delay*1)
 					CAnimation = spriteSheetAttack.get(0);
 				else if(frameCounter<=delay*2)
