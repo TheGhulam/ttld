@@ -5,6 +5,7 @@ package com.ttld.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import levels.Level1;
 import screens.*;
 
 //Trying to merge this with merge-trail
@@ -33,7 +34,7 @@ public class ttld extends Game {
 		// Init screens
 		splashScreen = new SplashScreen(this);
 		menuScreen = new MenuScreen(this);
-		gameScreen = new GameScreen(this);
+		gameScreen = new GameScreen(this, new Level1());
 		pauseScreen = new PauseMenu(this);
 		//endScreen = new EndScreen(this);
 		//this.setScreen(new TestScreen(this));

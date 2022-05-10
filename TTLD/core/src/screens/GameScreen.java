@@ -1,5 +1,6 @@
 package screens;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
@@ -11,7 +12,6 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -25,25 +25,25 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.ttld.game.ttld;
 import gameObjects.*;
 import levels.Level;
-import scenes.Hud;
+import levels.Level1;
 
 import static utils.Constants.PPM;
 
 	public class GameScreen extends Screens {
 
-		private Viewport gameport;
+		private final Viewport gameport;
 		//private Hud hud;
-		private Box2DDebugRenderer b2dr;
-		private OrthographicCamera camera;
+		private final Box2DDebugRenderer b2dr;
+		private final OrthographicCamera camera;
 		protected World world;
-		private ArrayList<NPC> npcs = new ArrayList<NPC>();
-		private ArrayList<Tower> towers = new ArrayList<Tower>();
-		private Texture backgroundImage;
+		private final ArrayList<NPC> npcs = new ArrayList<>();
+		private final ArrayList<Tower> towers = new ArrayList<>();
+		private final Texture backgroundImage;
 		private MouseHandler mH;
-		private Player player;
-		private Creator creator;
-		private Base base;
-		public ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
+		private final Player player;
+		private final Creator creator;
+		private final Base base;
+		public ArrayList<Projectile> projectiles = new ArrayList<>();
 		private NPC current;
 		long elapsedTimeNpc;
 		long elapsedTime;
@@ -51,8 +51,13 @@ import static utils.Constants.PPM;
 		long initialTime;
 		long timer;
 
-		public GameScreen(ttld GameTTLD) {
+		Random rand;
+		Level level;
+
+		public GameScreen(ttld GameTTLD, Level level) {
 			super(GameTTLD);
+			rand = new Random();
+			this.level = (Level1) level;
 			gameplayMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/the-hunting-bm_menuMusic.wav"));
 			gameplayMusic.setLooping(true);
 			backgroundImage = new Texture("res/menu_background4.png");
@@ -118,7 +123,7 @@ import static utils.Constants.PPM;
 				ttldGame.setScreen(ttldGame.pauseScreen);
 			}
 			if(isGameOver()) {
-				ttldGame.gameScreen = new GameScreen(super.ttldGame);
+				ttldGame.gameScreen = new GameScreen(super.ttldGame,level);
 				ttldGame.setScreen(new EndScreen(super.ttldGame));
 				this.dispose();
 			}
@@ -135,8 +140,6 @@ import static utils.Constants.PPM;
 				ttld.batch.draw(tower.getTex(),tower.body.getPosition().x*PPM+635-tower.getTex().getWidth()/4,tower.body.getPosition().y*PPM+350-tower.getTex().getHeight()/4,tower.getTex().getWidth()/2,tower.getTex().getHeight()/2);
 			}
 			for(NPC npc : npcs) {
-				//System.out.println(npc.body.getPosition().x);
-				//Melee NPC_M = (Melee) npc;
 				ttld.batch.draw(npc.getCAnimation(),npc.body.getPosition().x*PPM+635,npc.body.getPosition().y*PPM+350);
 			}
 			for(Projectile pr : projectiles) {
@@ -393,22 +396,17 @@ import static utils.Constants.PPM;
 
 		private void spawnUpdate() {
 			elapsedTime = System.currentTimeMillis()-initialTime;
-			if(elapsedTime>=2000) {
+			if(level.getHordeSize()>0&&elapsedTime>=2000) {
 				initialTime = System.currentTimeMillis();
-				creator.createMelee(-640,360);
-				creator.createMelee(-640,288);
-				creator.createMelee(-640,216);
-				//creator.createMelee(-640,144);
-				//creator.createMelee(-640,72);
-				//creator.createMelee(-640,0);
-				//creator.createMelee(-640,-360);
-				//creator.createMelee(-640,-288);
-				//creator.createMelee(-640,-216);
-				//creator.createMelee(-640,-144);
-				//creator.createMelee(-640,-72);
-				//creator.createMelee(-640,0);
-				//creator.createMelee(-640,-360);
-				//creator.createMelee(-640,0);
+				int i = 0;
+				while(i < 5) {
+					Point j = level.getSpawnpoint(rand.nextInt(level.getSize()));
+					double randX = j.getX();
+					double randY = j.getY();
+					creator.createMelee((float)randX,(float)randY);
+					level.decraseHordeSize();
+					i++;
+				}
 			}
 		}
 
