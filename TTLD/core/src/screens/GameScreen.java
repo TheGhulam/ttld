@@ -117,22 +117,41 @@ import static utils.Constants.PPM;
 			return base.health<=0;
 		}
 
-		@Override
-		public void render(float delta) {
+		public void checkStatus() {
+			System.out.println(level.getHordeSize());
 			if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
 				ttldGame.setScreen(ttldGame.pauseScreen);
 			}
 			if(isGameOver()) {
-				ttldGame.gameScreen = new GameScreen(super.ttldGame,level);
+				ttldGame.gameScreen = new GameScreen(super.ttldGame,new Level1());
 				ttldGame.setScreen(new EndScreen(super.ttldGame));
 				this.dispose();
 			}
+			else if(isGameWon()) {
+				ttldGame.gameScreen = new GameScreen(super.ttldGame,new Level1());
+				ttldGame.setScreen(new EndScreen(super.ttldGame));
+				this.dispose();
+			}
+		}
+
+		private boolean isGameWon() {
+			return level.getHordeSize()<=0&&npcs.size()<=0;
+		}
+
+		@Override
+		public void render(float delta) {
+			checkStatus();
 			Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 			update();
 			ttld.batch.begin();
+			drawObjects();
+			ttld.batch.end();
+			b2dr.render(world, camera.combined.cpy().scl(PPM));
+		}
+
+		private void drawObjects() {
 			ttld.batch.draw(backgroundImage,0,0);
-			//ttld.batch.setProjectionMatrix(hud.stage.getCamera().combined);
 			if(base.health > 0) {
 				ttld.batch.draw(base.getTexture(), 645 - base.getTexture().getWidth() / 4, 360 - base.getTexture().getHeight() / 4,base.getTexture().getWidth()/2,base.getTexture().getHeight()/2);//-base.getTexture().getHeight()/2
 			}
@@ -145,8 +164,6 @@ import static utils.Constants.PPM;
 			for(Projectile pr : projectiles) {
 				ttld.batch.draw(pr.getTex(),pr.bullet.getPosition().x*PPM+635,pr.bullet.getPosition().y*PPM+350);
 			}
-			ttld.batch.end();
-			b2dr.render(world, camera.combined.cpy().scl(PPM));
 		}
 
 		@Override
@@ -370,28 +387,7 @@ import static utils.Constants.PPM;
 				camera.unproject(mousePosition);
 				player.plantTower(mousePosition);
 			}
-			try{
-				elapsedTime = System.currentTimeMillis()-initialTime;
-				if(base.health > 0 && npcs.size() < 100 && elapsedTime<1000*60){
-					/**
-					Random rand = new Random();
-					int xCord = rand.nextInt(150);
-					int yCord = rand.nextInt(150);
-					boolean randomX = rand.nextBoolean();
-					boolean randomY = rand.nextBoolean();
-					int signX = 1, signY = 1;
-					if(randomX)
-						signX = -1;
-					if(randomY)
-						signY = -1;
 
-					creator.createMelee(signX * (225 + xCord), signY * (225 + yCord));
-					 */
-				}
-			}
-			catch(ConcurrentModificationException e){
-				return;
-			}
 		}
 
 		private void spawnUpdate() {
@@ -403,8 +399,11 @@ import static utils.Constants.PPM;
 					Point j = level.getSpawnpoint(rand.nextInt(level.getSize()));
 					double randX = j.getX();
 					double randY = j.getY();
-					creator.createMelee((float)randX,(float)randY);
-					level.decraseHordeSize();
+					if(level.getHordeSize()>0)
+					{
+						creator.createMelee((float)randX,(float)randY);
+						level.decraseHordeSize();
+					}
 					i++;
 				}
 			}

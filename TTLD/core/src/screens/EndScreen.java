@@ -67,7 +67,7 @@ public class EndScreen extends Screens {
 
 
         gameEndText = addTextButton("GAME OVER!");
-        newGame = addTextButton("NEW GAME");
+        newGame = addTextButton("RETRY");
         mainMenu = addTextButton("RETURN TO MAIN MENU");
 
        newGame.addListener(new ClickListener() {
