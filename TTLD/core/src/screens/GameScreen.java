@@ -46,6 +46,7 @@ import static utils.Constants.PPM;
 		public ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 		private NPC current;
 		long elapsedTimeNpc;
+		long elapsedTime;
 		public Music gameplayMusic;
 		long initialTime;
 		long timer;
@@ -98,6 +99,7 @@ import static utils.Constants.PPM;
 			towerUpdate();
 			npcUpdate();
 			baseUpdate();
+			spawnUpdate();
 
 		}
 		public void cameraUpdate() {
@@ -112,6 +114,9 @@ import static utils.Constants.PPM;
 
 		@Override
 		public void render(float delta) {
+			if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+				ttldGame.setScreen(ttldGame.pauseScreen);
+			}
 			if(isGameOver()) {
 				ttldGame.gameScreen = new GameScreen(super.ttldGame);
 				ttldGame.setScreen(new EndScreen(super.ttldGame));
@@ -363,8 +368,9 @@ import static utils.Constants.PPM;
 				player.plantTower(mousePosition);
 			}
 			try{
-				long elapsedTime = System.currentTimeMillis()-initialTime;
+				elapsedTime = System.currentTimeMillis()-initialTime;
 				if(base.health > 0 && npcs.size() < 100 && elapsedTime<1000*60){
+					/**
 					Random rand = new Random();
 					int xCord = rand.nextInt(150);
 					int yCord = rand.nextInt(150);
@@ -377,10 +383,32 @@ import static utils.Constants.PPM;
 						signY = -1;
 
 					creator.createMelee(signX * (225 + xCord), signY * (225 + yCord));
+					 */
 				}
 			}
 			catch(ConcurrentModificationException e){
 				return;
+			}
+		}
+
+		private void spawnUpdate() {
+			elapsedTime = System.currentTimeMillis()-initialTime;
+			if(elapsedTime>=2000) {
+				initialTime = System.currentTimeMillis();
+				creator.createMelee(-640,360);
+				creator.createMelee(-640,288);
+				creator.createMelee(-640,216);
+				//creator.createMelee(-640,144);
+				//creator.createMelee(-640,72);
+				//creator.createMelee(-640,0);
+				//creator.createMelee(-640,-360);
+				//creator.createMelee(-640,-288);
+				//creator.createMelee(-640,-216);
+				//creator.createMelee(-640,-144);
+				//creator.createMelee(-640,-72);
+				//creator.createMelee(-640,0);
+				//creator.createMelee(-640,-360);
+				//creator.createMelee(-640,0);
 			}
 		}
 

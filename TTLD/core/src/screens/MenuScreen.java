@@ -132,8 +132,8 @@ public class MenuScreen extends Screens{
             }
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //Gdx.net.openURI("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
                 Gdx.net.openURI("https://github.com/gahme/ttld");
+                //Gdx.net.openURI("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
             }
         });
         quit.addListener(new ClickListener() {
