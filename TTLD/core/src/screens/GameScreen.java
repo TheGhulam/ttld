@@ -55,6 +55,7 @@ import static utils.Constants.PPM;
 		Level level;
 
 		public GameScreen(ttld GameTTLD, Level level) {
+
 			super(GameTTLD);
 			rand = new Random();
 			this.level = (Level1) level;
