@@ -6,11 +6,20 @@ import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.Random;
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -21,7 +30,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-//import Scenes.Hud;
+import scenes.Hud;
 import com.ttld.game.ttld;
 import gameObjects.*;
 import levels.Level;
@@ -32,7 +41,8 @@ import static utils.Constants.PPM;
 	public class GameScreen extends Screens {
 
 		private final Viewport gameport;
-		//private Hud hud;
+
+		private Hud hud;
 		private final Box2DDebugRenderer b2dr;
 		private final OrthographicCamera camera;
 		protected World world;
@@ -49,7 +59,27 @@ import static utils.Constants.PPM;
 		long elapsedTime;
 		public Music gameplayMusic;
 		long initialTime;
+
 		long timer;
+
+		//
+		int currency = 1000;
+		int npcKillReward = 150;
+		int towerPrice = 500;
+		int powerupPrice = 250;
+
+		private Boolean isClicked = false;
+		private Table towersUI;
+		private Table powerUpsUI;
+
+		private ImageButton tower1;
+		private ImageButton airStrike;
+		private ImageButton boomingEconomy;
+		private ImageButton healthPotion;
+		private ImageButton towerUpgrade;
+		private TextButton currencyText;
+		private ImageButton currencyImage;
+		//
 
 		Random rand;
 		Level level;
@@ -73,7 +103,7 @@ import static utils.Constants.PPM;
 
 			this.world.setContactListener(new WorldContactListener());
 			gameport= new FitViewport(ttld.width,ttld.height,camera);
-			//hud = new Hud(ttld.batch);
+			hud = new Hud(ttld.batch);
 			Gdx.input.setInputProcessor(mH);
 			mH = new MouseHandler(this);
 			player = new Player(this);
@@ -93,8 +123,58 @@ import static utils.Constants.PPM;
 		}
 
 		public void show() {
+
+			super.show();
+			stage.clear();
+
+			towersUI = new Table();
+			towersUI.setFillParent(true);
+
+			powerUpsUI = new Table();
+			powerUpsUI.setFillParent(true);
+
+			loadUI(200,15);
+
+			stage.addActor(towersUI);
+			stage.addActor(powerUpsUI);
+
+
 			playBGM();
 		}
+
+		private void loadUI(int length, int gapping){
+
+
+			tower1 = new ImageButton(
+					new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/gameObjects/B18.png"))))
+			);
+
+			airStrike = new ImageButton(
+					new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/airstrike.png"))))
+			);
+			boomingEconomy = new ImageButton(
+					new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/economy.png"))))
+			);
+			healthPotion = new ImageButton(
+					new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/health.png"))))
+			);
+			towerUpgrade= new ImageButton(
+					new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/upgrade.png"))))
+			);
+
+
+			towersUI.add(tower1);
+			powerUpsUI.add(airStrike);
+			powerUpsUI.add(boomingEconomy);
+			powerUpsUI.row();
+			powerUpsUI.add(healthPotion);
+			powerUpsUI.add(towerUpgrade);
+
+			towersUI.setPosition(-500, -290);
+			powerUpsUI.setPosition(- 340, -290);
+
+		}
+
 		public void update() {
 			world.step(1/60f, 6, 2);
 
@@ -105,8 +185,41 @@ import static utils.Constants.PPM;
 			npcUpdate();
 			baseUpdate();
 			spawnUpdate();
+			powerupUpdate();
 
 		}
+
+
+		public void powerupUpdate(){
+			airStrike.addListener(new ClickListener() {
+				@Override
+				public void clicked(InputEvent event, float x, float y) {
+					powerupAirStrike();
+				}
+			});
+
+			boomingEconomy.addListener(new ClickListener() {
+				@Override
+				public void clicked(InputEvent event, float x, float y) {
+					powerupBoomingEconomy();
+				}
+			});
+
+			healthPotion.addListener(new ClickListener() {
+				@Override
+				public void clicked(InputEvent event, float x, float y) {
+					powerupHealthPotion();
+				}
+			});
+
+			towerUpgrade.addListener(new ClickListener() {
+				@Override
+				public void clicked(InputEvent event, float x, float y) {
+					powerupTowerUpgrade();
+				}
+			});
+		}
+
 		public void cameraUpdate() {
 			float horizontalforce = 0;
 			float verticalforce = 0;
@@ -148,6 +261,11 @@ import static utils.Constants.PPM;
 			drawObjects();
 			ttld.batch.end();
 			b2dr.render(world, camera.combined.cpy().scl(PPM));
+
+			stage.draw();
+
+			hud.getStage().act(delta); //act the Hud
+			hud.getStage().draw(); //draw the Hud
 		}
 
 		private void drawObjects() {
@@ -293,6 +411,20 @@ import static utils.Constants.PPM;
 					current = npc;
 					if(npc.isDead()) {
 						npcs.remove(npc);
+						hud.addScore(250, 150);
+
+						if(hud.getCurrency() >= towerPrice && !isClicked){
+
+							towersUI.removeActor(tower1);
+
+							tower1 = new ImageButton(
+									new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/gameObjects/B18.png"))))
+							);
+
+							towersUI.add(tower1);
+							towersUI.setPosition(-500, -290);
+						}
+
 						Array<Fixture> fixtures = npc.body.getFixtureList();
 						for (int i = 0; i < fixtures.size; i++) {
 							npc.body.destroyFixture(fixtures.get(i));
@@ -382,13 +514,58 @@ import static utils.Constants.PPM;
 		}
 
 		public void playerUpdate() {
-			if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-				Vector3 mousePosition = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
-				camera.unproject(mousePosition);
-				player.plantTower(mousePosition);
+
+			tower1.addListener(new ClickListener() {
+				@Override
+				public void clicked(InputEvent event, float x, float y) {
+					isClicked = true;
+
+					towerInactive();
+				}
+			});
+
+
+			if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && isClicked) {
+				if (hud.getCurrency() >= towerPrice){
+					Vector3 mousePosition = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
+					camera.unproject(mousePosition);
+					player.plantTower(mousePosition);
+					int currentM = hud.getCurrency();
+					hud.setCurrency(currentM - towerPrice);
+
+					isClicked = false;
+
+					towersUI.removeActor(tower1);
+					if(hud.getCurrency()>= towerPrice){
+						tower1 = new ImageButton(
+								new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/gameObjects/B18.png"))))
+						);
+					}
+					else if(hud.getCurrency() < towerPrice){
+						tower1 = new ImageButton(
+								new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/B18Dark.png"))))
+						);
+					}
+					towersUI.add(tower1);
+					towersUI.setPosition(-500, -290);
+
+				} else{
+					// Maybe also show a warning that we don't have enough money
+					isClicked = false;
+
+				}
+
+			}
+			try{
+				elapsedTime = System.currentTimeMillis()-initialTime;
+
 			}
 
+			catch(ConcurrentModificationException e){
+				return;
+			}
 		}
+
 
 		private void spawnUpdate() {
 			elapsedTime = System.currentTimeMillis()-initialTime;
@@ -432,4 +609,93 @@ import static utils.Constants.PPM;
 			return vectorT;
 		}
 
-}
+		/**
+		 * Powerups
+		 */
+		public void powerupHealthPotion(){
+			if (hud.getCurrency() >= powerupPrice){
+				int currentM = hud.getCurrency();
+				hud.setCurrency(currentM - powerupPrice);
+				if(hud.getCurrency() < towerPrice){
+					towerInactive();
+				}
+				//currency -= powerupPrice;
+				try {
+					base.setHealth(7000);
+					for (Tower tower: towers){
+						tower.setHealth(2000);
+					}
+				}catch(ConcurrentModificationException e){
+					return;
+				}
+			}
+		}
+
+		public void powerupAirStrike(){
+			if (hud.getCurrency() >= powerupPrice) {
+				Vector2 basePosition = base.body.getPosition();
+				int currentM = hud.getCurrency();
+				hud.setCurrency(currentM - powerupPrice);
+				if(hud.getCurrency() < towerPrice){
+					towerInactive();
+				}
+				//currency -= powerupPrice;
+				try {
+					for (NPC npc : npcs) {
+						float distance = basePosition.dst2(npc.body.getPosition());
+
+						if (distance / PPM < 256 / PPM) {
+							npcs.remove(npc);
+							currentM = hud.getCurrency();
+							hud.setCurrency(currentM + npcKillReward);
+							//currency += npcKillReward;
+						}
+					}
+				} catch (ConcurrentModificationException e) {
+					return;
+				}
+			}
+		}
+
+		public void powerupBoomingEconomy(){
+			if (hud.getCurrency() >= powerupPrice){
+				int currentM = hud.getCurrency();
+				hud.setCurrency(currentM - powerupPrice);
+				if(hud.getCurrency() < towerPrice){
+					towerInactive();
+				}
+				//currency -= powerupPrice;
+				npcKillReward += 50;
+			}
+		}
+
+		public void powerupTowerUpgrade(){
+			if (hud.getCurrency() >= powerupPrice){
+				//currency -= powerupPrice;
+				int currentM = hud.getCurrency();
+				hud.setCurrency(currentM - powerupPrice);
+				if(hud.getCurrency() < towerPrice){
+					towerInactive();
+				}
+				try {
+					for (Tower tower: towers){
+						tower.setHealth((int)(tower.getHealth()*1.1));
+						tower.setDamage((int)(tower.getDamage()*1.1));
+					}
+				}catch(ConcurrentModificationException e){
+					return;
+				}
+			}
+		}
+		private void towerInactive(){
+			towersUI.removeActor(tower1);
+			tower1 = new ImageButton(
+					new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/B18Dark.png"))))
+			);
+
+			towersUI.add(tower1);
+			towersUI.setPosition(-500, -290);
+		}
+	}
+
+
