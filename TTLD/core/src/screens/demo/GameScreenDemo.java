@@ -1,9 +1,10 @@
-package screens;
+package screens.demo;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.ttld.game.ttld;
+import screens.Screens;
 
 public class GameScreenDemo extends Screens {
 

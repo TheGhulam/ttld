@@ -37,7 +37,7 @@ public class SettingScreen extends Screens{
         uiElements.setFillParent(true); // Explanation is pretty clear just hover over it in IntelliJ
         loadUI(300,15);
         stage.addActor(uiElements); // stage is the class that handles UI elements
-        backgroundImage = new Texture("res/menu_background4.png");
+        backgroundImage = new Texture("res/backgrounds/menu_background4.png");
     }
 
     private void loadUI(int length, int gapping) {

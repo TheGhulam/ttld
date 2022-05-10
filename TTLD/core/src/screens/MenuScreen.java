@@ -31,7 +31,7 @@ public class MenuScreen extends Screens{
 
     public MenuScreen(ttld ttldGame) {
         super(ttldGame);
-        backgroundImage = new Texture("res/menu_background4.png");
+        backgroundImage = new Texture("res/backgrounds/menu_background4.png");
         effect = Gdx.audio.newSound(Gdx.files.internal("sfx/rollOverSoundEff.wav"));
         bgm = Gdx.audio.newMusic(Gdx.files.internal("sfx/fugue-rott_alternateMenuMusic.wav"));
         font.getData().setScale(3,3);

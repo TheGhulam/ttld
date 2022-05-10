@@ -14,7 +14,7 @@ public class Projectile {
 	public Body bullet;
 	public boolean isShot =false;
 
-	protected final Texture tex = new Texture("res/bullet.png");
+	protected final Texture tex = new Texture("res/gameObjects/bullet.png");
 	
 	public Projectile(Entity startingPoint, Body bullet, Entity target) {
 		this.startingPoint = startingPoint;

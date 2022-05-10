@@ -25,7 +25,7 @@ public class PauseMenu extends Screens{
 
     public PauseMenu(ttld ttldGame) {
         super(ttldGame);
-        backgroundImage = new Texture("res/menu_background4.png");
+        backgroundImage = new Texture("res/backgrounds/menu_background4.png");
         effect = Gdx.audio.newSound(Gdx.files.internal("sfx/rollOverSoundEff.wav"));
         font.getData().setScale(3, 3);
         effectVolume = 0.05f;

@@ -60,7 +60,7 @@ import static utils.Constants.PPM;
 			this.level = (Level1) level;
 			gameplayMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/the-hunting-bm_menuMusic.wav"));
 			gameplayMusic.setLooping(true);
-			backgroundImage = new Texture("res/menu_background4.png");
+			backgroundImage = new Texture("res/backgrounds/menu_background4.png");
 			float w = Gdx.graphics.getWidth();
 			float h = Gdx.graphics.getHeight();
 			camera = new OrthographicCamera();
@@ -124,12 +124,12 @@ import static utils.Constants.PPM;
 			}
 			if(isGameOver()) {
 				ttldGame.gameScreen = new GameScreen(super.ttldGame,new Level1());
-				ttldGame.setScreen(new EndScreen(super.ttldGame));
+				ttldGame.setScreen(new LoseScreen(super.ttldGame));
 				this.dispose();
 			}
 			else if(isGameWon()) {
 				ttldGame.gameScreen = new GameScreen(super.ttldGame,new Level1());
-				ttldGame.setScreen(new EndScreen(super.ttldGame));
+				ttldGame.setScreen(new LoseScreen(super.ttldGame));
 				this.dispose();
 			}
 		}

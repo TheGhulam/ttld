@@ -10,7 +10,7 @@ public class DesktopLauncher {
 		config.setForegroundFPS(60);
 		config.setTitle("Till the Last Drop");
 		config.setMaximized(true);
-		config.setWindowIcon("res/icon.png");
+		config.setWindowIcon("res/gameObjects/icon.png");
 		new Lwjgl3Application(new ttld(), config);
 	}
 }

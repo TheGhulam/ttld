@@ -13,9 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.ttld.game.ttld;
 
-public class LoseScreen extends Screens {
+public class WinScreen extends Screens{
 
-    //UI Elements
     public Sound effect;
     public float effectVolume;
     private Table uiElements;
@@ -23,15 +22,15 @@ public class LoseScreen extends Screens {
     public TextButton newGame, mainMenu, gameEndText;
     public Texture backgroundImage;
 
-    public LoseScreen(ttld ttldGame) {
+    public WinScreen(ttld ttldGame) {
         super(ttldGame);
-        backgroundImage = new Texture("res/backgrounds/menu_background4.png");
+        backgroundImage = new Texture("res/menu_background4.png");
         effect = Gdx.audio.newSound(Gdx.files.internal("sfx/rollOverSoundEff.wav"));
         font.getData().setScale(3, 3);
         effectVolume = 0.05f;
     }
 
-    private LoseScreen callClass() {
+    private WinScreen callClass() {
         return this;
     }
 
@@ -66,11 +65,11 @@ public class LoseScreen extends Screens {
     private void loadUI(int length, int gapping) {
 
 
-        gameEndText = addTextButton("GAME OVER!");
+        gameEndText = addTextButton("YOU WON!");
         newGame = addTextButton("RETRY");
         mainMenu = addTextButton("RETURN TO MAIN MENU");
 
-       newGame.addListener(new ClickListener() {
+        newGame.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 effect.play(effectVolume);
@@ -96,7 +95,7 @@ public class LoseScreen extends Screens {
             }
         });
         gameEndText.setTouchable(Touchable.disabled);
-        gameEndText.setColor(Color.RED);
+        gameEndText.setColor(Color.BLUE);
         uiElements.add(gameEndText).width(length).pad(4*gapping);
         uiElements.row();
         uiElements.add(newGame).width(length).padBottom(gapping);
