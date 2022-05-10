@@ -146,7 +146,7 @@ public class GameScreen extends Screens {
 
 
 		tower1 = new ImageButton(
-				new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/B18_smaller.png"))))
+				new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/B18.png"))))
 		);
 
 		airStrike = new ImageButton(
@@ -184,6 +184,7 @@ public class GameScreen extends Screens {
 		currencyTextTable.setPosition(-420,300);
 	}
 
+
 	public void update() {
 		world.step(1/60f, 6, 2);
 
@@ -202,18 +203,28 @@ public class GameScreen extends Screens {
 		float verticalforce = 0;
 	}
 
+	private Boolean isClickedAirStrike = false;
+	private Boolean isClickedBoomingEcon = false;
+
 	public void powerupUpdate(){
 		airStrike.addListener(new ClickListener() {
+
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				isClickedAirStrike = true;
 				powerupAirStrike();
+
 			}
 		});
 
+
 		boomingEconomy.addListener(new ClickListener() {
+
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				isClickedBoomingEcon = true;
 				powerupBoomingEconomy();
+
 			}
 		});
 
@@ -406,13 +417,10 @@ public class GameScreen extends Screens {
 				elapsedTimeNpc = System.currentTimeMillis()-npc.time;
 				current = npc;
 				if(npc.isDead()) {
-					currency += 150;
+					currency += npcKillReward;
+					currencyTextUpgrade();
 
-					currencyTextTable.removeActor(currencyText);
-					currencyText = addTextButton("" + currency);
-					currencyTextTable.add(currencyText);
-
-					if(currency >= towerPrice){
+					if(currency >= towerPrice && isClicked == false){
 
 						towersUI.removeActor(tower1);
 
@@ -523,7 +531,7 @@ public class GameScreen extends Screens {
 
 				towersUI.removeActor(tower1);
 				tower1 = new ImageButton(
-						new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/B18.png"))))
+						new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/B18Dark.png"))))
 				);
 
 				towersUI.add(tower1);
@@ -538,11 +546,9 @@ public class GameScreen extends Screens {
 				Vector3 mousePosition = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
 				camera.unproject(mousePosition);
 				player.plantTower(mousePosition);
-				currency -= towerPrice;
 
-				currencyTextTable.removeActor(currencyText);
-				currencyText = addTextButton("" + currency);
-				currencyTextTable.add(currencyText);
+				currency -= towerPrice;
+				currencyTextUpgrade();
 
 				isClicked = false;
 
@@ -554,7 +560,7 @@ public class GameScreen extends Screens {
 				}
 				else if(currency < towerPrice){
 					tower1 = new ImageButton(
-							new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/B18.png"))))
+							new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/B18Dark.png"))))
 					);
 				}
 				towersUI.add(tower1);
@@ -642,6 +648,8 @@ public class GameScreen extends Screens {
 	public void powerupHealthPotion(){
 		if (currency >= powerupPrice){
 			currency -= powerupPrice;
+			currencyTextUpgrade();
+
 			try {
 				base.setHealth(7000);
 				for (Tower tower: towers){
@@ -657,6 +665,7 @@ public class GameScreen extends Screens {
 		if (currency >= powerupPrice) {
 			Vector2 basePosition = base.body.getPosition();
 			currency -= powerupPrice;
+			currencyTextUpgrade();
 			try {
 				for (NPC npc : npcs) {
 					float distance = basePosition.dst2(npc.body.getPosition());
@@ -673,8 +682,12 @@ public class GameScreen extends Screens {
 	}
 
 	public void powerupBoomingEconomy(){
-		if (currency >= powerupPrice){
-			currency -= powerupPrice;
+		if (currency >= powerupPrice && isClickedBoomingEcon){
+			currency = currency - powerupPrice;
+			currencyTextUpgrade();
+
+			isClickedBoomingEcon = false;
+
 			npcKillReward += 50;
 		}
 	}
@@ -682,6 +695,8 @@ public class GameScreen extends Screens {
 	public void powerupTowerUpgrade(){
 		if (currency >= powerupPrice){
 			currency -= powerupPrice;
+			currencyTextUpgrade();
+
 			try {
 				for (Tower tower: towers){
 					tower.setHealth((int)(tower.getHealth()*1.1));
@@ -692,4 +707,11 @@ public class GameScreen extends Screens {
 			}
 		}
 	}
+
+	public void currencyTextUpgrade(){
+		currencyTextTable.removeActor(currencyText);
+		currencyText = addTextButton("" + currency);
+		currencyTextTable.add(currencyText);
+	}
+
 }
