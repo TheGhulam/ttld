@@ -18,6 +18,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -59,6 +61,7 @@ import static utils.Constants.PPM;
 		long initialTime;
 		long timer;
 		long currency = 1000;
+        long npcKillReward = 150;
 		long towerPrice = 500;
 		long powerupPrice = 250;
 
@@ -71,10 +74,10 @@ import static utils.Constants.PPM;
 
 		private TextButton towerText; // shows if tower1 button is clicked or not
 		private ImageButton tower1;
-		private ImageButton powerUp1;
-		private ImageButton powerUp2;
-		private ImageButton powerUp3;
-		private ImageButton powerUp4;
+		private ImageButton airStrike;
+		private ImageButton boomingEconomy;
+		private ImageButton healthPotion;
+		private ImageButton towerUpgrade;
 		private TextButton currencyText;
 		private ImageButton currencyImage;
 		//
@@ -146,58 +149,42 @@ import static utils.Constants.PPM;
 
 
 			towerText = addTextButton("Choose Tower");
-
 			tower1 = new ImageButton(
 					new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/B18.png"))))
 			);
 
-			// "res/pngegg.png" is a representational image until finding an icon
-			powerUp1 = new ImageButton(
-					new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/pngegg.png"))))
+			airStrike = new ImageButton(
+					new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/airstrike.png"))))
 			);
-			powerUp2 = new ImageButton(
-					new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/pngegg.png"))))
+			boomingEconomy = new ImageButton(
+					new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/economy.png"))))
 			);
-			powerUp3 = new ImageButton(
-					new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/pngegg.png"))))
+			healthPotion = new ImageButton(
+					new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/health.png"))))
 			);
-			powerUp4 = new ImageButton(
-					new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/pngegg.png"))))
+			towerUpgrade = new ImageButton(
+					new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/upgrade.png"))))
 			);
 
 			currencyText = addTextButton(Long.toString(currency));
-
 			currencyImage = new ImageButton(
 					new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/coin.png"))))
 			);
 
 
-			powerUp1.addListener(new ClickListener(){
 
-			});
 
-			powerUp2.addListener(new ClickListener(){
-
-			});
-
-			powerUp3.addListener(new ClickListener(){
-
-			});
-
-			powerUp4.addListener(new ClickListener(){
-
-			});
 
 
 			towerText.setTouchable(Touchable.disabled);
 
 			towerTextTable.add(towerText);
 			towersUI.add(tower1).width(length).padBottom(gapping);
-			powerUpsUI.add(powerUp1);
-			powerUpsUI.add(powerUp2);
+			powerUpsUI.add(airStrike);
+			powerUpsUI.add(boomingEconomy);
 			powerUpsUI.row();
-			powerUpsUI.add(powerUp3);
-			powerUpsUI.add(powerUp4);
+			powerUpsUI.add(healthPotion);
+			powerUpsUI.add(towerUpgrade);
 			currencyUI.add(currencyImage);
 			currencyUI.add(currencyText);
 
@@ -243,6 +230,46 @@ import static utils.Constants.PPM;
 			if(Gdx.input.isKeyPressed(Input.Keys.Q)) {
 				currencyPrint();
 			};
+
+            airStrike.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    powerupAirStrike();
+                }
+            });
+//            airStrike.addListener(new EventListener() {
+//                @Override
+//                public boolean handle(Event event) {
+//                    for (int j=0;j<10; j++){
+//                        powerupAirStrike();
+//                    }
+//                    return false;
+//                }
+//            });
+
+            boomingEconomy.addListener(new EventListener() {
+                @Override
+                public boolean handle(Event event) {
+                    powerupBoomingEconomy();
+                    return false;
+                }
+            });
+
+            healthPotion.addListener(new EventListener() {
+                @Override
+                public boolean handle(Event event) {
+                    powerupHealthPotion();
+                    return false;
+                }
+            });
+
+            towerUpgrade.addListener(new EventListener() {
+                @Override
+                public boolean handle(Event event) {
+                    powerupTowerUpgrade();
+                    return false;
+                }
+            });
 		}
 
 		public void currencyPrint(){
@@ -357,7 +384,7 @@ import static utils.Constants.PPM;
 							locked = npc;
 							base.shoot(npc);
 							if(npc.isDead()) {
-								currency += 150;
+								currency += npcKillReward;
 								locked = null;
 							}
 						}
@@ -396,7 +423,7 @@ import static utils.Constants.PPM;
 								locked = npc;
 								tower.shoot(npc);
 								if(npc.isDead()) {
-									currency += 150;
+									currency += npcKillReward;
 									locked = null;
 								}
 							}
@@ -564,7 +591,6 @@ import static utils.Constants.PPM;
 					 */
 				}
 			}
-
 			catch(ConcurrentModificationException e){
 				return;
 			}
@@ -618,31 +644,61 @@ import static utils.Constants.PPM;
 		 * Powerups
 		 */
 		public void powerupHealthPotion(){
-			// TODO
+            if (currency >= powerupPrice){
+                currency -= powerupPrice;
+//                System.out.println("health potion used");
+                try {
+                    base.setHealth(7000);
+                    for (Tower tower: towers){
+                        tower.setHealth(2000);
+                    }
+                }catch(ConcurrentModificationException e){
+                    return;
+                }
+            }
 		}
 
 		public void powerupAirStrike(){
-			Vector2 basePosition = base.body.getPosition();
-			try {
-				for(NPC npc: npcs) {
-					float distance = basePosition.dst2(npc.body.getPosition());
+            if (currency >= powerupPrice) {
+                Vector2 basePosition = base.body.getPosition();
+                currency -= powerupPrice;
+//                System.out.println("air strike used");
+                try {
+                    for (NPC npc : npcs) {
+                        float distance = basePosition.dst2(npc.body.getPosition());
 
-					if (distance / PPM < 256 / PPM) {
-						npcs.remove(npc);
-						currency += 150;
-					}
-				}
-			}catch(ConcurrentModificationException e) {
-				return;
-			}
+                        if (distance / PPM < 256 / PPM) {
+                            npcs.remove(npc);
+                            currency += npcKillReward;
+                        }
+                    }
+                } catch (ConcurrentModificationException e) {
+                    return;
+                }
+            }
 		}
 
 		public void powerupBoomingEconomy(){
-			currency += 500;
+            if (currency >= powerupPrice){
+//                System.out.println("booming economy used");
+                currency -= powerupPrice;
+                npcKillReward += 50;
+            }
 		}
 
 		public void powerupTowerUpgrade(){
-			// TODO
+            if (currency >= powerupPrice){
+                currency -= powerupPrice;
+//                System.out.println("tower upgrade used");
+                try {
+                    for (Tower tower: towers){
+                        tower.setHealth((int)(tower.getHealth()*1.1));
+                        tower.setDamage((int)(tower.getDamage()*1.1));
+                    }
+                }catch(ConcurrentModificationException e){
+                    return;
+                }
+            }
 		}
 
 }
