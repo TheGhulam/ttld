@@ -14,41 +14,73 @@ import com.ttld.game.ttld;
 public class Hud {
 
     public Stage stage;
-    private Viewport port;
+    private FitViewport port;
 
-    private Integer worldTimer;
-    private float  timeCount;
-    private Integer score;
+    //private Integer worldTimer;
+    private static Integer currency;
+    //private float timeCount;
+    private static Integer score;
 
-    Label countDownLabel;
-    Label scoreLabel;
-    Label timeLabel;
-    Label worldLabel;
+    private Label countDownLabel;
+    private static Label scoreLabel;
+    private Label scoreTextLabel;
+    private static Label currencyLabel;
+
+    //Label timeLabel;
+    //Label worldLabel;
+    private static Label moneyLabel;
 
     public Hud(SpriteBatch sb) {
-        worldTimer = 300;
-        timeCount = 0;
+        //worldTimer = 300;
+        //timeCount = 0;
+        currency = 1000;
         score = 0;
 
-        port = new FitViewport(ttld.width,ttld.height, new OrthographicCamera());
+        port = new FitViewport(ttld.width,ttld.height);
         stage = new Stage(port, sb);
 
         Table table = new Table();
         table.top();
         table.setFillParent(true);
 
-        countDownLabel = new Label(String.format("%03d",worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        currencyLabel = new Label(""+ currency , new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        //countDownLabel = new Label(String.format("%03d",worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         scoreLabel = new Label(String.format("%06d  ",score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        timeLabel = new Label("TIME", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        worldLabel  = new Label("WORLD", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        //timeLabel = new Label("TIME", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        moneyLabel  = new Label("GOLD", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        scoreTextLabel = new Label("SCORE", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        //worldLabel  = new Label("WORLD", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
-        table.add(worldLabel).expandX().padTop(10);
-        table.add(timeLabel).expandX().padTop(10);
+
+        //table.add(worldLabel).expandX().padTop(10);
+
+        table.add(moneyLabel).expandX().padTop(10);
+        table.add(scoreTextLabel).expandX().padTop(10);
         table.row();
+        table.add(currencyLabel).expandX();
         table.add(scoreLabel).expandX();
-        table.add(countDownLabel).expandX();
+
+        //table.add(scoreLabel).expandX();
 
         stage.addActor(table);
     }
 
+    public Stage getStage(){ return stage; }
+    public void dispose(){
+        stage.dispose();
+    }
+
+    public static void addScore(int value,int gold){
+        score += value;
+        scoreLabel.setText(String.format("%06d", score));
+        currency += gold;
+        currencyLabel.setText(""+currency);
+    }
+
+    public static void setCurrency(int value){
+        currency = value;
+    }
+    public static int getCurrency(){
+        return currency;
+    }
 }
