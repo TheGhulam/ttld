@@ -18,6 +18,7 @@ public class NPC extends Entity{
 	protected ArrayList<Texture> spriteSheetWalk;
 	protected ArrayList<Texture> spriteSheetWalkMirror;
 
+	private final Vector2 stopVector = new Vector2(0,0);
 
 	private Entity npcTarget;
 	public NPC(Body body, int health, float speed, int damage, float ShootingRadius) {
@@ -26,6 +27,10 @@ public class NPC extends Entity{
 		this.damage = damage;
 		this.ShootingRadius = ShootingRadius;
 		createSpriteArrayLs();
+	}
+
+	public boolean isAttacking() {
+		return body.getLinearVelocity().equals(stopVector);
 	}
 
 	protected void createSpriteArrayLs() {

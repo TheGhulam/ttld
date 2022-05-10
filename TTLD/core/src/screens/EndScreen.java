@@ -2,9 +2,11 @@ package screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -18,7 +20,7 @@ public class EndScreen extends Screens {
     public float effectVolume;
     private Table uiElements;
 
-    public TextButton newGame, mainMenu;
+    public TextButton newGame, mainMenu, gameEndText;
     public Texture backgroundImage;
 
     public EndScreen(ttld ttldGame) {
@@ -38,16 +40,15 @@ public class EndScreen extends Screens {
     public void render(float delta) {
 
         ScreenUtils.clear(0, 0, 0, 1);
-        ttld.batch.setProjectionMatrix(gameCam.combined); // Tell the game batch where the camera is and render only what camera can see
+        ttld.batch.setProjectionMatrix(gameCam.combined);
 
         // Background Image
         ttld.batch.begin();
         ttld.batch.draw(backgroundImage, 0, 0);
-        //TITLE
         ttld.batch.end();
 
         stage.act(Gdx.graphics.getDeltaTime());
-        stage.draw(); //Draw the specified UI
+        stage.draw();
     }
 
     @Override
@@ -55,21 +56,21 @@ public class EndScreen extends Screens {
         super.show();
         stage.clear();
 
-        uiElements = new Table(); // As far as I am concerned this is something similar to JPanel
-        uiElements.setFillParent(true); // Explanation is pretty clear just hover over it in IntelliJ
+        uiElements = new Table();
+        uiElements.setFillParent(true);
         loadUI(300, 15);
-        stage.addActor(uiElements); // stage is the class that handles UI elements
+        stage.addActor(uiElements);
     }
 
 
     private void loadUI(int length, int gapping) {
 
 
-
+        gameEndText = addTextButton("GAME OVER!");
         newGame = addTextButton("NEW GAME");
         mainMenu = addTextButton("RETURN TO MAIN MENU");
 
-        newGame.addListener(new ClickListener() {
+       newGame.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 effect.play(effectVolume);
@@ -94,7 +95,10 @@ public class EndScreen extends Screens {
                 stage.clear();
             }
         });
-
+        gameEndText.setTouchable(Touchable.disabled);
+        gameEndText.setColor(Color.RED);
+        uiElements.add(gameEndText).width(length).pad(4*gapping);
+        uiElements.row();
         uiElements.add(newGame).width(length).padBottom(gapping);
         uiElements.row();
         uiElements.add(mainMenu).width(length).padBottom(gapping);

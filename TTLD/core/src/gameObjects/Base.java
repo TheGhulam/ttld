@@ -5,6 +5,7 @@ package gameObjects;
 
 
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
@@ -13,9 +14,11 @@ import screens.GameScreen;
 
 public class Base extends Tower {
 	private GameScreen game;
+	private Texture baseTex;
 	public Base(Body body, int health, float shootingRadius, float shootingSpeed, int damage, GameScreen game) {
 		super(body,  health, shootingRadius, shootingSpeed, damage);
 		this.game = game;
+		baseTex = new Texture("res/base.png");
 	}
 	
 	public boolean isGameOver() {
@@ -51,4 +54,8 @@ public class Base extends Tower {
 		
 			
 	}
+
+    public Texture getTexture() {
+		return baseTex;
+    }
 }

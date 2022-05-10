@@ -19,7 +19,7 @@ public class MenuScreen extends Screens{
         //CREATE A METHOD THAT CREATES BUTTONS IN SCREENS CLASS - DONE!
 
     //UI ELEMENTS
-    private TextButton title,newGame,continueB,settings,credits,quit,end;
+    private TextButton title,newGame,continueB,settings,credits,quit;
     private Table uiElements;
     //BACKGROUND IMAGE
     private Texture backgroundImage;
@@ -103,7 +103,6 @@ public class MenuScreen extends Screens{
         settings = addTextButton("SETTINGS");
         credits = addTextButton("GITHUB");
         quit = addTextButton("QUIT");
-        end = addTextButton("ENDTEST");
 
             //Adding listeners
 
@@ -157,17 +156,6 @@ public class MenuScreen extends Screens{
             }
         });
 
-        end.addListener(new ClickListener() {
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                effect.play(effectVolume);
-            }
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                ttldGame.setScreen(new EndScreen(ttldGame));
-                bgm.stop();
-            }
-        });
-
         title.setTouchable(Touchable.disabled);
         title.setColor(Color.BLUE);
         continueB.setTouchable(Touchable.disabled);
@@ -185,9 +173,6 @@ public class MenuScreen extends Screens{
         uiElements.add(credits).width(length).padBottom(gapping);
         uiElements.row();
         uiElements.add(quit).width(length).padBottom(gapping);
-        uiElements.row();
-        uiElements.add(end).width(length).padBottom(gapping);
-
 
     }
 

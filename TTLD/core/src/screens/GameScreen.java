@@ -2,6 +2,7 @@ package screens;
 
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
+import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -23,6 +24,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.ttld.game.ttld;
 import gameObjects.*;
 import levels.Level;
+import scenes.Hud;
 
 import static utils.Constants.PPM;
 
@@ -30,7 +32,6 @@ import static utils.Constants.PPM;
 
 		private Viewport gameport;
 		//private Hud hud;
-
 		private Box2DDebugRenderer b2dr;
 		private OrthographicCamera camera;
 		protected World world;
@@ -42,10 +43,8 @@ import static utils.Constants.PPM;
 		private Creator creator;
 		private Base base;
 		public ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
-		public Level level;
 		private NPC current;
 		long elapsedTimeNpc;
-
 		public Music gameplayMusic;
 
 		public GameScreen(ttld GameTTLD) {
@@ -64,7 +63,7 @@ import static utils.Constants.PPM;
 
 			this.world.setContactListener(new WorldContactListener());
 			gameport= new FitViewport(ttld.width,ttld.height,camera);
-			//hud = new Hud(app.batch);
+			//hud = new Hud(ttld.batch);
 			Gdx.input.setInputProcessor(mH);
 			mH = new MouseHandler(this);
 			player = new Player(this);
@@ -101,20 +100,6 @@ import static utils.Constants.PPM;
 		public void cameraUpdate() {
 			float horizontalforce = 0;
 			float verticalforce = 0;
-			if(Gdx.input.isKeyPressed(Input.Keys.A)) {
-				creator.createMelee(200, 10);
-
-			}
-			if(Gdx.input.isKeyPressed(Input.Keys.D)) {
-				creator.createMelee(-200, -10);
-			}
-			if(Gdx.input.isKeyPressed(Input.Keys.W)) {
-				creator.createMelee(0, 200);
-			}
-			if(Gdx.input.isKeyPressed(Input.Keys.S)) {
-				creator.createMelee(0,-200);
-			}
-
 
 		}
 		@Override
@@ -124,10 +109,18 @@ import static utils.Constants.PPM;
 			update();
 			ttld.batch.begin();
 			ttld.batch.draw(backgroundImage,0,0);
+			//ttld.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+			if(base.health > 0) {
+				ttld.batch.draw(base.getTexture(), 635 - base.getTexture().getWidth() / 2, 350 - base.getTexture().getHeight() / 2);//-base.getTexture().getHeight()/2
+			}
+
 			for(NPC npc : npcs) {
-				System.out.println(npc.body.getPosition().x);
+				//System.out.println(npc.body.getPosition().x);
 				//Melee NPC_M = (Melee) npc;
 				ttld.batch.draw(npc.getCAnimation(),npc.body.getPosition().x*PPM+635,npc.body.getPosition().y*PPM+350);
+			}
+			for(Projectile pr : projectiles) {
+				ttld.batch.draw(pr.getTex(),pr.bullet.getPosition().x*PPM+635,pr.bullet.getPosition().y*PPM+350);
 			}
 			ttld.batch.end();
 			b2dr.render(world, camera.combined.cpy().scl(PPM));
@@ -159,8 +152,8 @@ import static utils.Constants.PPM;
 
 		@Override
 		public void dispose() {
-			// TODO Auto-generated method stub
-
+			backgroundImage.dispose();
+			gameplayMusic.dispose();
 		}
 		public World getWorld() {
 			return world;
@@ -351,6 +344,25 @@ import static utils.Constants.PPM;
 				Vector3 mousePosition = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
 				camera.unproject(mousePosition);
 				player.plantTower(mousePosition);
+			}
+			try{
+				if(base.health > 0 && npcs.size() < 100){
+					Random rand = new Random();
+					int xCord = rand.nextInt(150);
+					int yCord = rand.nextInt(150);
+					boolean randomX = rand.nextBoolean();
+					boolean randomY = rand.nextBoolean();
+					int signX = 1, signY = 1;
+					if(randomX)
+						signX = -1;
+					if(randomY)
+						signY = -1;
+
+					creator.createMelee(signX * (225 + xCord), signY * (225 + yCord));
+				}
+			}
+			catch(ConcurrentModificationException e){
+				return;
 			}
 		}
 

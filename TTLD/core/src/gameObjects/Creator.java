@@ -33,7 +33,9 @@ public class Creator {
 		def.fixedRotation = true;
 		tbody = world.createBody(def);
 		CircleShape shape2 = new CircleShape();
-		shape2.setRadius(10f/PPM);
+
+		float radius = 10f/PPM;
+		shape2.setRadius(radius);
 		
 		Fixture fix = tbody.createFixture(shape2, 1.0f);
 		fix.setUserData("Tower");
@@ -53,7 +55,9 @@ public class Creator {
 		def.fixedRotation = true;
 		tbody = world.createBody(def);
 		CircleShape shape2 = new CircleShape();
-		shape2.setRadius(20f/PPM);
+
+		float baseRadius = 20f/PPM;
+		shape2.setRadius(baseRadius);
 		
 		Fixture fix =tbody.createFixture(shape2, 1.0f);
 		fix.setUserData("Tower");
@@ -62,10 +66,7 @@ public class Creator {
 		Base base = new Base(tbody, 7000, 20, 0.1f, 100, gameScreen);
 		tbody.setUserData(base);
 		return base;
-		
-		
-		
-		
+
 	}
 	public Bullet createBullet(Entity startingPoint ,Entity Target) {
 		float x = startingPoint.body.getPosition().x;
