@@ -12,7 +12,7 @@ public class SplashScreen extends Screens{
     private final Image splashImage;
     public SplashScreen(ttld ttldGame) {
         super(ttldGame);
-        splashImage = new Image(new Texture("res/intro.jpg"));
+        splashImage = new Image(new Texture("res/backgrounds/intro.jpg"));
     }
 
     @Override

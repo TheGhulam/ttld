@@ -11,7 +11,7 @@ public class DoomTower extends Tower{
 	public DoomTower(Body body, int health, float shootingRadius, float shootingSpeed, int damage, GameScreen game) {
 		super(body, health, shootingRadius, shootingSpeed, damage);
 		this.game = game;
-		tex = new Texture("res/B18.png");
+		tex = new Texture("res/gameObjects/B18.png");
 	
 	}
 	public void shoot(final Entity e) {

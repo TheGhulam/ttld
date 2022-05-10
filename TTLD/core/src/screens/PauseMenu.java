@@ -19,21 +19,18 @@ public class PauseMenu extends Screens{
     public Sound effect;
     public float effectVolume;
     private Table uiElements;
-    public TextButton paused, back, mainMenu;
+    public TextButton paused,settings,back;
     public Texture backgroundImage;
+    private PauseSettingScreen setting;
 
     public PauseMenu(ttld ttldGame) {
         super(ttldGame);
-        backgroundImage = new Texture("res/menu_background4.png");
+        setting = new PauseSettingScreen(ttldGame);
+        backgroundImage = new Texture("res/backgrounds/menu_background4.png");
         effect = Gdx.audio.newSound(Gdx.files.internal("sfx/rollOverSoundEff.wav"));
         font.getData().setScale(3, 3);
         effectVolume = 0.05f;
     }
-
-    private PauseMenu callClass() {
-        return this;
-    }
-
 
     @Override
     public void render(float delta) {
@@ -66,9 +63,20 @@ public class PauseMenu extends Screens{
 
 
         back = addTextButton("PAUSED");
+        settings = addTextButton("SETTINGS");
         paused = addTextButton("BACK");
-        mainMenu = addTextButton("RETURN TO MAIN MENU");
+        settings.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                effect.play(effectVolume);
+            }
 
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ttldGame.setScreen(setting);
+                stage.clear();
+            }
+        });
         paused.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -99,10 +107,9 @@ public class PauseMenu extends Screens{
         back.setColor(Color.BLUE);
         uiElements.add(back).width(length).pad(4*gapping);
         uiElements.row();
+        uiElements.add(settings).width(length).padBottom(gapping);
+        uiElements.row();
         uiElements.add(paused).width(length).padBottom(gapping);
-        uiElements.row();
-        uiElements.add(mainMenu).width(length).padBottom(gapping);
-        uiElements.row();
     }
 
     //Done

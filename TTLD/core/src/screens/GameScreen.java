@@ -1,5 +1,6 @@
 package screens;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
@@ -28,12 +29,11 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-//import Scenes.Hud;
 import com.ttld.game.ttld;
 import gameObjects.*;
 
 import levels.Level;
-import scenes.Hud;
+import levels.Level1;
 
 import static utils.Constants.PPM;
 
@@ -77,10 +77,15 @@ public class GameScreen extends Screens {
 	private ImageButton towerUpgrade;
 	private TextButton currencyText;
 	private ImageButton currencyImage;
+  
+  Random rand;
+	Level level;
 	//
 
-	public GameScreen(ttld GameTTLD) {
+	public GameScreen(ttld GameTTLD, Level level) {
 		super(GameTTLD);
+    rand = new Random();
+		this.level = (Level1) level;
 		gameplayMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/the-hunting-bm_menuMusic.wav"));
 		gameplayMusic.setLooping(true);
 		backgroundImage = new Texture("res/menu_background4.png");
@@ -217,6 +222,12 @@ public class GameScreen extends Screens {
 			}
 		});
 
+		public void show() {
+			playBGM();
+		}
+    
+		public void update() {
+			world.step(1/60f, 6, 2);
 		healthPotion.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -236,40 +247,53 @@ public class GameScreen extends Screens {
 		return base.health<=0;
 	}
 
-	@Override
-	public void render(float delta) {
-		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-			ttldGame.setScreen(ttldGame.pauseScreen);
+		public void checkStatus() {
+			System.out.println(level.getHordeSize());
+			if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+				ttldGame.setScreen(ttldGame.pauseScreen);
+			}
+			if(isGameOver()) {
+				ttldGame.gameScreen = new GameScreen(super.ttldGame,new Level1());
+				ttldGame.setScreen(new LoseScreen(super.ttldGame));
+				this.dispose();
+			}
+			else if(isGameWon()) {
+				ttldGame.gameScreen = new GameScreen(super.ttldGame,new Level1());
+				ttldGame.setScreen(new WinScreen(super.ttldGame));
+				this.dispose();
+			}
 		}
-		if(isGameOver()) {
-			ttldGame.gameScreen = new GameScreen(super.ttldGame);
-			ttldGame.setScreen(new EndScreen(super.ttldGame));
-			this.dispose();
+
+		private boolean isGameWon() {
+			return level.getHordeSize()<=0&&npcs.size()<=0;
 		}
-		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		update();
-		ttld.batch.begin();
-		ttld.batch.draw(backgroundImage,0,0);
-		//ttld.batch.setProjectionMatrix(hud.stage.getCamera().combined);
-		if(base.health > 0) {
-			ttld.batch.draw(base.getTexture(), 645 - base.getTexture().getWidth() / 4, 360 - base.getTexture().getHeight() / 4,base.getTexture().getWidth()/2,base.getTexture().getHeight()/2);//-base.getTexture().getHeight()/2
+
+		@Override
+		public void render(float delta) {
+			checkStatus();
+			Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
+			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+			update();
+			ttld.batch.begin();
+			drawObjects();
+			ttld.batch.end();
+			b2dr.render(world, camera.combined.cpy().scl(PPM));
 		}
-		for(Tower tower : towers) {
-			ttld.batch.draw(tower.getTex(),tower.body.getPosition().x*PPM+635-tower.getTex().getWidth()/4,tower.body.getPosition().y*PPM+350-tower.getTex().getHeight()/4,tower.getTex().getWidth()/2,tower.getTex().getHeight()/2);
-		}
-		for(NPC npc : npcs) {
-			//System.out.println(npc.body.getPosition().x);
-			//Melee NPC_M = (Melee) npc;
-			ttld.batch.draw(npc.getCAnimation(),npc.body.getPosition().x*PPM+635,npc.body.getPosition().y*PPM+350);
-		}
-		for(Projectile pr : projectiles) {
-			ttld.batch.draw(pr.getTex(),pr.bullet.getPosition().x*PPM+635,pr.bullet.getPosition().y*PPM+350);
-		}
-		ttld.batch.end();
-		b2dr.render(world, camera.combined.cpy().scl(PPM));
-		stage.draw();
-	}
+
+		private void drawObjects() {
+			ttld.batch.draw(backgroundImage,0,0);
+			if(base.health > 0) {
+				ttld.batch.draw(base.getTexture(), 645 - base.getTexture().getWidth() / 4, 360 - base.getTexture().getHeight() / 4,base.getTexture().getWidth()/2,base.getTexture().getHeight()/2);//-base.getTexture().getHeight()/2
+			}
+			for(Tower tower : towers) {
+				ttld.batch.draw(tower.getTex(),tower.body.getPosition().x*PPM+635-tower.getTex().getWidth()/4,tower.body.getPosition().y*PPM+350-tower.getTex().getHeight()/4,tower.getTex().getWidth()/2,tower.getTex().getHeight()/2);
+			}
+			for(NPC npc : npcs) {
+				ttld.batch.draw(npc.getCAnimation(),npc.body.getPosition().x*PPM+635,npc.body.getPosition().y*PPM+350);
+			}
+			for(Projectile pr : projectiles) {
+				ttld.batch.draw(pr.getTex(),pr.bullet.getPosition().x*PPM+635,pr.bullet.getPosition().y*PPM+350);
+			}
 
 	@Override
 	public void resize(int width, int height) {
@@ -593,25 +617,21 @@ public class GameScreen extends Screens {
 	}
 
 	private void spawnUpdate() {
-		elapsedTime = System.currentTimeMillis()-initialTime;
-		if(elapsedTime>=2000) {
-			initialTime = System.currentTimeMillis();
-			creator.createMelee(-640,360);
-			creator.createMelee(-640,288);
-			creator.createMelee(-640,216);
-			//creator.createMelee(-640,144);
-			//creator.createMelee(-640,72);
-			//creator.createMelee(-640,0);
-			//creator.createMelee(-640,-360);
-			//creator.createMelee(-640,-288);
-			//creator.createMelee(-640,-216);
-			//creator.createMelee(-640,-144);
-			//creator.createMelee(-640,-72);
-			//creator.createMelee(-640,0);
-			//creator.createMelee(-640,-360);
-			//creator.createMelee(-640,0);
-		}
-	}
+			elapsedTime = System.currentTimeMillis()-initialTime;
+			if(level.getHordeSize()>0&&elapsedTime>=2000) {
+				initialTime = System.currentTimeMillis();
+				int i = 0;
+				while(i < 5) {
+					Point j = level.getSpawnpoint(rand.nextInt(level.getSize()));
+					double randX = j.getX();
+					double randY = j.getY();
+					if(level.getHordeSize()>0)
+					{
+						creator.createMelee((float)randX,(float)randY);
+						level.decraseHordeSize();
+					}
+					i++;
+				}
 
 	public Vector2 targetToBase(NPC e) {
 		Vector2 basePosition = base.body.getPosition();
