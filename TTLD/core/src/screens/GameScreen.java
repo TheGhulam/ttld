@@ -12,18 +12,26 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 //import Scenes.Hud;
 import com.ttld.game.ttld;
 import gameObjects.*;
+
 import levels.Level;
 import scenes.Hud;
 
@@ -50,6 +58,21 @@ import static utils.Constants.PPM;
 		public Music gameplayMusic;
 		long initialTime;
 		long timer;
+
+		//
+		private Boolean isClicked = false;
+		private Table towersUI;
+		private Table powerUpsUI;
+		private Table towerTextTable;
+
+		private TextButton towerText; // shows if tower1 button is clicked or not
+		private ImageButton tower1;
+		private ImageButton powerUp1;
+		private ImageButton powerUp2;
+		private ImageButton powerUp3;
+		private ImageButton powerUp4;
+
+		//
 
 		public GameScreen(ttld GameTTLD) {
 			super(GameTTLD);
@@ -87,9 +110,86 @@ import static utils.Constants.PPM;
 		}
 
 		public void show() {
+
+			super.show();
+			stage.clear();
+
+			towersUI = new Table();
+			towersUI.setFillParent(true);
+
+			powerUpsUI = new Table();
+			powerUpsUI.setFillParent(true);
+
+			towerTextTable = new Table();
+			towerTextTable.setFillParent(true);
+
+			loadUI(200,15);
+
+			stage.addActor(towersUI);
+			stage.addActor(powerUpsUI);
+			stage.addActor(towerTextTable);
+
 			playBGM();
 
 		}
+
+		private void loadUI(int length, int gapping){
+
+
+			towerText = addTextButton("Choose Tower");
+
+			tower1 = new ImageButton(
+					new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/B18.png"))))
+			);
+
+			// "res/pngegg.png" is a representational image until finding an icon
+			powerUp1 = new ImageButton(
+					new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/pngegg.png"))))
+			);
+			powerUp2 = new ImageButton(
+					new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/pngegg.png"))))
+			);
+			powerUp3 = new ImageButton(
+					new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/pngegg.png"))))
+			);
+			powerUp4 = new ImageButton(
+					new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/pngegg.png"))))
+			);
+
+
+			powerUp1.addListener(new ClickListener(){
+
+			});
+
+			powerUp2.addListener(new ClickListener(){
+
+			});
+
+			powerUp3.addListener(new ClickListener(){
+
+			});
+
+			powerUp4.addListener(new ClickListener(){
+
+			});
+
+
+			towerText.setTouchable(Touchable.disabled);
+
+			towerTextTable.add(towerText);
+			towersUI.add(tower1).width(length).padBottom(gapping);
+			powerUpsUI.add(powerUp1);
+			powerUpsUI.add(powerUp2);
+			powerUpsUI.row();
+			powerUpsUI.add(powerUp3);
+			powerUpsUI.add(powerUp4);
+
+			towerTextTable.setPosition(-500, -200);
+			towersUI.setPosition(-500, -290);
+			powerUpsUI.setPosition(- 340, -290);
+
+		}
+
 		public void update() {
 			world.step(1/60f, 6, 2);
 
@@ -144,6 +244,7 @@ import static utils.Constants.PPM;
 			}
 			ttld.batch.end();
 			b2dr.render(world, camera.combined.cpy().scl(PPM));
+			stage.draw();
 		}
 
 		@Override
@@ -357,15 +458,35 @@ import static utils.Constants.PPM;
 			}catch(ConcurrentModificationException e) {
 				return;
 			}
-
-
 		}
 
+		float localX = 0;
+		float localY = 0;
+
+
 		public void playerUpdate() {
-			if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+			tower1.addListener(new ClickListener() {
+				@Override
+				public void clicked(InputEvent event, float x, float y) {
+					isClicked = true;
+					localX = x;
+					localY = y;
+					towerTextTable.removeActor(towerText);
+					towerText = addTextButton("Put The Tower");
+					towerTextTable.add(towerText);
+				}
+			});
+
+
+			if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)   && isClicked == true) {
+
 				Vector3 mousePosition = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
 				camera.unproject(mousePosition);
 				player.plantTower(mousePosition);
+				isClicked = false;
+				towerTextTable.removeActor(towerText);
+				towerText = addTextButton("Choose Tower");
+				towerTextTable.add(towerText);
 			}
 			try{
 				elapsedTime = System.currentTimeMillis()-initialTime;
@@ -386,6 +507,7 @@ import static utils.Constants.PPM;
 					 */
 				}
 			}
+
 			catch(ConcurrentModificationException e){
 				return;
 			}
