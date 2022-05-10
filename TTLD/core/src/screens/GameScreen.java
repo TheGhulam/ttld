@@ -62,9 +62,9 @@ public class GameScreen extends Screens {
 	private Boolean isClicked = false;
 	private Table towersUI;
 	private Table powerUpsUI;
-	private Table currencyUI;
+	//private Table currencyUI;
 
-	private Table currencyTextTable;
+	//private Table currencyTextTable;
 	private ImageButton tower1;
 	private ImageButton airStrike;
 	private ImageButton boomingEconomy;
@@ -119,18 +119,18 @@ public class GameScreen extends Screens {
 		powerUpsUI = new Table();
 		powerUpsUI.setFillParent(true);
 
-		currencyUI = new Table();
+		/*currencyUI = new Table();
 		currencyUI.setFillParent(true);
 
 		currencyTextTable = new Table();
-		currencyTextTable.setFillParent(true);
+		currencyTextTable.setFillParent(true);*/
 
 		loadUI(200,15);
 
 		stage.addActor(towersUI);
 		stage.addActor(powerUpsUI);
-		stage.addActor(currencyUI);
-		stage.addActor(currencyTextTable);
+		//stage.addActor(currencyUI);
+		//stage.addActor(currencyTextTable);
 
 		playBGM();
 
@@ -156,12 +156,12 @@ public class GameScreen extends Screens {
 				new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/upgrade.png"))))
 		);
 
-		currencyText = addTextButton(Long.toString(currency));
+		/*currencyText = addTextButton(Long.toString(currency));
 		currencyImage = new ImageButton(
 				new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/coin.png"))))
-		);
+		);*/
 
-		currencyText.setTouchable(Touchable.disabled);
+		//currencyText.setTouchable(Touchable.disabled);
 
 		towersUI.add(tower1);
 		powerUpsUI.add(airStrike);
@@ -169,13 +169,13 @@ public class GameScreen extends Screens {
 		powerUpsUI.row();
 		powerUpsUI.add(healthPotion);
 		powerUpsUI.add(towerUpgrade);
-		currencyUI.add(currencyImage);
-		currencyTextTable.add(currencyText);
+		//currencyUI.add(currencyImage);
+		//currencyTextTable.add(currencyText);
 
 		towersUI.setPosition(-500, -290);
 		powerUpsUI.setPosition(- 340, -290);
-		currencyUI.setPosition(-500, 300);
-		currencyTextTable.setPosition(-420,300);
+		/*currencyUI.setPosition(-500, 300);
+		currencyTextTable.setPosition(-420,300);*/
 	}
 
 	public void update() {
@@ -398,13 +398,13 @@ public class GameScreen extends Screens {
 				elapsedTimeNpc = System.currentTimeMillis()-npc.time;
 				current = npc;
 				if(npc.isDead()) {
-					currency += 150;
+					//currency += 150;
 					hud.addScore(250, 150);
-					currencyTextTable.removeActor(currencyText);
+					/*currencyTextTable.removeActor(currencyText);
 					currencyText = addTextButton("" + currency);
-					currencyTextTable.add(currencyText);
+					currencyTextTable.add(currencyText);*/
 
-					if(currency >= towerPrice){
+					if(hud.getCurrency() >= towerPrice){
 
 						towersUI.removeActor(tower1);
 
@@ -530,12 +530,13 @@ public class GameScreen extends Screens {
 				Vector3 mousePosition = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
 				camera.unproject(mousePosition);
 				player.plantTower(mousePosition);
-				hud.setCurrency(hud.getCurrency() - towerPrice);
-				currency -= towerPrice;
+				int current = hud.getCurrency();
+				hud.setCurrency(current - towerPrice);
+				//currency -= towerPrice;
 
-				currencyTextTable.removeActor(currencyText);
+				/*currencyTextTable.removeActor(currencyText);
 				currencyText = addTextButton("" + currency);
-				currencyTextTable.add(currencyText);
+				currencyTextTable.add(currencyText);*/
 
 				isClicked = false;
 
@@ -647,7 +648,7 @@ public class GameScreen extends Screens {
 		if (hud.getCurrency() >= powerupPrice){
 			int current = hud.getCurrency();
 			hud.setCurrency(current - powerupPrice);
-			currency -= powerupPrice;
+			//currency -= powerupPrice;
 			try {
 				base.setHealth(7000);
 				for (Tower tower: towers){
@@ -664,17 +665,16 @@ public class GameScreen extends Screens {
 			Vector2 basePosition = base.body.getPosition();
 			int current = hud.getCurrency();
 			hud.setCurrency(current - powerupPrice);
-			currency -= powerupPrice;
+			//currency -= powerupPrice;
 			try {
 				for (NPC npc : npcs) {
 					float distance = basePosition.dst2(npc.body.getPosition());
 
 					if (distance / PPM < 256 / PPM) {
 						npcs.remove(npc);
-						hud.setCurrency(hud.getCurrency() + npcKillReward);
 						current = hud.getCurrency();
 						hud.setCurrency(current + npcKillReward);
-						currency += npcKillReward;
+						//currency += npcKillReward;
 					}
 				}
 			} catch (ConcurrentModificationException e) {
@@ -687,14 +687,14 @@ public class GameScreen extends Screens {
 		if (hud.getCurrency() >= powerupPrice){
 			int current = hud.getCurrency();
 			hud.setCurrency(current - powerupPrice);
-			currency -= powerupPrice;
+			//currency -= powerupPrice;
 			npcKillReward += 50;
 		}
 	}
 
 	public void powerupTowerUpgrade(){
 		if (hud.getCurrency() >= powerupPrice){
-			currency -= powerupPrice;
+			//currency -= powerupPrice;
 			int current = hud.getCurrency();
 			hud.setCurrency(current - powerupPrice);
 			try {
