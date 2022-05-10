@@ -20,7 +20,7 @@ public class PauseMenu extends Screens{
     public float effectVolume;
     private Table uiElements;
 
-    public TextButton paused, back;
+    public TextButton paused,settings,back;
     public Texture backgroundImage;
 
     public PauseMenu(ttld ttldGame) {
@@ -30,11 +30,6 @@ public class PauseMenu extends Screens{
         font.getData().setScale(3, 3);
         effectVolume = 0.05f;
     }
-
-    private PauseMenu callClass() {
-        return this;
-    }
-
 
     @Override
     public void render(float delta) {
@@ -67,8 +62,20 @@ public class PauseMenu extends Screens{
 
 
         back = addTextButton("PAUSED");
+        settings = addTextButton("SETTINGS");
         paused = addTextButton("BACK");
+        settings.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                effect.play(effectVolume);
+            }
 
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ttldGame.setScreen(ttldGame.menuScreen);
+                stage.clear();
+            }
+        });
         paused.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -88,6 +95,7 @@ public class PauseMenu extends Screens{
         uiElements.row();
         uiElements.add(paused).width(length).padBottom(gapping);
         uiElements.row();
+        uiElements.add(settings).width(length).padBottom(gapping);
     }
 
     //Done
