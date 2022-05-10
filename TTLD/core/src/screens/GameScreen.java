@@ -44,7 +44,7 @@ import static utils.Constants.PPM;
 		private Box2DDebugRenderer b2dr;
 		private OrthographicCamera camera;
 		protected World world;
-		private ArrayList<NPC> npcs = new ArrayList<NPC>();
+		public ArrayList<NPC> npcs = new ArrayList<NPC>();
 		private ArrayList<Tower> towers = new ArrayList<Tower>();
 		private Texture backgroundImage;
 		private MouseHandler mH;
@@ -58,12 +58,16 @@ import static utils.Constants.PPM;
 		public Music gameplayMusic;
 		long initialTime;
 		long timer;
+		long currency = 1000;
+		long towerPrice = 500;
+		long powerupPrice = 250;
 
 		//
 		private Boolean isClicked = false;
 		private Table towersUI;
 		private Table powerUpsUI;
 		private Table towerTextTable;
+		private Table currencyUI;
 
 		private TextButton towerText; // shows if tower1 button is clicked or not
 		private ImageButton tower1;
@@ -71,7 +75,8 @@ import static utils.Constants.PPM;
 		private ImageButton powerUp2;
 		private ImageButton powerUp3;
 		private ImageButton powerUp4;
-
+		private TextButton currencyText;
+		private ImageButton currencyImage;
 		//
 
 		public GameScreen(ttld GameTTLD) {
@@ -123,11 +128,15 @@ import static utils.Constants.PPM;
 			towerTextTable = new Table();
 			towerTextTable.setFillParent(true);
 
+			currencyUI = new Table();
+			currencyUI.setFillParent(true);
+
 			loadUI(200,15);
 
 			stage.addActor(towersUI);
 			stage.addActor(powerUpsUI);
 			stage.addActor(towerTextTable);
+			stage.addActor(currencyUI);
 
 			playBGM();
 
@@ -154,6 +163,12 @@ import static utils.Constants.PPM;
 			);
 			powerUp4 = new ImageButton(
 					new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/pngegg.png"))))
+			);
+
+			currencyText = addTextButton(Long.toString(currency));
+
+			currencyImage = new ImageButton(
+					new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/coin.png"))))
 			);
 
 
@@ -183,10 +198,14 @@ import static utils.Constants.PPM;
 			powerUpsUI.row();
 			powerUpsUI.add(powerUp3);
 			powerUpsUI.add(powerUp4);
+			currencyUI.add(currencyImage);
+			currencyUI.add(currencyText);
+
 
 			towerTextTable.setPosition(-500, -200);
 			towersUI.setPosition(-500, -290);
 			powerUpsUI.setPosition(- 340, -290);
+			currencyUI.setPosition(-500, 300);
 
 		}
 
@@ -200,12 +219,34 @@ import static utils.Constants.PPM;
 			npcUpdate();
 			baseUpdate();
 			spawnUpdate();
+			powerupUpdate();
 
 		}
 		public void cameraUpdate() {
 			float horizontalforce = 0;
 			float verticalforce = 0;
+		}
 
+		public void powerupUpdate(){
+			if(Gdx.input.isKeyPressed(Input.Keys.X)) {
+				powerupHealthPotion();
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.C)) {
+				powerupAirStrike();
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.V)) {
+				powerupBoomingEconomy();
+			}
+			if(Gdx.input.isKeyPressed(Input.Keys.B)) {
+				powerupTowerUpgrade();
+			};
+			if(Gdx.input.isKeyPressed(Input.Keys.Q)) {
+				currencyPrint();
+			};
+		}
+
+		public void currencyPrint(){
+			System.out.println(currency);
 		}
 
 		public boolean isGameOver() {
@@ -315,7 +356,10 @@ import static utils.Constants.PPM;
 						if(distance/PPM <= 41.9/PPM) {
 							locked = npc;
 							base.shoot(npc);
-							if(npc.isDead()) {locked = null;}
+							if(npc.isDead()) {
+								currency += 150;
+								locked = null;
+							}
 						}
 					}
 				}
@@ -351,7 +395,10 @@ import static utils.Constants.PPM;
 							if(distance/PPM <= tower.shootingRadius/PPM) {
 								locked = npc;
 								tower.shoot(npc);
-								if(npc.isDead()) {locked = null;}
+								if(npc.isDead()) {
+									currency += 150;
+									locked = null;
+								}
 							}
 						}
 					}
@@ -373,6 +420,7 @@ import static utils.Constants.PPM;
 					elapsedTimeNpc = System.currentTimeMillis()-npc.time;
 					current = npc;
 					if(npc.isDead()) {
+						currency += 150;
 						npcs.remove(npc);
 						Array<Fixture> fixtures = npc.body.getFixtureList();
 						for (int i = 0; i < fixtures.size; i++) {
@@ -479,14 +527,23 @@ import static utils.Constants.PPM;
 
 
 			if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)   && isClicked == true) {
+				if (currency >= towerPrice){
+					Vector3 mousePosition = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
+					camera.unproject(mousePosition);
+					player.plantTower(mousePosition);
+					currency -= towerPrice;
+					isClicked = false;
+					towerTextTable.removeActor(towerText);
+					towerText = addTextButton("Choose Tower");
+					towerTextTable.add(towerText);
+				} else{
+					// Maybe also show a warning that we don't have enough money
+					isClicked = false;
+					towerTextTable.removeActor(towerText);
+					towerText = addTextButton("Choose Tower");
+					towerTextTable.add(towerText);
+				}
 
-				Vector3 mousePosition = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
-				camera.unproject(mousePosition);
-				player.plantTower(mousePosition);
-				isClicked = false;
-				towerTextTable.removeActor(towerText);
-				towerText = addTextButton("Choose Tower");
-				towerTextTable.add(towerText);
 			}
 			try{
 				elapsedTime = System.currentTimeMillis()-initialTime;
@@ -555,6 +612,37 @@ import static utils.Constants.PPM;
 			double unitDivisor = Math.sqrt((double)(vectorX*vectorX) + (double)(vectorY*vectorY));
 			Vector2 vectorT = new Vector2((tower.body.getPosition().x-npc.body.getPosition().x)/(float)(unitDivisor),(tower.body.getPosition().y-npc.body.getPosition().y)/(float)(unitDivisor));
 			return vectorT;
+		}
+
+		/**
+		 * Powerups
+		 */
+		public void powerupHealthPotion(){
+			// TODO
+		}
+
+		public void powerupAirStrike(){
+			Vector2 basePosition = base.body.getPosition();
+			try {
+				for(NPC npc: npcs) {
+					float distance = basePosition.dst2(npc.body.getPosition());
+
+					if (distance / PPM < 256 / PPM) {
+						npcs.remove(npc);
+						currency += 150;
+					}
+				}
+			}catch(ConcurrentModificationException e) {
+				return;
+			}
+		}
+
+		public void powerupBoomingEconomy(){
+			currency += 500;
+		}
+
+		public void powerupTowerUpgrade(){
+			// TODO
 		}
 
 }
