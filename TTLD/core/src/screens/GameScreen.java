@@ -140,7 +140,7 @@ public class GameScreen extends Screens {
 
 
 		tower1 = new ImageButton(
-				new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/B18_smaller.png"))))
+				new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/B18.png"))))
 		);
 
 		airStrike = new ImageButton(
@@ -240,7 +240,6 @@ public class GameScreen extends Screens {
 		update();
 		ttld.batch.begin();
 		ttld.batch.draw(backgroundImage,0,0);
-		//ttld.batch.setProjectionMatrix(hud.stage.getCamera().combined);
 		if(base.health > 0) {
 			ttld.batch.draw(base.getTexture(), 645 - base.getTexture().getWidth() / 4, 360 - base.getTexture().getHeight() / 4,base.getTexture().getWidth()/2,base.getTexture().getHeight()/2);//-base.getTexture().getHeight()/2
 		}
@@ -248,7 +247,6 @@ public class GameScreen extends Screens {
 			ttld.batch.draw(tower.getTex(),tower.body.getPosition().x*PPM+635-tower.getTex().getWidth()/4,tower.body.getPosition().y*PPM+350-tower.getTex().getHeight()/4,tower.getTex().getWidth()/2,tower.getTex().getHeight()/2);
 		}
 		for(NPC npc : npcs) {
-			//System.out.println(npc.body.getPosition().x);
 			//Melee NPC_M = (Melee) npc;
 			ttld.batch.draw(npc.getCAnimation(),npc.body.getPosition().x*PPM+635,npc.body.getPosition().y*PPM+350);
 		}
@@ -404,7 +402,7 @@ public class GameScreen extends Screens {
 					currencyText = addTextButton("" + currency);
 					currencyTextTable.add(currencyText);*/
 
-					if(hud.getCurrency() >= towerPrice){
+					if(hud.getCurrency() >= towerPrice && !isClicked){
 
 						towersUI.removeActor(tower1);
 
@@ -513,25 +511,18 @@ public class GameScreen extends Screens {
 			public void clicked(InputEvent event, float x, float y) {
 				isClicked = true;
 
-				towersUI.removeActor(tower1);
-				tower1 = new ImageButton(
-						new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/B18.png"))))
-				);
-
-				towersUI.add(tower1);
-				towersUI.setPosition(-500, -290);
-
+				towerInactive();
 			}
 		});
 
 
-		if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)   && isClicked == true) {
+		if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && isClicked) {
 			if (hud.getCurrency() >= towerPrice){
 				Vector3 mousePosition = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
 				camera.unproject(mousePosition);
 				player.plantTower(mousePosition);
-				int current = hud.getCurrency();
-				hud.setCurrency(current - towerPrice);
+				int currentM = hud.getCurrency();
+				hud.setCurrency(currentM - towerPrice);
 				//currency -= towerPrice;
 
 				/*currencyTextTable.removeActor(currencyText);
@@ -587,7 +578,7 @@ public class GameScreen extends Screens {
 
 	private void spawnUpdate() {
 		elapsedTime = System.currentTimeMillis()-initialTime;
-		if(elapsedTime>=300) {
+		if(elapsedTime>=700) {
 			initialTime = System.currentTimeMillis();
 			Random rand = new Random();
 			int xCord = rand.nextInt(150);
@@ -646,8 +637,11 @@ public class GameScreen extends Screens {
 	 */
 	public void powerupHealthPotion(){
 		if (hud.getCurrency() >= powerupPrice){
-			int current = hud.getCurrency();
-			hud.setCurrency(current - powerupPrice);
+			int currentM = hud.getCurrency();
+			hud.setCurrency(currentM - powerupPrice);
+			if(hud.getCurrency() < towerPrice){
+				towerInactive();
+			}
 			//currency -= powerupPrice;
 			try {
 				base.setHealth(7000);
@@ -663,8 +657,11 @@ public class GameScreen extends Screens {
 	public void powerupAirStrike(){
 		if (hud.getCurrency() >= powerupPrice) {
 			Vector2 basePosition = base.body.getPosition();
-			int current = hud.getCurrency();
-			hud.setCurrency(current - powerupPrice);
+			int currentM = hud.getCurrency();
+			hud.setCurrency(currentM - powerupPrice);
+			if(hud.getCurrency() < towerPrice){
+				towerInactive();
+			}
 			//currency -= powerupPrice;
 			try {
 				for (NPC npc : npcs) {
@@ -672,8 +669,8 @@ public class GameScreen extends Screens {
 
 					if (distance / PPM < 256 / PPM) {
 						npcs.remove(npc);
-						current = hud.getCurrency();
-						hud.setCurrency(current + npcKillReward);
+						currentM = hud.getCurrency();
+						hud.setCurrency(currentM + npcKillReward);
 						//currency += npcKillReward;
 					}
 				}
@@ -685,8 +682,11 @@ public class GameScreen extends Screens {
 
 	public void powerupBoomingEconomy(){
 		if (hud.getCurrency() >= powerupPrice){
-			int current = hud.getCurrency();
-			hud.setCurrency(current - powerupPrice);
+			int currentM = hud.getCurrency();
+			hud.setCurrency(currentM - powerupPrice);
+			if(hud.getCurrency() < towerPrice){
+				towerInactive();
+			}
 			//currency -= powerupPrice;
 			npcKillReward += 50;
 		}
@@ -695,8 +695,11 @@ public class GameScreen extends Screens {
 	public void powerupTowerUpgrade(){
 		if (hud.getCurrency() >= powerupPrice){
 			//currency -= powerupPrice;
-			int current = hud.getCurrency();
-			hud.setCurrency(current - powerupPrice);
+			int currentM = hud.getCurrency();
+			hud.setCurrency(currentM - powerupPrice);
+			if(hud.getCurrency() < towerPrice){
+				towerInactive();
+			}
 			try {
 				for (Tower tower: towers){
 					tower.setHealth((int)(tower.getHealth()*1.1));
@@ -706,5 +709,14 @@ public class GameScreen extends Screens {
 				return;
 			}
 		}
+	}
+	private void towerInactive(){
+		towersUI.removeActor(tower1);
+		tower1 = new ImageButton(
+				new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/B18Dark.png"))))
+		);
+
+		towersUI.add(tower1);
+		towersUI.setPosition(-500, -290);
 	}
 }

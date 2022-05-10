@@ -74,11 +74,12 @@ public class Hud {
         score += value;
         scoreLabel.setText(String.format("%06d", score));
         currency += gold;
-        currencyLabel.setText(""+currency);
+        currencyLabel.setText("" + currency);
     }
 
     public static void setCurrency(int value){
         currency = value;
+        currencyLabel.setText("" + currency);
     }
     public static int getCurrency(){
         return currency;
