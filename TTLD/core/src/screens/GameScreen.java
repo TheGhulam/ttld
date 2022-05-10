@@ -93,7 +93,6 @@ import static utils.Constants.PPM;
 
 		public void show() {
 			playBGM();
-
 		}
 		public void update() {
 			world.step(1/60f, 6, 2);

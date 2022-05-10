@@ -23,8 +23,11 @@ public class PauseMenu extends Screens{
     public TextButton paused,settings,back;
     public Texture backgroundImage;
 
+    private PauseSettingScreen setting;
+
     public PauseMenu(ttld ttldGame) {
         super(ttldGame);
+        setting = new PauseSettingScreen(ttldGame);
         backgroundImage = new Texture("res/backgrounds/menu_background4.png");
         effect = Gdx.audio.newSound(Gdx.files.internal("sfx/rollOverSoundEff.wav"));
         font.getData().setScale(3, 3);
@@ -72,7 +75,7 @@ public class PauseMenu extends Screens{
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ttldGame.setScreen(ttldGame.menuScreen);
+                ttldGame.setScreen(setting);
                 stage.clear();
             }
         });
@@ -93,9 +96,9 @@ public class PauseMenu extends Screens{
         back.setColor(Color.BLUE);
         uiElements.add(back).width(length).pad(4*gapping);
         uiElements.row();
-        uiElements.add(paused).width(length).padBottom(gapping);
-        uiElements.row();
         uiElements.add(settings).width(length).padBottom(gapping);
+        uiElements.row();
+        uiElements.add(paused).width(length).padBottom(gapping);
     }
 
     //Done
