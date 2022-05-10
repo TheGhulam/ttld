@@ -510,7 +510,6 @@ public class GameScreen extends Screens {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				isClicked = true;
-
 				towerInactive();
 			}
 		});
@@ -639,9 +638,6 @@ public class GameScreen extends Screens {
 		if (hud.getCurrency() >= powerupPrice){
 			int currentM = hud.getCurrency();
 			hud.setCurrency(currentM - powerupPrice);
-			if(hud.getCurrency() < towerPrice){
-				towerInactive();
-			}
 			//currency -= powerupPrice;
 			try {
 				base.setHealth(7000);
