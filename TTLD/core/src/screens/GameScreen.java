@@ -129,7 +129,7 @@ import static utils.Constants.PPM;
 			}
 			else if(isGameWon()) {
 				ttldGame.gameScreen = new GameScreen(super.ttldGame,new Level1());
-				ttldGame.setScreen(new LoseScreen(super.ttldGame));
+				ttldGame.setScreen(new WinScreen(super.ttldGame));
 				this.dispose();
 			}
 		}
