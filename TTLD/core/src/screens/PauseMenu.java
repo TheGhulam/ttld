@@ -19,8 +19,10 @@ public class PauseMenu extends Screens{
     public Sound effect;
     public float effectVolume;
     private Table uiElements;
+
     public TextButton paused,settings,back;
     public Texture backgroundImage;
+
     private PauseSettingScreen setting;
 
     public PauseMenu(ttld ttldGame) {
@@ -86,19 +88,6 @@ public class PauseMenu extends Screens{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ttldGame.setScreen(ttldGame.gameScreen);
-                stage.clear();
-            }
-        });
-
-        mainMenu.addListener(new ClickListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                effect.play(effectVolume);
-            }
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                ttldGame.setScreen(ttldGame.menuScreen);
                 stage.clear();
             }
         });
