@@ -19,8 +19,7 @@ public class PauseMenu extends Screens{
     public Sound effect;
     public float effectVolume;
     private Table uiElements;
-
-    public TextButton paused, back;
+    public TextButton paused, back, mainMenu;
     public Texture backgroundImage;
 
     public PauseMenu(ttld ttldGame) {
@@ -68,6 +67,7 @@ public class PauseMenu extends Screens{
 
         back = addTextButton("PAUSED");
         paused = addTextButton("BACK");
+        mainMenu = addTextButton("RETURN TO MAIN MENU");
 
         paused.addListener(new ClickListener() {
             @Override
@@ -82,11 +82,26 @@ public class PauseMenu extends Screens{
             }
         });
 
+        mainMenu.addListener(new ClickListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                effect.play(effectVolume);
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ttldGame.setScreen(ttldGame.menuScreen);
+                stage.clear();
+            }
+        });
+
         back.setTouchable(Touchable.disabled);
         back.setColor(Color.BLUE);
         uiElements.add(back).width(length).pad(4*gapping);
         uiElements.row();
         uiElements.add(paused).width(length).padBottom(gapping);
+        uiElements.row();
+        uiElements.add(mainMenu).width(length).padBottom(gapping);
         uiElements.row();
     }
 

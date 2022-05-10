@@ -28,7 +28,6 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-//import Scenes.Hud;
 import com.ttld.game.ttld;
 import gameObjects.*;
 
@@ -40,7 +39,7 @@ import static utils.Constants.PPM;
 	public class GameScreen extends Screens {
 
 		private Viewport gameport;
-		//private Hud hud;
+		private Hud hud;
 		private Box2DDebugRenderer b2dr;
 		private OrthographicCamera camera;
 		protected World world;
@@ -58,11 +57,9 @@ import static utils.Constants.PPM;
 		public Music gameplayMusic;
 		long initialTime;
 		long timer;
-		long currency = 1000;
-		long towerPrice = 500;
-		long powerupPrice = 250;
+		int towerPrice = 500;
+		int powerupPrice = 250;
 
-		//
 		private Boolean isClicked = false;
 		private Table towersUI;
 		private Table powerUpsUI;
@@ -95,7 +92,7 @@ import static utils.Constants.PPM;
 
 			this.world.setContactListener(new WorldContactListener());
 			gameport= new FitViewport(ttld.width,ttld.height,camera);
-			//hud = new Hud(ttld.batch);
+			hud = new Hud(ttld.batch);
 			Gdx.input.setInputProcessor(mH);
 			mH = new MouseHandler(this);
 			player = new Player(this);
@@ -103,6 +100,7 @@ import static utils.Constants.PPM;
 			base = creator.createBase();
 			camera.position.set(gameport.getScreenWidth()/2, gameport.getScreenHeight()/2,0);
 			initialTime = System.currentTimeMillis();
+			hud.setCurrency(1000);
 
 		}
 
@@ -165,7 +163,7 @@ import static utils.Constants.PPM;
 					new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/pngegg.png"))))
 			);
 
-			currencyText = addTextButton(Long.toString(currency));
+			currencyText = addTextButton(Long.toString(hud.getCurrency()));
 
 			currencyImage = new ImageButton(
 					new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/coin.png"))))
@@ -246,7 +244,7 @@ import static utils.Constants.PPM;
 		}
 
 		public void currencyPrint(){
-			System.out.println(currency);
+			System.out.println(hud.getCurrency());
 		}
 
 		public boolean isGameOver() {
@@ -265,10 +263,13 @@ import static utils.Constants.PPM;
 			}
 			Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+			camera.update();
 			update();
+
 			ttld.batch.begin();
 			ttld.batch.draw(backgroundImage,0,0);
-			//ttld.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+			ttld.batch.setProjectionMatrix(hud.stage.getCamera().combined);
 			if(base.health > 0) {
 				ttld.batch.draw(base.getTexture(), 645 - base.getTexture().getWidth() / 4, 360 - base.getTexture().getHeight() / 4,base.getTexture().getWidth()/2,base.getTexture().getHeight()/2);//-base.getTexture().getHeight()/2
 			}
@@ -276,7 +277,6 @@ import static utils.Constants.PPM;
 				ttld.batch.draw(tower.getTex(),tower.body.getPosition().x*PPM+635-tower.getTex().getWidth()/4,tower.body.getPosition().y*PPM+350-tower.getTex().getHeight()/4,tower.getTex().getWidth()/2,tower.getTex().getHeight()/2);
 			}
 			for(NPC npc : npcs) {
-				//System.out.println(npc.body.getPosition().x);
 				//Melee NPC_M = (Melee) npc;
 				ttld.batch.draw(npc.getCAnimation(),npc.body.getPosition().x*PPM+635,npc.body.getPosition().y*PPM+350);
 			}
@@ -286,6 +286,10 @@ import static utils.Constants.PPM;
 			ttld.batch.end();
 			b2dr.render(world, camera.combined.cpy().scl(PPM));
 			stage.draw();
+
+			ttld.batch.setProjectionMatrix(hud.getStage().getCamera().combined); //set the spriteBatch to draw what our stageViewport sees
+			hud.getStage().act(delta); //act the Hud
+			hud.getStage().draw();
 		}
 
 		@Override
@@ -357,7 +361,6 @@ import static utils.Constants.PPM;
 							locked = npc;
 							base.shoot(npc);
 							if(npc.isDead()) {
-								currency += 150;
 								locked = null;
 							}
 						}
@@ -396,7 +399,6 @@ import static utils.Constants.PPM;
 								locked = npc;
 								tower.shoot(npc);
 								if(npc.isDead()) {
-									currency += 150;
 									locked = null;
 								}
 							}
@@ -420,7 +422,8 @@ import static utils.Constants.PPM;
 					elapsedTimeNpc = System.currentTimeMillis()-npc.time;
 					current = npc;
 					if(npc.isDead()) {
-						currency += 150;
+						int currency = hud.getCurrency();
+						hud.setCurrency(currency + 150);
 						npcs.remove(npc);
 						Array<Fixture> fixtures = npc.body.getFixtureList();
 						for (int i = 0; i < fixtures.size; i++) {
@@ -526,12 +529,13 @@ import static utils.Constants.PPM;
 			});
 
 
-			if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)   && isClicked == true) {
-				if (currency >= towerPrice){
+			if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT) && isClicked == true) {
+				if (hud.getCurrency() >= towerPrice){
 					Vector3 mousePosition = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
 					camera.unproject(mousePosition);
 					player.plantTower(mousePosition);
-					currency -= towerPrice;
+					int currentCurrency = hud.getCurrency();
+					hud.setCurrency(currentCurrency-towerPrice);
 					isClicked = false;
 					towerTextTable.removeActor(towerText);
 					towerText = addTextButton("Choose Tower");
@@ -629,7 +633,8 @@ import static utils.Constants.PPM;
 
 					if (distance / PPM < 256 / PPM) {
 						npcs.remove(npc);
-						currency += 150;
+						int currentCurrency = hud.getCurrency();
+						hud.setCurrency(currentCurrency+150);
 					}
 				}
 			}catch(ConcurrentModificationException e) {
@@ -638,7 +643,8 @@ import static utils.Constants.PPM;
 		}
 
 		public void powerupBoomingEconomy(){
-			currency += 500;
+			int currentCurrency = hud.getCurrency();
+			hud.setCurrency(currentCurrency+500);
 		}
 
 		public void powerupTowerUpgrade(){
