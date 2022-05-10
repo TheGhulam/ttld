@@ -1,6 +1,7 @@
 package screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -22,12 +23,16 @@ public class WinScreen extends Screens{
     public TextButton newGame, mainMenu, gameEndText;
     public Texture backgroundImage;
 
+    Music bgm;
+
     public WinScreen(ttld ttldGame) {
         super(ttldGame);
-        backgroundImage = new Texture("res/backgrounds/menu_background4.png");
+        backgroundImage = new Texture("res/backgrounds/serdar0SM09.png");
         effect = Gdx.audio.newSound(Gdx.files.internal("sfx/rollOverSoundEff.wav"));
+        bgm = Gdx.audio.newMusic(Gdx.files.internal("sfx/BGM_WIN.wav"));
         font.getData().setScale(3, 3);
-        effectVolume = 0.05f;
+        bgm.setVolume(ttldGame.menuScreen.bgmVolume);
+        effectVolume = ttldGame.menuScreen.effectVolume;
     }
 
     private WinScreen callClass() {
@@ -50,6 +55,11 @@ public class WinScreen extends Screens{
         stage.draw();
     }
 
+    private void playBGM() {
+        if(!bgm.isPlaying())
+            bgm.play();
+    }
+
     @Override
     public void show() {
         super.show();
@@ -59,6 +69,7 @@ public class WinScreen extends Screens{
         uiElements.setFillParent(true);
         loadUI(300, 15);
         stage.addActor(uiElements);
+        playBGM();
     }
 
 
@@ -66,7 +77,7 @@ public class WinScreen extends Screens{
 
 
         gameEndText = addTextButton("YOU WON!");
-        newGame = addTextButton("RETRY");
+        newGame = addTextButton("REPLAY");
         mainMenu = addTextButton("RETURN TO MAIN MENU");
 
         newGame.addListener(new ClickListener() {
@@ -78,6 +89,7 @@ public class WinScreen extends Screens{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ttldGame.setScreen(ttldGame.gameScreen);
+                bgm.stop();
                 stage.clear();
             }
         });
@@ -91,6 +103,7 @@ public class WinScreen extends Screens{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ttldGame.setScreen(ttldGame.menuScreen);
+                bgm.stop();
                 stage.clear();
             }
         });

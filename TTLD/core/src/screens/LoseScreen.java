@@ -1,6 +1,7 @@
 package screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -23,18 +24,17 @@ public class LoseScreen extends Screens {
     public TextButton newGame, mainMenu, gameEndText;
     public Texture backgroundImage;
 
+    Music bgm;
+
     public LoseScreen(ttld ttldGame) {
         super(ttldGame);
-        backgroundImage = new Texture("res/backgrounds/menu_background4.png");
+        backgroundImage = new Texture("res/backgrounds/gameover_background.png");
         effect = Gdx.audio.newSound(Gdx.files.internal("sfx/rollOverSoundEff.wav"));
+        bgm = Gdx.audio.newMusic(Gdx.files.internal("sfx/BGM_LOSE.wav"));
         font.getData().setScale(3, 3);
-        effectVolume = 0.05f;
+        bgm.setVolume(ttldGame.menuScreen.bgmVolume);
+        effectVolume = ttldGame.menuScreen.effectVolume;
     }
-
-    private LoseScreen callClass() {
-        return this;
-    }
-
 
     @Override
     public void render(float delta) {
@@ -51,6 +51,11 @@ public class LoseScreen extends Screens {
         stage.draw();
     }
 
+    private void playBGM() {
+        if(!bgm.isPlaying())
+            bgm.play();
+    }
+
     @Override
     public void show() {
         super.show();
@@ -60,6 +65,7 @@ public class LoseScreen extends Screens {
         uiElements.setFillParent(true);
         loadUI(300, 15);
         stage.addActor(uiElements);
+        playBGM();
     }
 
 
@@ -79,6 +85,7 @@ public class LoseScreen extends Screens {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ttldGame.setScreen(ttldGame.gameScreen);
+                bgm.stop();
                 stage.clear();
             }
         });
@@ -92,12 +99,14 @@ public class LoseScreen extends Screens {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ttldGame.setScreen(ttldGame.menuScreen);
+                bgm.stop();
                 stage.clear();
             }
         });
         gameEndText.setTouchable(Touchable.disabled);
         gameEndText.setColor(Color.RED);
-        uiElements.add(gameEndText).width(length).pad(4*gapping);
+        uiElements.pad(4*gapping);
+        uiElements.add(gameEndText).width(length).pad(2*gapping);
         uiElements.row();
         uiElements.add(newGame).width(length).padBottom(gapping);
         uiElements.row();
