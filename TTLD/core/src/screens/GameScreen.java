@@ -150,7 +150,7 @@ import static utils.Constants.PPM;
 
 			towerText = addTextButton("Choose Tower");
 			tower1 = new ImageButton(
-					new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/B18.png"))))
+					new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/B18_smaller.png"))))
 			);
 
 			airStrike = new ImageButton(
@@ -237,39 +237,27 @@ import static utils.Constants.PPM;
                     powerupAirStrike();
                 }
             });
-//            airStrike.addListener(new EventListener() {
-//                @Override
-//                public boolean handle(Event event) {
-//                    for (int j=0;j<10; j++){
-//                        powerupAirStrike();
-//                    }
-//                    return false;
-//                }
-//            });
 
-            boomingEconomy.addListener(new EventListener() {
-                @Override
-                public boolean handle(Event event) {
-                    powerupBoomingEconomy();
-                    return false;
-                }
-            });
+			boomingEconomy.addListener(new ClickListener() {
+				@Override
+				public void clicked(InputEvent event, float x, float y) {
+					powerupBoomingEconomy();
+				}
+			});
 
-            healthPotion.addListener(new EventListener() {
-                @Override
-                public boolean handle(Event event) {
-                    powerupHealthPotion();
-                    return false;
-                }
-            });
+			healthPotion.addListener(new ClickListener() {
+				@Override
+				public void clicked(InputEvent event, float x, float y) {
+					powerupHealthPotion();
+				}
+			});
 
-            towerUpgrade.addListener(new EventListener() {
-                @Override
-                public boolean handle(Event event) {
-                    powerupTowerUpgrade();
-                    return false;
-                }
-            });
+			towerUpgrade.addListener(new ClickListener() {
+				@Override
+				public void clicked(InputEvent event, float x, float y) {
+					powerupTowerUpgrade();
+				}
+			});
 		}
 
 		public void currencyPrint(){
@@ -646,7 +634,7 @@ import static utils.Constants.PPM;
 		public void powerupHealthPotion(){
             if (currency >= powerupPrice){
                 currency -= powerupPrice;
-//                System.out.println("health potion used");
+                System.out.println("health potion used");
                 try {
                     base.setHealth(7000);
                     for (Tower tower: towers){
@@ -662,7 +650,7 @@ import static utils.Constants.PPM;
             if (currency >= powerupPrice) {
                 Vector2 basePosition = base.body.getPosition();
                 currency -= powerupPrice;
-//                System.out.println("air strike used");
+                System.out.println("air strike used");
                 try {
                     for (NPC npc : npcs) {
                         float distance = basePosition.dst2(npc.body.getPosition());
@@ -680,7 +668,7 @@ import static utils.Constants.PPM;
 
 		public void powerupBoomingEconomy(){
             if (currency >= powerupPrice){
-//                System.out.println("booming economy used");
+                System.out.println("booming economy used");
                 currency -= powerupPrice;
                 npcKillReward += 50;
             }
@@ -689,7 +677,7 @@ import static utils.Constants.PPM;
 		public void powerupTowerUpgrade(){
             if (currency >= powerupPrice){
                 currency -= powerupPrice;
-//                System.out.println("tower upgrade used");
+                System.out.println("tower upgrade used");
                 try {
                     for (Tower tower: towers){
                         tower.setHealth((int)(tower.getHealth()*1.1));
