@@ -548,7 +548,7 @@ public class GameScreen extends Screens {
 				}
 				else if(hud.getCurrency() < towerPrice){
 					tower1 = new ImageButton(
-							new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/B18.png"))))
+							new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/B18Dark.png"))))
 					);
 				}
 				towersUI.add(tower1);
