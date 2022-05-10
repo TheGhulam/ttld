@@ -25,7 +25,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.ttld.game.ttld;
 import gameObjects.*;
 import levels.Level;
-import levels.Level1;
 
 import static utils.Constants.PPM;
 
@@ -44,12 +43,10 @@ import static utils.Constants.PPM;
 		private final Creator creator;
 		private final Base base;
 		public ArrayList<Projectile> projectiles = new ArrayList<>();
-		private NPC current;
 		long elapsedTimeNpc;
 		long elapsedTime;
 		public Music gameplayMusic;
 		long initialTime;
-		long timer;
 
 		Random rand;
 		Level level;
@@ -57,7 +54,7 @@ import static utils.Constants.PPM;
 		public GameScreen(ttld GameTTLD, Level level) {
 			super(GameTTLD);
 			rand = new Random();
-			this.level = (Level1) level;
+			this.level = level;
 			gameplayMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/the-hunting-bm_menuMusic.wav"));
 			gameplayMusic.setLooping(true);
 			backgroundImage = new Texture("res/menu_background4.png");
@@ -273,7 +270,6 @@ import static utils.Constants.PPM;
 			try {
 				for(NPC npc: npcs) {
 					elapsedTimeNpc = System.currentTimeMillis()-npc.time;
-					current = npc;
 					if(npc.isDead()) {
 						npcs.remove(npc);
 						Array<Fixture> fixtures = npc.body.getFixtureList();
