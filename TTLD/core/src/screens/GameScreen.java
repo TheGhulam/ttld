@@ -59,6 +59,7 @@ public class GameScreen extends Screens {
 	long initialTime;
 	long timer;
 	long currency = 1000;
+	long npcKillReward = 150;
 	long towerPrice = 500;
 	long powerupPrice = 250;
 
@@ -70,10 +71,10 @@ public class GameScreen extends Screens {
 
 	private Table currencyTextTable;
 	private ImageButton tower1;
-	private ImageButton powerUp1;
-	private ImageButton powerUp2;
-	private ImageButton powerUp3;
-	private ImageButton powerUp4;
+	private ImageButton airStrike;
+	private ImageButton boomingEconomy;
+	private ImageButton healthPotion;
+	private ImageButton towerUpgrade;
 	private TextButton currencyText;
 	private ImageButton currencyImage;
 	//
@@ -124,7 +125,6 @@ public class GameScreen extends Screens {
 		powerUpsUI = new Table();
 		powerUpsUI.setFillParent(true);
 
-
 		currencyUI = new Table();
 		currencyUI.setFillParent(true);
 
@@ -146,54 +146,35 @@ public class GameScreen extends Screens {
 
 
 		tower1 = new ImageButton(
-				new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/B18.png"))))
+				new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/B18_smaller.png"))))
 		);
 
-		// "res/pngegg.png" is a representational image until finding an icon
-		powerUp1 = new ImageButton(
-				new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/pngegg.png"))))
+		airStrike = new ImageButton(
+				new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/airstrike.png"))))
 		);
-		powerUp2 = new ImageButton(
-				new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/pngegg.png"))))
+		boomingEconomy = new ImageButton(
+				new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/economy.png"))))
 		);
-		powerUp3 = new ImageButton(
-				new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/pngegg.png"))))
+		healthPotion = new ImageButton(
+				new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/health.png"))))
 		);
-		powerUp4 = new ImageButton(
-				new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/pngegg.png"))))
+		towerUpgrade= new ImageButton(
+				new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/upgrade.png"))))
 		);
 
 		currencyText = addTextButton(Long.toString(currency));
-
 		currencyImage = new ImageButton(
 				new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/coin.png"))))
 		);
 
-
-		powerUp1.addListener(new ClickListener(){
-
-		});
-
-		powerUp2.addListener(new ClickListener(){
-
-		});
-
-		powerUp3.addListener(new ClickListener(){
-
-		});
-
-		powerUp4.addListener(new ClickListener(){
-
-		});
-
 		currencyText.setTouchable(Touchable.disabled);
 
 		towersUI.add(tower1);
-		powerUpsUI.add(powerUp1);
-		powerUpsUI.add(powerUp2);
+		powerUpsUI.add(airStrike);
+		powerUpsUI.add(boomingEconomy);
 		powerUpsUI.row();
-		powerUpsUI.add(powerUp3);
-		powerUpsUI.add(powerUp4);
+		powerUpsUI.add(healthPotion);
+		powerUpsUI.add(towerUpgrade);
 		currencyUI.add(currencyImage);
 		currencyTextTable.add(currencyText);
 
@@ -222,25 +203,33 @@ public class GameScreen extends Screens {
 	}
 
 	public void powerupUpdate(){
-		if(Gdx.input.isKeyPressed(Input.Keys.X)) {
-			powerupHealthPotion();
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.C)) {
-			powerupAirStrike();
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.V)) {
-			powerupBoomingEconomy();
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.B)) {
-			powerupTowerUpgrade();
-		};
-		if(Gdx.input.isKeyPressed(Input.Keys.Q)) {
-			currencyPrint();
-		};
-	}
+		airStrike.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				powerupAirStrike();
+			}
+		});
 
-	public void currencyPrint(){
-		System.out.println(currency);
+		boomingEconomy.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				powerupBoomingEconomy();
+			}
+		});
+
+		healthPotion.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				powerupHealthPotion();
+			}
+		});
+
+		towerUpgrade.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				powerupTowerUpgrade();
+			}
+		});
 	}
 
 	public boolean isGameOver() {
@@ -534,7 +523,7 @@ public class GameScreen extends Screens {
 
 				towersUI.removeActor(tower1);
 				tower1 = new ImageButton(
-						new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/B18Dark.png"))))
+						new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/B18.png"))))
 				);
 
 				towersUI.add(tower1);
@@ -565,7 +554,7 @@ public class GameScreen extends Screens {
 				}
 				else if(currency < towerPrice){
 					tower1 = new ImageButton(
-							new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/B18Dark.png"))))
+							new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/B18.png"))))
 					);
 				}
 				towersUI.add(tower1);
@@ -651,31 +640,56 @@ public class GameScreen extends Screens {
 	 * Powerups
 	 */
 	public void powerupHealthPotion(){
-		// TODO
+		if (currency >= powerupPrice){
+			currency -= powerupPrice;
+			try {
+				base.setHealth(7000);
+				for (Tower tower: towers){
+					tower.setHealth(2000);
+				}
+			}catch(ConcurrentModificationException e){
+				return;
+			}
+		}
 	}
 
 	public void powerupAirStrike(){
-		Vector2 basePosition = base.body.getPosition();
-		try {
-			for(NPC npc: npcs) {
-				float distance = basePosition.dst2(npc.body.getPosition());
+		if (currency >= powerupPrice) {
+			Vector2 basePosition = base.body.getPosition();
+			currency -= powerupPrice;
+			try {
+				for (NPC npc : npcs) {
+					float distance = basePosition.dst2(npc.body.getPosition());
 
-				if (distance / PPM < 256 / PPM) {
-					npcs.remove(npc);
-
+					if (distance / PPM < 256 / PPM) {
+						npcs.remove(npc);
+						currency += npcKillReward;
+					}
 				}
+			} catch (ConcurrentModificationException e) {
+				return;
 			}
-		}catch(ConcurrentModificationException e) {
-			return;
 		}
 	}
 
 	public void powerupBoomingEconomy(){
-		currency += 500;
+		if (currency >= powerupPrice){
+			currency -= powerupPrice;
+			npcKillReward += 50;
+		}
 	}
 
 	public void powerupTowerUpgrade(){
-		// TODO
+		if (currency >= powerupPrice){
+			currency -= powerupPrice;
+			try {
+				for (Tower tower: towers){
+					tower.setHealth((int)(tower.getHealth()*1.1));
+					tower.setDamage((int)(tower.getDamage()*1.1));
+				}
+			}catch(ConcurrentModificationException e){
+				return;
+			}
+		}
 	}
-
 }
