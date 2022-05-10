@@ -6,15 +6,27 @@ import java.util.ConcurrentModificationException;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -45,8 +57,30 @@ import static utils.Constants.PPM;
 		public Level level;
 		private NPC current;
 		long elapsedTimeNpc;
-
 		public Music gameplayMusic;
+
+		//
+		private Tower tower;
+		private Boolean isClicked = false;
+		private Table towersUI;
+		private Table powerUpsUI;
+		private Table towerTextTable;
+
+		private Texture towerTexture;
+		private Texture powerUp1Texture;
+		private Texture powerUp2Texture;
+		private Texture powerUp3Texture;
+		private Texture powerUp4Texture;
+
+		private TextButton towerText;
+		private ImageButton tower1;
+		private ImageButton powerUp1;
+		private ImageButton powerUp2;
+		private ImageButton powerUp3;
+		private ImageButton powerUp4;
+
+		//
+
 
 		public GameScreen(ttld GameTTLD) {
 			super(GameTTLD);
@@ -73,6 +107,7 @@ import static utils.Constants.PPM;
 			camera.position.set(gameport.getScreenWidth()/2, gameport.getScreenHeight()/2,0);
 			//npcs.add(creator.createMelee(200, 50));
 
+
 		}
 
 		private void playBGM() {
@@ -84,7 +119,86 @@ import static utils.Constants.PPM;
 		}
 
 		public void show() {
+
+			super.show();
+			stage.clear();
+
+			towersUI = new Table();
+			towersUI.setFillParent(true);
+
+			powerUpsUI = new Table();
+			powerUpsUI.setFillParent(true);
+
+			towerTextTable = new Table();
+			towerTextTable.setFillParent(true);
+
+			loadUI(200,15);
+
+			stage.addActor(towersUI);
+			stage.addActor(powerUpsUI);
+			stage.addActor(towerTextTable);
+
 			playBGM();
+		}
+
+		private void loadUI(int length, int gapping){
+
+			towerTexture = new Texture(Gdx.files.internal("res/base.png"));
+			powerUp1Texture = new Texture(Gdx.files.internal("res/pngegg.png"));
+			powerUp2Texture = new Texture(Gdx.files.internal("res/pngegg.png"));
+			powerUp3Texture = new Texture(Gdx.files.internal("res/pngegg.png"));
+			powerUp4Texture = new Texture(Gdx.files.internal("res/pngegg.png"));
+
+			towerText = addTextButton("Choose Tower");
+
+			tower1 = new ImageButton(
+					new TextureRegionDrawable(new TextureRegion(towerTexture))
+			);
+
+			powerUp1 = new ImageButton(
+					new TextureRegionDrawable(new TextureRegion(powerUp1Texture))
+			);
+			powerUp2 = new ImageButton(
+					new TextureRegionDrawable(new TextureRegion(powerUp2Texture))
+			);
+			powerUp3 = new ImageButton(
+					new TextureRegionDrawable(new TextureRegion(powerUp3Texture))
+			);
+			powerUp4 = new ImageButton(
+					new TextureRegionDrawable(new TextureRegion(powerUp4Texture))
+			);
+
+
+			powerUp1.addListener(new ClickListener(){
+
+			});
+
+			powerUp2.addListener(new ClickListener(){
+
+			});
+
+			powerUp3.addListener(new ClickListener(){
+
+			});
+
+			powerUp4.addListener(new ClickListener(){
+
+			});
+
+
+			towerText.setTouchable(Touchable.disabled);
+
+			towerTextTable.add(towerText);
+			towersUI.add(tower1).width(length).padBottom(gapping);
+			powerUpsUI.add(powerUp1);
+			powerUpsUI.add(powerUp2);
+			powerUpsUI.row();
+			powerUpsUI.add(powerUp3);
+			powerUpsUI.add(powerUp4);
+
+			towerTextTable.setPosition(-500, -200);
+			towersUI.setPosition(-500, -290);
+			powerUpsUI.setPosition(- 340, -290);
 
 		}
 		public void update() {
@@ -101,11 +215,11 @@ import static utils.Constants.PPM;
 		public void cameraUpdate() {
 			float horizontalforce = 0;
 			float verticalforce = 0;
-			if(Gdx.input.isKeyPressed(Input.Keys.D)) {
-				creator.createMelee(400, 200);
+			if(Gdx.input.isKeyPressed(Input.Keys.A)) {
+				creator.createMelee(200, 10);
 
 			}
-			if(Gdx.input.isKeyPressed(Input.Keys.A)) {
+			if(Gdx.input.isKeyPressed(Input.Keys.D)) {
 				creator.createMelee(-200, -10);
 			}
 			if(Gdx.input.isKeyPressed(Input.Keys.W)) {
@@ -114,6 +228,8 @@ import static utils.Constants.PPM;
 			if(Gdx.input.isKeyPressed(Input.Keys.S)) {
 				creator.createMelee(0,-200);
 			}
+
+
 
 
 		}
@@ -131,11 +247,9 @@ import static utils.Constants.PPM;
 				//Melee NPC_M = (Melee) npc;
 				ttld.batch.draw(npc.getCAnimation(),npc.body.getPosition().x*PPM+635,npc.body.getPosition().y*PPM+350);
 			}
-			for(Projectile pr : projectiles) {
-				ttld.batch.draw(pr.getTex(),pr.bullet.getPosition().x*PPM+635,pr.bullet.getPosition().y*PPM+350);
-			}
 			ttld.batch.end();
 			b2dr.render(world, camera.combined.cpy().scl(PPM));
+			stage.draw();
 		}
 
 		@Override
@@ -210,7 +324,6 @@ import static utils.Constants.PPM;
 						}
 					}
 				}
-
 
 
 			}catch(ConcurrentModificationException e) {
@@ -351,12 +464,36 @@ import static utils.Constants.PPM;
 
 		}
 
+		float localX = 0;
+		float localY = 0;
+
 		public void playerUpdate() {
-			if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+
+
+			tower1.addListener(new ClickListener() {
+				@Override
+				public void clicked(InputEvent event, float x, float y) {
+					isClicked = true;
+					localX = x;
+					localY = y;
+					towerTextTable.removeActor(towerText);
+					towerText = addTextButton("Put The Tower");
+					towerTextTable.add(towerText);
+				}
+			});
+
+
+			if(Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)   && isClicked == true) {
+
 				Vector3 mousePosition = new Vector3(Gdx.input.getX(),Gdx.input.getY(),0);
 				camera.unproject(mousePosition);
 				player.plantTower(mousePosition);
+				isClicked = false;
+				towerTextTable.removeActor(towerText);
+				towerText = addTextButton("Choose Tower");
+				towerTextTable.add(towerText);
 			}
+
 		}
 
 		public Vector2 targetToBase(NPC e) {

@@ -35,6 +35,8 @@ public abstract class Screens implements Screen {
     @Override
     public void show() {
         setInputProcessor();
+
+
     }
 
     protected void setInputProcessor() {

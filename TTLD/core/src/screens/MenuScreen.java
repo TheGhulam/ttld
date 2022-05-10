@@ -21,6 +21,7 @@ public class MenuScreen extends Screens{
     //UI ELEMENTS
     private TextButton title,newGame,continueB,settings,credits,quit,end;
     private Table uiElements;
+
     //BACKGROUND IMAGE
     private Texture backgroundImage;
     //SOUND EFFECTS & MUSIC
@@ -120,22 +121,30 @@ public class MenuScreen extends Screens{
             }
         });
         continueB.addListener(new ClickListener() {
+
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 effect.play(effectVolume);
             }
+
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ttldGame.setScreen(new GameScreenDemo(ttldGame));
             }
         });
         settings.addListener(new ClickListener() {
+
+
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 effect.play(effectVolume);
             }
+
+
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ttldGame.setScreen(new SettingScreen(ttldGame,callClass()));
             }
+
+
         });
         credits.addListener(new ClickListener() {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -163,7 +172,7 @@ public class MenuScreen extends Screens{
             }
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ttldGame.setScreen(new EndScreen(ttldGame));
+                //ttldGame.setScreen(new EndScreen(ttldGame));
                 bgm.stop();
             }
         });
@@ -187,7 +196,6 @@ public class MenuScreen extends Screens{
         uiElements.add(quit).width(length).padBottom(gapping);
         uiElements.row();
         uiElements.add(end).width(length).padBottom(gapping);
-
 
     }
 
