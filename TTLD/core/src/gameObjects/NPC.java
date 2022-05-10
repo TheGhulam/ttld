@@ -61,12 +61,7 @@ public class NPC extends Entity{
 	public Entity getNpcTarget() {
 		return npcTarget;
 	}
-	public boolean isAttacking(){
-		Vector2 zero = new Vector2(0,0);
-		if(body.getLinearVelocity().equals(zero)){
-			return true;
-		}else {return false;}
-	}
+
 	@Override
 	public Texture getCAnimation() {
 		return null;

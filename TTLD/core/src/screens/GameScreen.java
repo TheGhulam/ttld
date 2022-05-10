@@ -1,6 +1,7 @@
 package screens;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.Random;
 
@@ -46,6 +47,8 @@ import static utils.Constants.PPM;
 		private NPC current;
 		long elapsedTimeNpc;
 		public Music gameplayMusic;
+		long initialTime;
+		long timer;
 
 		public GameScreen(ttld GameTTLD) {
 			super(GameTTLD);
@@ -70,7 +73,7 @@ import static utils.Constants.PPM;
 			creator = new Creator(this);
 			base = creator.createBase();
 			camera.position.set(gameport.getScreenWidth()/2, gameport.getScreenHeight()/2,0);
-			//npcs.add(creator.createMelee(200, 50));
+			initialTime = System.currentTimeMillis();
 
 		}
 
@@ -102,8 +105,18 @@ import static utils.Constants.PPM;
 			float verticalforce = 0;
 
 		}
+
+		public boolean isGameOver() {
+			return base.health<=0;
+		}
+
 		@Override
 		public void render(float delta) {
+			if(isGameOver()) {
+				ttldGame.gameScreen = new GameScreen(super.ttldGame);
+				ttldGame.setScreen(new EndScreen(super.ttldGame));
+				this.dispose();
+			}
 			Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 			update();
@@ -111,9 +124,11 @@ import static utils.Constants.PPM;
 			ttld.batch.draw(backgroundImage,0,0);
 			//ttld.batch.setProjectionMatrix(hud.stage.getCamera().combined);
 			if(base.health > 0) {
-				ttld.batch.draw(base.getTexture(), 635 - base.getTexture().getWidth() / 2, 350 - base.getTexture().getHeight() / 2);//-base.getTexture().getHeight()/2
+				ttld.batch.draw(base.getTexture(), 645 - base.getTexture().getWidth() / 4, 360 - base.getTexture().getHeight() / 4,base.getTexture().getWidth()/2,base.getTexture().getHeight()/2);//-base.getTexture().getHeight()/2
 			}
-
+			for(Tower tower : towers) {
+				ttld.batch.draw(tower.getTex(),tower.body.getPosition().x*PPM+635-tower.getTex().getWidth()/4,tower.body.getPosition().y*PPM+350-tower.getTex().getHeight()/4,tower.getTex().getWidth()/2,tower.getTex().getHeight()/2);
+			}
 			for(NPC npc : npcs) {
 				//System.out.println(npc.body.getPosition().x);
 				//Melee NPC_M = (Melee) npc;
@@ -219,9 +234,11 @@ import static utils.Constants.PPM;
 						}
 						return;
 					}
-
-					for(NPC npc: npcs) {
+					ArrayList<NPC> npcs_ = npcs;
+					Collections.shuffle(npcs_);
+					for(NPC npc: npcs_) {
 						if(locked == null) {
+
 							Vector2 npcPosition = npc.body.getPosition();
 							Vector2 towerPosition = tower.body.getPosition();
 							float distance = towerPosition.dst2(npcPosition);
@@ -346,7 +363,8 @@ import static utils.Constants.PPM;
 				player.plantTower(mousePosition);
 			}
 			try{
-				if(base.health > 0 && npcs.size() < 100){
+				long elapsedTime = System.currentTimeMillis()-initialTime;
+				if(base.health > 0 && npcs.size() < 100 && elapsedTime<1000*60){
 					Random rand = new Random();
 					int xCord = rand.nextInt(150);
 					int yCord = rand.nextInt(150);

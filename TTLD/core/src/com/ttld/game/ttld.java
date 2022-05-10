@@ -37,6 +37,7 @@ public class ttld extends Game {
 		gameScreen = new GameScreen(this);
 		//endScreen = new EndScreen(this);
 		//this.setScreen(new TestScreen(this));
+
 		this.setScreen(splashScreen);
 	}
 

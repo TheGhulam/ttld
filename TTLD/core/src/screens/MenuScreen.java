@@ -19,7 +19,7 @@ public class MenuScreen extends Screens{
         //CREATE A METHOD THAT CREATES BUTTONS IN SCREENS CLASS - DONE!
 
     //UI ELEMENTS
-    private TextButton title,newGame,continueB,settings,credits,quit;
+    private TextButton title,play,settings,credits,quit;
     private Table uiElements;
     //BACKGROUND IMAGE
     private Texture backgroundImage;
@@ -98,15 +98,14 @@ public class MenuScreen extends Screens{
             //Initializing text buttons
 
         title = addTextButton("TILL THE LAST DROP");
-        newGame = addTextButton("NEW GAME");
-        continueB = addTextButton("CONTINUE");
+        play = addTextButton("PLAY");
         settings = addTextButton("SETTINGS");
         credits = addTextButton("GITHUB");
         quit = addTextButton("QUIT");
 
             //Adding listeners
 
-        newGame.addListener(new ClickListener() {
+        play.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 effect.play(effectVolume);
@@ -116,15 +115,6 @@ public class MenuScreen extends Screens{
                 ttldGame.setScreen(ttldGame.gameScreen);
                 bgm.stop();
                 stage.clear();
-            }
-        });
-        continueB.addListener(new ClickListener() {
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                effect.play(effectVolume);
-            }
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                ttldGame.setScreen(new GameScreenDemo(ttldGame));
             }
         });
         settings.addListener(new ClickListener() {
@@ -158,16 +148,15 @@ public class MenuScreen extends Screens{
 
         title.setTouchable(Touchable.disabled);
         title.setColor(Color.BLUE);
-        continueB.setTouchable(Touchable.disabled);
 
-            //Adding them to the table
+        //Adding them to the table
 
         uiElements.add(title).padBottom(40);
         uiElements.row();
-        uiElements.add(newGame).width(length).padBottom(gapping);
+        uiElements.add(play).width(length).padBottom(gapping);
         uiElements.row();
-        uiElements.add(continueB).width(length).padBottom(gapping);
-        uiElements.row();
+        //uiElements.add(continueB).width(length).padBottom(gapping);
+        //uiElements.row();
         uiElements.add(settings).width(length).padBottom(gapping);
         uiElements.row();
         uiElements.add(credits).width(length).padBottom(gapping);

@@ -149,7 +149,7 @@ public class Creator {
 		fix.setUserData("Npc");
 
 		shape2.dispose();
-		Melee melee = new Melee(bbody,100, 10, 0.8f, 100, 20);
+		Melee melee = new Melee(bbody,100, 10, 0.8f, 30, 20);
 		bbody.setUserData(melee);
 		gameScreen.getNpcs().add(melee);
 		return melee;

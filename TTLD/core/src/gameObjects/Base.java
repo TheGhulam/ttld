@@ -18,7 +18,7 @@ public class Base extends Tower {
 	public Base(Body body, int health, float shootingRadius, float shootingSpeed, int damage, GameScreen game) {
 		super(body,  health, shootingRadius, shootingSpeed, damage);
 		this.game = game;
-		baseTex = new Texture("res/base.png");
+		baseTex = new Texture("res/B12.png");
 	}
 	
 	public boolean isGameOver() {

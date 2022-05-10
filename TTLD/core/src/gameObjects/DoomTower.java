@@ -1,5 +1,6 @@
 package gameObjects;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.Body;
 
 import  screens.GameScreen;
@@ -10,6 +11,7 @@ public class DoomTower extends Tower{
 	public DoomTower(Body body, int health, float shootingRadius, float shootingSpeed, int damage, GameScreen game) {
 		super(body, health, shootingRadius, shootingSpeed, damage);
 		this.game = game;
+		tex = new Texture("res/B18.png");
 	
 	}
 	public void shoot(final Entity e) {
@@ -35,4 +37,5 @@ public class DoomTower extends Tower{
 		}, 0.5f);
 
 	}
+
 }
