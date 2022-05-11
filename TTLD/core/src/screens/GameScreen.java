@@ -194,28 +194,44 @@ import static utils.Constants.PPM;
 			airStrike.addListener(new ClickListener() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
-					powerupAirStrike();
+					elapsedTime = System.currentTimeMillis()-initialTime;
+					if(elapsedTime>=500) {
+						initialTime = System.currentTimeMillis();
+						powerupAirStrike();
+					}
 				}
 			});
 
 			boomingEconomy.addListener(new ClickListener() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
-					powerupBoomingEconomy();
+					elapsedTime = System.currentTimeMillis()-initialTime;
+					if(elapsedTime>=500) {
+						initialTime = System.currentTimeMillis();
+						powerupBoomingEconomy();
+					}
 				}
 			});
 
 			healthPotion.addListener(new ClickListener() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
-					powerupHealthPotion();
+					elapsedTime = System.currentTimeMillis()-initialTime;
+					if(elapsedTime>=500) {
+						initialTime = System.currentTimeMillis();
+						powerupHealthPotion();
+					}
 				}
 			});
 
 			towerUpgrade.addListener(new ClickListener() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
-					powerupTowerUpgrade();
+					elapsedTime = System.currentTimeMillis()-initialTime;
+					if(elapsedTime>=500) {
+						initialTime = System.currentTimeMillis();
+						powerupTowerUpgrade();
+					}
 				}
 			});
 		}
@@ -231,7 +247,7 @@ import static utils.Constants.PPM;
 		}
 
 		public void checkStatus() {
-			System.out.println(level.getHordeSize());
+			//System.out.println(level.getHordeSize());
 			if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
 				ttldGame.setScreen(ttldGame.pauseScreen);
 			}
@@ -612,6 +628,7 @@ import static utils.Constants.PPM;
 		/**
 		 * Powerups
 		 */
+
 		public void powerupHealthPotion(){
 			if (hud.getCurrency() >= powerupPrice){
 				int currentM = hud.getCurrency();
@@ -640,20 +657,9 @@ import static utils.Constants.PPM;
 					towerInactive();
 				}
 				//currency -= powerupPrice;
-				try {
-					for (NPC npc : npcs) {
-						float distance = basePosition.dst2(npc.body.getPosition());
-
-						if (distance / PPM < 256 / PPM) {
-							npcs.remove(npc);
-							currentM = hud.getCurrency();
-							hud.setCurrency(currentM + npcKillReward);
-							//currency += npcKillReward;
-						}
-					}
-				} catch (ConcurrentModificationException e) {
-					return;
-				}
+				int tSize = npcs.size();
+				hud.addScore(250 * tSize, 0);
+				npcs.clear();
 			}
 		}
 

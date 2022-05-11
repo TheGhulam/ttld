@@ -31,8 +31,7 @@ public class Hud {
     private static Label moneyLabel;
 
     public Hud(SpriteBatch sb) {
-        //worldTimer = 300;
-        //timeCount = 0;
+
         currency = 1000;
         score = 0;
 
@@ -44,23 +43,15 @@ public class Hud {
         table.setFillParent(true);
 
         currencyLabel = new Label(""+ currency , new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        //countDownLabel = new Label(String.format("%03d",worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         scoreLabel = new Label(String.format("%06d  ",score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        //timeLabel = new Label("TIME", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         moneyLabel  = new Label("GOLD", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         scoreTextLabel = new Label("SCORE", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        //worldLabel  = new Label("WORLD", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-
-
-        //table.add(worldLabel).expandX().padTop(10);
 
         table.add(moneyLabel).expandX().padTop(10);
         table.add(scoreTextLabel).expandX().padTop(10);
         table.row();
         table.add(currencyLabel).expandX();
         table.add(scoreLabel).expandX();
-
-        //table.add(scoreLabel).expandX();
 
         stage.addActor(table);
     }
