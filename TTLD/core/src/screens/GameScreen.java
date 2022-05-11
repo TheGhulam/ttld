@@ -206,28 +206,44 @@ public class GameScreen extends Screens {
 		airStrike.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				powerupAirStrike();
+				elapsedTime = System.currentTimeMillis()-initialTime;
+				if(elapsedTime>=500) {
+					initialTime = System.currentTimeMillis();
+					powerupAirStrike();
+				}
 			}
 		});
 
 		boomingEconomy.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				powerupBoomingEconomy();
+				elapsedTime = System.currentTimeMillis()-initialTime;
+				if(elapsedTime>=500) {
+					initialTime = System.currentTimeMillis();
+					powerupBoomingEconomy();
+				}
 			}
 		});
 
 		healthPotion.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				powerupHealthPotion();
+				elapsedTime = System.currentTimeMillis()-initialTime;
+				if(elapsedTime>=500) {
+					initialTime = System.currentTimeMillis();
+					powerupHealthPotion();
+				}
 			}
 		});
 
 		towerUpgrade.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				powerupTowerUpgrade();
+				elapsedTime = System.currentTimeMillis()-initialTime;
+				if(elapsedTime>=500) {
+					initialTime = System.currentTimeMillis();
+					powerupTowerUpgrade();
+				}
 			}
 		});
 	}
@@ -540,9 +556,7 @@ public class GameScreen extends Screens {
 				player.plantTower(mousePosition);
 				currency -= towerPrice;
 
-				currencyTextTable.removeActor(currencyText);
-				currencyText = addTextButton("" + currency);
-				currencyTextTable.add(currencyText);
+				updateCurrency();
 
 				isClicked = false;
 
@@ -590,6 +604,12 @@ public class GameScreen extends Screens {
 		catch(ConcurrentModificationException e){
 			return;
 		}
+	}
+
+	public void updateCurrency(){
+		currencyTextTable.removeActor(currencyText);
+		currencyText = addTextButton("" + currency);
+		currencyTextTable.add(currencyText);
 	}
 
 	private void spawnUpdate() {
@@ -642,6 +662,8 @@ public class GameScreen extends Screens {
 	public void powerupHealthPotion(){
 		if (currency >= powerupPrice){
 			currency -= powerupPrice;
+			updateCurrency();
+			System.out.println("health potion used");
 			try {
 				base.setHealth(7000);
 				for (Tower tower: towers){
@@ -657,24 +679,17 @@ public class GameScreen extends Screens {
 		if (currency >= powerupPrice) {
 			Vector2 basePosition = base.body.getPosition();
 			currency -= powerupPrice;
-			try {
-				for (NPC npc : npcs) {
-					float distance = basePosition.dst2(npc.body.getPosition());
-
-					if (distance / PPM < 256 / PPM) {
-						npcs.remove(npc);
-						currency += npcKillReward;
-					}
-				}
-			} catch (ConcurrentModificationException e) {
-				return;
-			}
+			updateCurrency();
+			System.out.println("air strike used");
+			npcs.clear();
 		}
 	}
 
 	public void powerupBoomingEconomy(){
 		if (currency >= powerupPrice){
 			currency -= powerupPrice;
+			updateCurrency();
+			System.out.println("booming economy used");
 			npcKillReward += 50;
 		}
 	}
@@ -682,6 +697,8 @@ public class GameScreen extends Screens {
 	public void powerupTowerUpgrade(){
 		if (currency >= powerupPrice){
 			currency -= powerupPrice;
+			updateCurrency();
+			System.out.println("tower upgrade used");
 			try {
 				for (Tower tower: towers){
 					tower.setHealth((int)(tower.getHealth()*1.1));
