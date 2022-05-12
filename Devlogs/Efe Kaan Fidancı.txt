@@ -1,0 +1,54 @@
+15 February 2022 
+- First Group Meeting 
+
+17 February 2022 
+- wrote project selection report
+
+3 March 2022 
+- Worked on presentation (Requirements Presentation)
+
+7 March 2022 
+- Wrote draft of requirements report
+
+14 March 2022 
+- Wrote final of requirements report
+   
+21 March 2022 
+- Experimenting with LibGDX's library (Stage class, Viewport class, Camera class, Game class)
+
+24 March 2022 
+- Created UML Diagram
+
+29 March 2022 
+- Worked on UI presentatin
+    
+24 April 2022 - Wrote detailed design report's draft 
+
+2 April 2022 
+- Worked on UI report
+
+3 May 2022 
+- Searched throguh internet for game assets
+- Implemented menu and setting screen
+- Made adjustments to the TTLD (game class)
+
+5 May 2022
+-Created background image with the tool: Tiled Map Editor
+-Created splash screen 
+-implemented transition between screens 
+-added music and sound effects
+
+8 May 2022 
+- Worked on the final version of the UI report
+- Implemented animations (attack, walk and their mirrored version)
+- Created pause menu
+- Added more assets
+  - Bullet sprites
+  - Base and tower textures
+  
+10 May 2022
+- Created Level class and established inherit
+- Enhanced random spawn selector
+- Created win screen and added another settings screen the gameplay
+    
+13 May 2022: Wrote the final version of the detailed design report 
