@@ -7,6 +7,12 @@
 
 ## TTLD setup guide
 
+1 - Open an IDE that is compatible with Gradle (preferably IntelliJ)
+2 - From the top left corner select "File" and then select "Open"
+3 - Open this repository then find the folder "TTLD" then click ok
+4 - In internal files iterate through this order TTLD/desktop/src/com/ttld/game/DesktopLauncher.java and find the java code
+5 - Finally, run the code
+
 ## Group members
 - [Ahmet Reşat Demir](https://github.com/ahmetde)
 - [Cahit Ediz Civan](https://github.com/Edizc)
