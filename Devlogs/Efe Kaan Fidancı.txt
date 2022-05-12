@@ -49,6 +49,6 @@
 10 May 2022
 - Created Level class and established inherit
 - Enhanced random spawn selector
-- Created win screen and added another settings screen the gameplay
+- Created win and lose screen and added another settings screen the gameplay
     
 13 May 2022: Wrote the final version of the detailed design report 
