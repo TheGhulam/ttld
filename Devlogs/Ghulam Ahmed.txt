@@ -1,0 +1,8 @@
+29 March 2022: Worked on UI report
+2 April 2022: Worked on Lab report
+24 April 2022: Worked on Detailed design report & UML diagrams
+1-3 May 2022: Watched tutorials to start implementation of the project
+8 May 2022: Worked on powerups
+9 May 2022: Worked on powerups
+10 May 2022: Added the currency functionality
+11 May 2022: Final touches on the project
