@@ -51,4 +51,6 @@
 - Enhanced random spawn selector
 - Created win and lose screen and added another settings screen the gameplay
     
-13 May 2022: Wrote the final version of the detailed design report 
+13 May 2022 
+- Wrote the final version of the detailed design report
+- Added TTLD setup guide to READ.ME file
