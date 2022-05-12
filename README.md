@@ -5,18 +5,24 @@
 
 # Details about the game 🎮
 
+## TTLD setup guide
+
 ## Group members
-- [Ghulam Ahmed](https://github.com/gahme)
 - [Ahmet Reşat Demir](https://github.com/ahmetde)
 - [Cahit Ediz Civan](https://github.com/Edizc)
 - [Efe Kaan Fidancı](https://github.com/EfeKN)
+- [Ghulam Ahmed](https://github.com/gahme)
 - [Mustafa Kağan Özsoy](https://github.com/mkaganozsoy)
 
-## Reports (updated regularly) 🖋️
+## Coding songs 🎵
 
-[g3F_RequirementsReport_v2.pdf](https://github.com/gahme/ttld/files/8550038/g3F_RequirementsReport_v2.pdf)
+1 - https://www.youtube.com/watch?v=Nwf4hu2WhK4
 
-[gS3F_UIDesignReport_v2.pdf](https://github.com/gahme/ttld/files/8550039/gS3F_UIDesignReport_v2.pdf)
+## Useful Tools 🧰
+
+ObjectAid : https://marketplace.eclipse.org/content/objectaid-uml-explorer <br />
+Tiled : https://www.mapeditor.org <br />
+LibGDX : https://libgdx.com <br />
 
 ## Useful Links 🌐
 
@@ -28,13 +34,3 @@ This file links to youtube tutorials that will be beneficial for our game develo
 4 - https://www.youtube.com/watch?v=WnMQ8HlmeXc <br />
 5 - https://www.youtube.com/playlist?list=PLXY8okVWvwZ2Ph9LKWiNBZ1GRAc_TyDru <br />
 6 - https://www.youtube.com/watch?v=UtSRX9swc1w <br />
-
-## Coding songs 🎵
-
-1 - https://www.youtube.com/watch?v=Nwf4hu2WhK4
-
-## Useful Tools 🧰
-
-ObjectAid : https://marketplace.eclipse.org/content/objectaid-uml-explorer <br />
-Tiled : https://www.mapeditor.org <br />
-LibGDX : https://libgdx.com <br />
