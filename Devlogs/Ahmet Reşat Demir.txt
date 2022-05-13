@@ -1,0 +1,56 @@
+Week 1
+- Met the group members.
+- Brainstormed and talked about project ideas.
+
+Week 2
+- Met TA and discussed about project ideas.
+- Learning about GitHub
+
+Week 3
+- Decided the project idea 
+- Wrote project selection report the 
+
+Week 4
+- Searched & Discussed technologies we can use
+
+Week 5 
+- Worked on requirements presentation
+
+Week 6
+-  Wrote requirements report (draft)
+
+Week 7
+-  Wrote requirements report (final)
+
+Week 8
+- Tried to use new IDE (Eclipse IDE)
+- Tried to find tutorials about libGDX & watched some of them
+
+Week 9
+- Discussed how the game would look (Theme etc.)
+- Wrote UI design report 
+
+Week 10
+- Search on the theme of the game and appearance of objects
+- Changed the IDE with IntelliJ IDEA because it was difficult to use the other one
+- Wrote test codes to learn libGDX
+
+Week 11
+- Watched more tutorials about the project & libGDX
+
+Week 12
+- Wrote Detailed Design Reports 
+
+Week 13
+- Finalized the class diagram
+- I could not do anything because of the lab 6, still I failed the lab.
+
+Week 14
+- Tried to implemet drag and drop mechanism for tower, but I could not
+- Created some UI elements 
+
+Week 15
+- Implemented buttons & pick and drop mechanism
+- Merged partial codes
+- Finalized the code & corrected some bugs
+- Wrote the final version of the detailed design report
