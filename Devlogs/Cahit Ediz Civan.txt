@@ -39,7 +39,7 @@ and decided to code a basic AI by myself
 - After experimenting with box2D I finally came up with a method to handle NPCs arrival behaviours. 
 
 20 April 2022
-- Wrote the basic versions of gameObject classes.
+- Wrote the basic versions of gameObject classes. Figured out the projectile mechanism.
 
 24 April 2022 - Wrote detailed design report's draft 
 
@@ -47,4 +47,7 @@ and decided to code a basic AI by myself
 - Worked on UI report
  
 From May 2nd and May 6th
--
+- After an eternity of debugging and tutorials finally made a demo working with AI npcs, towers and base shooting and 
+killing each other but they were boxes. I handed the code over to Efe in order for him to add animations and put it to the game screen
+8 May 2022 
+- Worked on the final version of the UI report
