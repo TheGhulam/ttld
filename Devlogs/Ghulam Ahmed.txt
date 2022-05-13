@@ -6,3 +6,4 @@
 9 May 2022: Worked on powerups
 10 May 2022: Added the currency functionality
 11 May 2022: Final touches on the project
+13 May 2022: Worked on final Detailed design report
