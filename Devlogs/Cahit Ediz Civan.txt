@@ -49,5 +49,9 @@ and decided to code a basic AI by myself
 From May 2nd and May 6th
 - After an eternity of debugging and tutorials finally made a demo working with AI npcs, towers and base shooting and 
 killing each other but they were boxes. I handed the code over to Efe in order for him to add animations and put it to the game screen
+
 8 May 2022 
 - Worked on the final version of the UI report
+
+13 May 2022 
+- Wrote the final version of the detailed design report
