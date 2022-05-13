@@ -1,2 +1,15 @@
-is it working
-If you can see this, no need to fork
+15 February 2022 
+- First Group Meeting 
+
+17 February 2022 
+- wrote project selection report
+
+3 March 2022 
+- Worked on presentation (Requirements Presentation)
+
+7 March 2022 
+- Wrote draft of requirements report
+
+14 March 2022 
+- Wrote final of requirements report
+
