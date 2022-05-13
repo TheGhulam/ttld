@@ -1,0 +1,15 @@
+Week 1 - Meeting with the group and discussing project ideas
+Week 2 - Discussing the project ideas with TA and group and deciding the project / Learning git
+Week 3 - Deciding the name of the group and project - tower defense game
+Week 4 - Searching the tools we can use for our project
+Week 5 - Doing the Requirements Report with the group and deciding the technologies we are planning the use
+Week 6 - I work on GUI topic - however it was not very helpful to be honest
+Week 7 - Midterm week
+Week 8 - Working on the UI Design Report with the group - deciding how our game is going to look like
+Week 9 - Learning other IDE's because VSCode is not compatible with our game engine libgdx
+Week 10 - Continuing learning other IDE's because apparently using other IDE's are relatively harder than VSCode and watching tutorials about our project
+Week 11 - I start watching tutorials about our project
+Week 12 - Doing the implementation report with the group - the classes are now separate and certain more or less - continuing watching tutorials
+Week 13 - I'm trying to understand what is done so far and contribute - npcs and towers are made - a GUI is needed
+Week 14 - Helping with the GUI - hud stage of our project, adding score - currency - our GUI is functional
+Week 15 - Finalizing the code - a demo is working with npc-tower interaction - game can be lost or won - currency is used to buy towers and use powerups - doing the presentation
