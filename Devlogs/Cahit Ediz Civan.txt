@@ -10,6 +10,41 @@
 7 March 2022 
 - Wrote draft of requirements report
 
-14 March 2022 
-- Wrote final of requirements report
+9 March 2022
+- Started watching tutorials on how to make a game with java from scratch.
 
+12 March 2022
+- Started experimenting on game development with swing library.
+
+14 March 2022 
+- Wrote final of requirements report.
+
+18 March 2022
+- Realized that it would be better to work with libGDX.
+
+22 March 2022
+- Started to work with gdxAI which is a framework built in libGDX.
+
+29 March 2022 
+- Worked on UI presentatin
+
+1 April 2022
+- Realized that gdxAI was old and some methods were deprecated and realized that it lacked tutorials
+and decided to code a basic AI by myself
+
+5 April 2022
+- Watched lots of box2D videos and experimented with it and tried to make an AI
+
+13 April 2022
+- After experimenting with box2D I finally came up with a method to handle NPCs arrival behaviours. 
+
+20 April 2022
+- Wrote the basic versions of gameObject classes.
+
+24 April 2022 - Wrote detailed design report's draft 
+
+2 May 2022 
+- Worked on UI report
+ 
+From May 2nd and May 6th
+-
