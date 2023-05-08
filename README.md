@@ -1,5 +1,6 @@
 # Till The Last Drop
 This game is a tower defense game made in java. The objective of the game is to defend your base against waves of enemies by placing towers along their path. You must carefully choose your towers and placement to ensure your defense is effective. The game is challenging and requires strategic thinking to beat.
+![ttld-gif](https://user-images.githubusercontent.com/91393504/236703023-3f3c4e88-50e0-4914-a026-94015c28f60c.gif)
 
 ## Libraries Used
 - LibGDX
